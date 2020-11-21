@@ -37,6 +37,9 @@ public class Proveedor {
         this.telefono1 = telefono1;
     }
     
+    public Proveedor(){
+        
+    }
     
 
     public int getIdProveeedor() {

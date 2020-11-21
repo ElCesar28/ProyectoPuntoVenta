@@ -18,6 +18,10 @@ public class Venta {
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
     }
+    
+    public Venta(){
+        
+    }
 
     public int getIdVenta() {
         return idVenta;
