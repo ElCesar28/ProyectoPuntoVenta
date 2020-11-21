@@ -4,11 +4,11 @@ package Backend.Modelo;
 
 public class Marca {
     private int idMarca;
-    private String Nombre;
+    private String nombre;
 
-    public Marca(int idMarca, String Nombre) {
+    public Marca(int idMarca, String nombre) {
         this.idMarca = idMarca;
-        this.Nombre = Nombre;
+        this.nombre = nombre;
     }
 
     public int getIdMarca() {
@@ -20,14 +20,14 @@ public class Marca {
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
-    
-    
+
+   
     
     
 }
