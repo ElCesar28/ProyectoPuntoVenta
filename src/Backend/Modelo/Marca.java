@@ -13,6 +13,9 @@ public class Marca {
     public Marca(){
         
     }
+    public Marca(String nombre){
+        this.nombre = nombre;
+    }
 
     public int getIdMarca() {
         return idMarca;
