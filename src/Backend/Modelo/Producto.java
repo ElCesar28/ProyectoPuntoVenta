@@ -1,6 +1,6 @@
 package Backend.Modelo;
 
-public class producto {
+public class Producto {
 
     private String idProducto;
     private String descripcion;
@@ -10,7 +10,7 @@ public class producto {
     private int idCategoria;
     private int idProveedor;
 
-    public producto(String idProducto, String descripcion, int stock, double precio, String marca, int idCategoria, int idProveedor) {
+    public Producto(String idProducto, String descripcion, int stock, double precio, String marca, int idCategoria, int idProveedor) {
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.stock = stock;
