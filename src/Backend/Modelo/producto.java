@@ -1,25 +1,27 @@
 package Backend.Modelo;
 
 public class producto {
+
     private String idProducto;
-    private String Descripcion;
-    private int Stock;
-    private double Precio;
-    private String Marca;
+    private String descripcion;
+    private int stock;
+    private double precio;
+    private String marca;
     private int idCategoria;
     private int idProveedor;
 
-    public producto(String idProducto, String Descripcion, int Stock, double Precio, String Marca, int idCategoria, int idProveedor) {
+    public producto(String idProducto, String descripcion, int stock, double precio, String marca, int idCategoria, int idProveedor) {
         this.idProducto = idProducto;
-        this.Descripcion = Descripcion;
-        this.Stock = Stock;
-        this.Precio = Precio;
-        this.Marca = Marca;
+        this.descripcion = descripcion;
+        this.stock = stock;
+        this.precio = precio;
+        this.marca = marca;
         this.idCategoria = idCategoria;
         this.idProveedor = idProveedor;
-    
-}
-public String getIdProducto() {
+
+    }
+
+    public String getIdProducto() {
         return idProducto;
     }
 
@@ -28,35 +30,35 @@ public String getIdProducto() {
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public int getStock() {
-        return Stock;
+        return stock;
     }
 
-    public void setStock(int Stock) {
-        this.Stock = Stock;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public double getPrecio() {
-        return Precio;
+        return precio;
     }
 
-    public void setPrecio(double Precio) {
-        this.Precio = Precio;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
     public String getMarca() {
-        return Marca;
+        return marca;
     }
 
-    public void setMarca(String Marca) {
-        this.Marca = Marca;
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
     public int getIdCategoria() {
@@ -74,8 +76,9 @@ public String getIdProducto() {
     public void setIdProveedor(int idProveedor) {
         this.idProveedor = idProveedor;
     }
+
+   
+
     
-    
-    
-    
+
 }
