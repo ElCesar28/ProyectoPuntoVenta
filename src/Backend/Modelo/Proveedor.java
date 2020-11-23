@@ -11,7 +11,7 @@ package Backend.Modelo;
  */
 public class Proveedor {
     
-    private int idProveeedor;
+    private int idProveedor;
     private String nombre;
     private String numCuenta;
     private String correo1;
@@ -20,7 +20,7 @@ public class Proveedor {
     private String telefono2;
 
     public Proveedor(int idProveeedor, String nombre, String numCuenta, String correo1, String correo2, String telefono1, String telefono2) {
-        this.idProveeedor = idProveeedor;
+        this.idProveedor = idProveeedor;
         this.nombre = nombre;
         this.numCuenta = numCuenta;
         this.correo1 = correo1;
@@ -30,7 +30,7 @@ public class Proveedor {
     }
 
     public Proveedor(int idProveeedor, String nombre, String numCuenta, String correo1, String telefono1) {
-        this.idProveeedor = idProveeedor;
+        this.idProveedor = idProveeedor;
         this.nombre = nombre;
         this.numCuenta = numCuenta;
         this.correo1 = correo1;
@@ -42,12 +42,12 @@ public class Proveedor {
     }
     
 
-    public int getIdProveeedor() {
-        return idProveeedor;
+    public int getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setIdProveeedor(int idProveeedor) {
-        this.idProveeedor = idProveeedor;
+    public void setIdProveedor(int idProveeedor) {
+        this.idProveedor = idProveeedor;
     }
 
     public String getNombre() {

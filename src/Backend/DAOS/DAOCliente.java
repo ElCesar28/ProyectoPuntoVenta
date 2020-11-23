@@ -41,7 +41,7 @@ public class DAOCliente {
 
         String sql = "select * from Cliente ;";
 
-        ArrayList<Cliente> listaMarca = new ArrayList<Cliente>();
+        ArrayList<Cliente> listaMarca = new ArrayList<>();
 
         try {
             co = Conexion.Conectar();
@@ -116,7 +116,7 @@ public class DAOCliente {
                 + cliente.getNombre()+"' where apellidos=" 
                 + cliente.getApellidos()+"' where direccion=" 
                 + cliente.getDireccion()+"' where telefono1="
-                + cliente.getTelefono1()+"' where telefono2"
+                + cliente.getTelefono1()+"' where telefono2="
                 + cliente.getTelefono2()+" ;";
         
         try {
