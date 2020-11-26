@@ -1,4 +1,4 @@
-package Backend.Modelo;
+    package Backend.Modelo;
 
 public class Producto {
 
