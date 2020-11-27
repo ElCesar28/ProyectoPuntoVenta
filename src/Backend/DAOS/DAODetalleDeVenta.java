@@ -16,7 +16,8 @@ public class DAODetalleDeVenta {
         Statement stm = null;
         Connection con = null;
         
-        String sql = "insert into DetalleDeVenta values (null,'" + detalleDeVenta.getIdProducto() + "') ;";
+        String sql = "insert into DetalleDeVenta values("+ detalleDeVenta.getIdProducto()+","+detalleDeVenta.getIdVenta()+","+
+                detalleDeVenta.getCantidad()+","+detalleDeVenta.getPrecio()+","+detalleDeVenta.getDescuento()+") ;";
 
         try {
            con = Conexion.Conectar();
@@ -40,21 +41,21 @@ public class DAODetalleDeVenta {
 
         String sql = "select * from DetalleDeVenta ;";
 
-        ArrayList<DetalleDeVenta> listaMarca = new ArrayList<DetalleDeVenta>();
+        ArrayList<DetalleDeVenta> listaMarca = new ArrayList<>();
 
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                DetalleDeVenta m = new DetalleDeVenta();
-                m.setIdProducto(rs.getString(1));
-                m.setIdVenta(rs.getInt(2));
-                m.setCantidad(rs.getInt(3));
-                m.setPrecio(rs.getDouble(4));
-                m.setDescuento(rs.getDouble(5));
+                DetalleDeVenta dv = new DetalleDeVenta();
+                dv.setIdProducto(rs.getString(1));
+                dv.setIdVenta(rs.getInt(2));
+                dv.setCantidad(rs.getInt(3));
+                dv.setPrecio(rs.getDouble(4));
+                dv.setDescuento(rs.getDouble(5));
                 
-                listaMarca.add(m);
+                listaMarca.add(dv);
             }
             stm.close();
             rs.close();
@@ -83,13 +84,13 @@ public class DAODetalleDeVenta {
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                DetalleDeVenta m = new DetalleDeVenta();
-                m.setIdProducto(rs.getString(1));
-                m.setIdVenta(rs.getInt(2));
-                m.setCantidad(rs.getInt(3));
-                m.setPrecio(rs.getDouble(4));
-                m.setDescuento(rs.getDouble(5));
-                listaMarca.add(m);
+                DetalleDeVenta dv = new DetalleDeVenta();
+                dv.setIdProducto(rs.getString(1));
+                dv.setIdVenta(rs.getInt(2));
+                dv.setCantidad(rs.getInt(3));
+                dv.setPrecio(rs.getDouble(4));
+                dv.setDescuento(rs.getDouble(5));
+                listaMarca.add(dv);
             }
             stm.close();
             rs.close();
@@ -109,11 +110,11 @@ public class DAODetalleDeVenta {
 
         boolean actualizar = false;
 
-        String sql = "update marca set idProducto='" + DetalleDeVenta.getIdProducto() + "' where idVenta=" 
-                + DetalleDeVenta.getIdVenta()+"' where cantidad=" 
-                + DetalleDeVenta.getCantidad()+"' where precio=" 
-                + DetalleDeVenta.getPrecio()+"' where descuento="
-                + DetalleDeVenta.getDescuento()+" ;";
+        String sql = "update DetalleDeVenta set idProducto='" + DetalleDeVenta.getIdProducto() 
+                +"' where idVenta=" + DetalleDeVenta.getIdVenta()
+                +"' ,cantidad=" + DetalleDeVenta.getCantidad()
+                +"' ,precio=" + DetalleDeVenta.getPrecio()
+                +"' ,descuento="+ DetalleDeVenta.getDescuento()+" ;";
         try {
             connect = Conexion.Conectar();
             stm = connect.createStatement();
@@ -132,7 +133,7 @@ public class DAODetalleDeVenta {
 
         boolean eliminar = false;
 
-        String sql = "delete from Marca where idProducto=" + detalleDeVenta.getIdProducto()+ " ;";
+        String sql = "delete from DetalleDeVenta where idProducto=" + detalleDeVenta.getIdProducto()+ " ;";
         try {
             connect = Conexion.Conectar();
             stm = connect.createStatement();
