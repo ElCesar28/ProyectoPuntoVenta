@@ -26,6 +26,10 @@ public class Cliente {
         this.telefono2 = telefono2;
     }
 
+    public Cliente() {
+        
+    }
+
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
