@@ -115,7 +115,7 @@ public class DAOCliente {
         boolean actualizar = false;
 
         String sql = "update Cliente set idCliente='"+ cliente.getIdCliente()
-                +"' where nombre="+ cliente.getNombre()
+                +"' ,nombre="+ cliente.getNombre()
                 +"' ,apellidos="+ cliente.getApellidos()
                 +"' ,direccion="+ cliente.getDireccion()
                 +"' ,telefono1="+cliente.getTelefono1()

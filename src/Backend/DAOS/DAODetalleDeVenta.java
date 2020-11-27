@@ -111,7 +111,7 @@ public class DAODetalleDeVenta {
         boolean actualizar = false;
 
         String sql = "update DetalleDeVenta set idProducto='" + DetalleDeVenta.getIdProducto() 
-                +"' where idVenta=" + DetalleDeVenta.getIdVenta()
+                +"' ,idVenta=" + DetalleDeVenta.getIdVenta()
                 +"' ,cantidad=" + DetalleDeVenta.getCantidad()
                 +"' ,precio=" + DetalleDeVenta.getPrecio()
                 +"' ,descuento="+ DetalleDeVenta.getDescuento()+" ;";

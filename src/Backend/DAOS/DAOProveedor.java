@@ -117,7 +117,7 @@ public class DAOProveedor {
         boolean actualizar = false;
 
         String sql = "update marca set idProveedor='" + proveedor.getIdProveedor() 
-                + "' where nombre="+ proveedor.getNombre()
+                +"' ,nombre="+ proveedor.getNombre()
                 +"' ,numCuenta="+ proveedor.getNumCuenta()
                 +"' ,correo1="+ proveedor.getCorreo1()
                 +"' ,correo2="+ proveedor.getCorreo2()
