@@ -17,9 +17,10 @@ public class DAOProveedor {
 
         Statement stm = null;
         Connection con = null;
-
-        String sql = "insert into Proveedor values (null,'" + proveedor.getIdProveedor()+ "') ;";
-
+        
+        String sql = "insert into DetalleDeVenta values("+ proveedor.getIdProveedor()+","+proveedor.getNombre()+","+
+                proveedor.getNumCuenta()+","+proveedor.getCorreo1()+","+proveedor.getCorreo2()+","+proveedor.getTelefono1()+
+                ","+proveedor.getTelefono2()+") ;";
         try {
             con = Conexion.Conectar();
             stm = con.createStatement();
@@ -40,7 +41,7 @@ public class DAOProveedor {
         Statement stm = null;
         ResultSet rs = null;
 
-        String sql = "select * from Cliente ;";
+        String sql = "select * from proveedor ;";
 
         ArrayList<Proveedor> listaMarca = new ArrayList<>();
 
@@ -115,13 +116,13 @@ public class DAOProveedor {
 
         boolean actualizar = false;
 
-        String sql = "update marca set idProveedor='" + proveedor.getIdProveedor() + "' where nombre=" 
-                + proveedor.getNombre()+"' where numCuenta=" 
-                + proveedor.getNumCuenta()+"' where correo1=" 
-                + proveedor.getCorreo1()+"' where correo2="
-                + proveedor.getCorreo2()+"' where telefono1="
-                + proveedor.getTelefono1()+"' where telefono2="
-                + proveedor.getTelefono2()+" ;";
+        String sql = "update marca set idProveedor='" + proveedor.getIdProveedor() 
+                +"' ,nombre="+ proveedor.getNombre()
+                +"' ,numCuenta="+ proveedor.getNumCuenta()
+                +"' ,correo1="+ proveedor.getCorreo1()
+                +"' ,correo2="+ proveedor.getCorreo2()
+                +"' ,telefono1="+ proveedor.getTelefono1()
+                +"' ,telefono2="+ proveedor.getTelefono2()+" ;";
         
         try {
             connect = Conexion.Conectar();

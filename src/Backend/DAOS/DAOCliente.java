@@ -17,7 +17,8 @@ public class DAOCliente {
         Statement stm = null;
         Connection con = null;
 
-        String sql = "insert into Cliente values (null,'" + cliente.getIdCliente() + "') ;";
+         String sql = "insert into Producto values("+ cliente.getIdCliente()+","+cliente.getNombre()+","+
+                cliente.getApellidos()+","+cliente.getDireccion()+","+cliente.getTelefono1()+","+cliente.getTelefono2()+") ;";
 
         try {
             con = Conexion.Conectar();
@@ -48,14 +49,15 @@ public class DAOCliente {
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                Cliente m = new Cliente();
-                m.setIdCliente(rs.getInt(1));
-                m.setNombre(rs.getString(2));
-                m.setApellidos(rs.getString(3));
-                m.setDireccion(rs.getString(4));
-                m.setTelefono1(rs.getString(5));
-                m.setTelefono2(rs.getString(6));
-                listaMarca.add(m);
+                Cliente c = new Cliente();
+                c.setIdCliente(rs.getInt(1));
+                c.setNombre(rs.getString(2));
+                c.setApellidos(rs.getString(3));
+                c.setDireccion(rs.getString(4));
+                c.setTelefono1(rs.getString(5));
+                c.setTelefono2(rs.getString(6));
+                
+                listaMarca.add(c);
             }
             stm.close();
             rs.close();
@@ -84,14 +86,14 @@ public class DAOCliente {
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                Cliente m = new Cliente();
-                m.setIdCliente(rs.getInt(1));
-                m.setNombre(rs.getString(2));
-                m.setApellidos(rs.getString(3));
-                m.setDireccion(rs.getString(4));
-                m.setTelefono1(rs.getString(5));
-                m.setTelefono2(rs.getString(6));
-                listaMarca.add(m);
+                Cliente c = new Cliente();
+                c.setIdCliente(rs.getInt(1));
+                c.setNombre(rs.getString(2));
+                c.setApellidos(rs.getString(3));
+                c.setDireccion(rs.getString(4));
+                c.setTelefono1(rs.getString(5));
+                c.setTelefono2(rs.getString(6));
+                listaMarca.add(c);
             }
             stm.close();
             rs.close();
@@ -112,12 +114,12 @@ public class DAOCliente {
 
         boolean actualizar = false;
 
-        String sql = "update marca set idCliente='" + cliente.getIdCliente() + "' where nombre=" 
-                + cliente.getNombre()+"' where apellidos=" 
-                + cliente.getApellidos()+"' where direccion=" 
-                + cliente.getDireccion()+"' where telefono1="
-                + cliente.getTelefono1()+"' where telefono2="
-                + cliente.getTelefono2()+" ;";
+        String sql = "update Cliente set idCliente='"+ cliente.getIdCliente()
+                +"' ,nombre="+ cliente.getNombre()
+                +"' ,apellidos="+ cliente.getApellidos()
+                +"' ,direccion="+ cliente.getDireccion()
+                +"' ,telefono1="+cliente.getTelefono1()
+		+"' ,telefono2="+cliente.getTelefono2()+" ;";
         
         try {
             connect = Conexion.Conectar();
@@ -125,7 +127,7 @@ public class DAOCliente {
             stm.execute(sql);
             actualizar = true;
         } catch (SQLException e) {
-            System.out.println("actulizar cliente");
+            System.out.println("actualizar cliente");
             System.out.println(e);
         }
         return actualizar;
