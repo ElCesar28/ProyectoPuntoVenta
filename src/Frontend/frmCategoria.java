@@ -9,12 +9,12 @@ package Frontend;
  *
  * @author ElCésar26
  */
-public class frmMarca extends javax.swing.JInternalFrame {
+public class frmCategoria extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form frmMarca
+     * Creates new form frmCategoria
      */
-    public frmMarca() {
+    public frmCategoria() {
         initComponents();
     }
 
@@ -27,7 +27,7 @@ public class frmMarca extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setTitle("Modulo Marca");
+        setTitle("Modulo Categoria");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

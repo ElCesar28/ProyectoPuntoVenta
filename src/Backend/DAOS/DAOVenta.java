@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.naming.spi.DirStateFactory.Result;
 
 public class DAOVenta {
     int r=0;
@@ -43,20 +44,25 @@ public class DAOVenta {
         PreparedStatement ps = null;
         Connection co = null;
             
-        String sql="insert into Venta (idVenta, fecha, total, idCliente, idEmpleado)values (?,?,?,?,?)";
+        String sql="insert into Venta (idVenta, fecha, total, idCliente, idEmpleado)values (null,?,?,?,?)";
         try{
             co=Conexion.Conectar();
             ps=co.prepareStatement(sql);
-            ps.setInt(1, v.getIdVenta());
-            ps.setString(2, v.getFecha());
-            ps.setDouble(3, v.getTotal());
-            ps.setInt(4, v.getIdCliente());
-            ps.setInt(5, v.getIdEmpleado());
+            ps.setString(1, v.getFecha());
+            ps.setDouble(2, v.getTotal());
+            ps.setInt(3, v.getIdCliente());
+            ps.setInt(4, v.getIdEmpleado());
+            r=ps.executeUpdate();
       
         }catch(Exception e){
-            
+            System.out.println(e + "ingresaventa");
         }
         return r;
+    }
+    
+    public static void main(String[] args) {
+        DAOVenta v = new DAOVenta();
+        System.out.println(v.GuardarVenta(new Venta(0,"1000-01-01 00:00:00",1235,1,1)));
     }
     
     public int GuardarDetalleVenta(DetalleDeVenta dv){
