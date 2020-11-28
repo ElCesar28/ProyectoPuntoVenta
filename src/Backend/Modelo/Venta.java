@@ -6,12 +6,12 @@ import java.util.Date;
 
 public class Venta {
     private int idVenta;
-    private Date fecha;
+    private String fecha;
     private double total;
     private int idCliente;
     private int idEmpleado;
 
-    public Venta(int idVenta, Date fecha, double total, int idCliente, int idEmpleado) {
+    public Venta(int idVenta, String fecha, double total, int idCliente, int idEmpleado) {
         this.idVenta = idVenta;
         this.fecha = fecha;
         this.total = total;
@@ -31,11 +31,11 @@ public class Venta {
         this.idVenta = idVenta;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

@@ -8,8 +8,10 @@ package Frontend;
 import Backend.DAOS.DAOMarca;
 import Backend.Modelo.Marca;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
  *
@@ -18,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 public class frmMarca extends javax.swing.JFrame {
 
     public frmMarca() {
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.NebulaSkin");
         initComponents();
         actualizaTablaMarca();
         txtidMarca.setEnabled(false);
