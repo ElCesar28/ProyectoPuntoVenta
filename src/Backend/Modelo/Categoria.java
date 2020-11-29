@@ -1,8 +1,9 @@
 package Backend.Modelo;
 
+import java.util.logging.Logger;
 
 public class Categoria {
- 
+
     private int idCategoria;
     private String nombre;
 
@@ -10,13 +11,13 @@ public class Categoria {
         this.idCategoria = idCategoria;
         this.nombre = nombre;
     }
-    
-    public Categoria(){
-        
-    }
-    
-    public Categoria(String nombre){
+
+    public Categoria(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Categoria() {
+
     }
 
     public int getIdCategoria() {
@@ -34,5 +35,5 @@ public class Categoria {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
 }

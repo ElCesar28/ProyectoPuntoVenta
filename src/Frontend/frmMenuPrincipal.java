@@ -37,10 +37,11 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         mnuMantenimiento = new javax.swing.JMenu();
         mnuCliente = new javax.swing.JMenuItem();
         mnuEmpleado = new javax.swing.JMenuItem();
-        mnuProducto = new javax.swing.JMenu();
+        mnuProveedor = new javax.swing.JMenuItem();
+        mnuProductos = new javax.swing.JMenu();
         mnuMarca = new javax.swing.JMenuItem();
         mnuCategoria = new javax.swing.JMenuItem();
-        mnuProductos = new javax.swing.JMenuItem();
+        mnuProducto = new javax.swing.JMenuItem();
         mnuReportes = new javax.swing.JMenu();
         mnuReporteProductos = new javax.swing.JMenuItem();
         mnuVentasPeriodo = new javax.swing.JMenuItem();
@@ -103,7 +104,15 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         });
         mnuMantenimiento.add(mnuEmpleado);
 
-        mnuProducto.setText("Producto");
+        mnuProveedor.setText("Proveedor");
+        mnuProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuProveedorActionPerformed(evt);
+            }
+        });
+        mnuMantenimiento.add(mnuProveedor);
+
+        mnuProductos.setText("Productos");
 
         mnuMarca.setText("Marca");
         mnuMarca.addActionListener(new java.awt.event.ActionListener() {
@@ -111,7 +120,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
                 mnuMarcaActionPerformed(evt);
             }
         });
-        mnuProducto.add(mnuMarca);
+        mnuProductos.add(mnuMarca);
 
         mnuCategoria.setText("Categoria");
         mnuCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -119,17 +128,17 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
                 mnuCategoriaActionPerformed(evt);
             }
         });
-        mnuProducto.add(mnuCategoria);
+        mnuProductos.add(mnuCategoria);
 
-        mnuProductos.setText("Productos");
-        mnuProductos.addActionListener(new java.awt.event.ActionListener() {
+        mnuProducto.setText("Producto");
+        mnuProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuProductosActionPerformed(evt);
+                mnuProductoActionPerformed(evt);
             }
         });
-        mnuProducto.add(mnuProductos);
+        mnuProductos.add(mnuProducto);
 
-        mnuMantenimiento.add(mnuProducto);
+        mnuMantenimiento.add(mnuProductos);
 
         jMenuBar1.add(mnuMantenimiento);
 
@@ -197,9 +206,9 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         centrarVentana(new frmCategoria());
     }//GEN-LAST:event_mnuCategoriaActionPerformed
 
-    private void mnuProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuProductosActionPerformed
+    private void mnuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuProductoActionPerformed
         centrarVentana(new frmProducto());
-    }//GEN-LAST:event_mnuProductosActionPerformed
+    }//GEN-LAST:event_mnuProductoActionPerformed
 
     private void mnuReporteProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuReporteProductosActionPerformed
         centrarVentana(new frmReporteProductos());
@@ -212,6 +221,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     private void mnuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClienteActionPerformed
         centrarVentana(new frmCliente());
     }//GEN-LAST:event_mnuClienteActionPerformed
+
+    private void mnuProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuProveedorActionPerformed
+        centrarVentana(new frmProveedor());
+    }//GEN-LAST:event_mnuProveedorActionPerformed
 
    ////////ELIMINAAAAAAAR ESTO CUANDO LOGIN ESTE LISTO 
     public static void main(String args[]) {
@@ -257,8 +270,9 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuMantenimiento;
     private javax.swing.JMenuItem mnuMarca;
     private javax.swing.JMenu mnuMenu;
-    private javax.swing.JMenu mnuProducto;
-    private javax.swing.JMenuItem mnuProductos;
+    private javax.swing.JMenuItem mnuProducto;
+    private javax.swing.JMenu mnuProductos;
+    private javax.swing.JMenuItem mnuProveedor;
     private javax.swing.JMenuItem mnuReporteProductos;
     private javax.swing.JMenu mnuReportes;
     private javax.swing.JMenuItem mnuSalir;

@@ -60,9 +60,17 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuEmpleadoActionPerformed"/>
               </Events>
             </MenuItem>
-            <Menu class="javax.swing.JMenu" name="mnuProducto">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuProveedor">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Producto"/>
+                <Property name="text" type="java.lang.String" value="Proveedor"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuProveedorActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="mnuProductos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Productos"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuMarca">
@@ -81,12 +89,12 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCategoriaActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="mnuProductos">
+                <MenuItem class="javax.swing.JMenuItem" name="mnuProducto">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Productos"/>
+                    <Property name="text" type="java.lang.String" value="Producto"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuProductosActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuProductoActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
