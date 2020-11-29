@@ -1,6 +1,5 @@
 package Backend.DAOS;
 
-
 import Backend.Modelo.Cliente;
 import Backend.Util.Conexion;
 import java.sql.Connection;
@@ -10,15 +9,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DAOCliente {
-    
+
     public boolean registrar(Cliente cliente) {
         boolean registrar = false;
 
         Statement stm = null;
         Connection con = null;
 
-         String sql = "insert into Producto values("+ cliente.getIdCliente()+","+cliente.getNombre()+","+
-                cliente.getApellidos()+","+cliente.getDireccion()+","+cliente.getTelefono1()+","+cliente.getTelefono2()+") ;";
+        String sql = "insert into Producto values(" + cliente.getIdCliente() + "," + cliente.getNombre() + ","
+                + cliente.getApellidos() + "," + cliente.getDireccion() + "," + cliente.getTelefono1() + "," + cliente.getTelefono2() + ") ;";
 
         try {
             con = Conexion.Conectar();
@@ -33,9 +32,8 @@ public class DAOCliente {
         }
         return registrar;
     }
-    
-    
-     public ArrayList<Cliente> obtener() {
+
+    public ArrayList<Cliente> obtener() {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
@@ -56,7 +54,7 @@ public class DAOCliente {
                 c.setDireccion(rs.getString(4));
                 c.setTelefono1(rs.getString(5));
                 c.setTelefono2(rs.getString(6));
-                
+
                 listaMarca.add(c);
             }
             stm.close();
@@ -70,16 +68,15 @@ public class DAOCliente {
         return listaMarca;
 
     }
-     
-     
-     public ArrayList<Cliente> buscar(String idCliente) {
+
+    public ArrayList<Cliente> buscar(String idCliente) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
 
         String sql = "select * from Cliente where idCliente = '" + idCliente + "';";
 
-         ArrayList<Cliente> listaMarca = new ArrayList<>();
+        ArrayList<Cliente> listaMarca = new ArrayList<>();
 
         try {
             co = Conexion.Conectar();
@@ -106,21 +103,20 @@ public class DAOCliente {
         return listaMarca;
 
     }
-     
-     
-     public boolean actualizar(Cliente cliente) {
+
+    public boolean actualizar(Cliente cliente) {
         Connection connect = null;
         Statement stm = null;
 
         boolean actualizar = false;
 
-        String sql = "update Cliente set idCliente='"+ cliente.getIdCliente()
-                +"' ,nombre="+ cliente.getNombre()
-                +"' ,apellidos="+ cliente.getApellidos()
-                +"' ,direccion="+ cliente.getDireccion()
-                +"' ,telefono1="+cliente.getTelefono1()
-		+"' ,telefono2="+cliente.getTelefono2()+" ;";
-        
+        String sql = "update Cliente set idCliente=" + cliente.getIdCliente()
+                + " ,nombre='" + cliente.getNombre()
+                + "' ,apellidos='" + cliente.getApellidos()
+                + "' ,direccion='" + cliente.getDireccion()
+                + "' ,telefono1='" + cliente.getTelefono1()
+                + "' ,telefono2='" + cliente.getTelefono2() + "' ;";
+
         try {
             connect = Conexion.Conectar();
             stm = connect.createStatement();
@@ -132,9 +128,13 @@ public class DAOCliente {
         }
         return actualizar;
     }
-     
-     
-     public boolean eliminar(Cliente cliente) {
+
+    public static void main(String[] args) {
+        DAOCliente c = new DAOCliente();
+        c.actualizar(new Cliente (1,"Jose Juan","Zamudio","Avenida Puebla #5","4451455052","0000000000"));
+    }
+
+    public boolean eliminar(Cliente cliente) {
         Connection connect = null;
         Statement stm = null;
 

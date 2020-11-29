@@ -53,12 +53,13 @@ public class DAOMarca {
             }
             stm.close();
             rs.close();
-            co.close();
+            co.close(); 
         } catch (SQLException e) {
             System.out.println("obtener marca");
             System.out.println(e);
         }
 
+        
         return listaMarca;
 
     }

@@ -6,11 +6,11 @@ public class Producto {
     private String descripcion;
     private int stock;
     private double precio;
-    private String idMarca;
+    private int idMarca;
     private int idCategoria;
     private int idProveedor;
 
-    public Producto(String idProducto, String descripcion, int stock, double precio, String idMarca, int idCategoria, int idProveedor) {
+    public Producto(String idProducto, String descripcion, int stock, double precio, int idMarca, int idCategoria, int idProveedor) {
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.stock = stock;
@@ -57,11 +57,11 @@ public class Producto {
         this.precio = precio;
     }
 
-    public String getIdMarca() {
+    public int getIdMarca() {
         return idMarca;
     }
 
-    public void setIdMarca(String idMarca) {
+    public void setIdMarca(int idMarca) {
         this.idMarca = idMarca;
     }
 

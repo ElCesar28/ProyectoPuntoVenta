@@ -16,7 +16,7 @@ public class DAOEmpleado {
         Statement stm = null;
         Connection con = null;
 
-        String sql = "insert into Empleado values (null,'" + empleado.getUser() + "', 'sha1(" + empleado.getPassword() + ")', '" + empleado.getNombre() + "'"
+        String sql = "insert into Empleado values (null,'" + empleado.getUser() + "', sha1('" + empleado.getPassword() + "'), '" + empleado.getNombre() + "'"
                 + ", '" + empleado.getApellido() + "', '" + empleado.getCorreo() + "', '" + empleado.getTelefono1() + "', '" + empleado.getTelefono2() + "'"
                 + ", '" + empleado.getRol() + "', '" + empleado.getDireccion() + "');";
         try {
@@ -32,6 +32,7 @@ public class DAOEmpleado {
         }
         return registrar;
     }
+   
 
     public ArrayList<Empleado> obtener() {
         Connection co = null;
@@ -72,12 +73,12 @@ public class DAOEmpleado {
 
     }
 
-    public ArrayList<Empleado> buscar(String user) {
+    public ArrayList<Empleado> buscar(int idEmpleado) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
 
-        String sql = "select * from Empleado where user = '" + user + "';";
+        String sql = "select * from Empleado where idEmpleado = " + idEmpleado ;
 
          ArrayList<Empleado> listaEmpleado = new ArrayList<>();
 
@@ -116,7 +117,9 @@ public class DAOEmpleado {
 
         boolean actualizar = false;
 
-        String sql = "update Empleado set correo='" + empleado.getCorreo() + "' where user=" + empleado.getUser() + " ;";
+        String sql = "update Empleado set user= '" + empleado.getUser() + "', password= sha1(" + empleado.getPassword() + "), nombre= '" + empleado.getNombre() + "'"
+                + ", apellido= '" + empleado.getApellido() + "',correo= '" + empleado.getCorreo() + "', telefono1= '" + empleado.getTelefono1() + "', telefono2='" + empleado.getTelefono2() + "'"
+                + ", rol='" + empleado.getRol() + "', direccion= '" + empleado.getDireccion() + "';";
         try {
             connect = Conexion.Conectar();
             stm = connect.createStatement();
@@ -128,14 +131,20 @@ public class DAOEmpleado {
         }
         return actualizar;
     }
+    
+     public static void main(String[] args) {
+        DAOEmpleado e = new DAOEmpleado();
+        e.eliminar(3);
+        //e.registrar(new Empleado(2,"lapaty123","soylameramera","Patricia Cecilia","Sosa Guzman","qwert@gmail.com","4451221808","0000000000","empleado","ponciano vega #670"));
+    }
 
-    public boolean eliminar(Empleado empleado) {
+    public boolean eliminar(int idEmpleado) {
         Connection connect = null;
         Statement stm = null;
 
         boolean eliminar = false;
 
-        String sql = "delete from Empleado where user=" + empleado.getUser() + " ;";
+        String sql = "delete from Empleado where idEmpleado="+ idEmpleado;
         try {
             connect = Conexion.Conectar();
             stm = connect.createStatement();
