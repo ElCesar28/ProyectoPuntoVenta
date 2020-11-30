@@ -135,7 +135,7 @@ public class DAOEmpleado {
      public static void main(String[] args) {
         DAOEmpleado e = new DAOEmpleado();
         e.eliminar(3);
-        //e.registrar(new Empleado(2,"lapaty123","soylameramera","Patricia Cecilia","Sosa Guzman","qwert@gmail.com","4451221808","0000000000","empleado","ponciano vega #670"));
+        e.registrar(new Empleado(2,"lapaty123","soylameramera","Patricia Cecilia","Sosa Guzman","qwert@gmail.com","4451221808","0000000000","empleado","ponciano vega #670"));
     }
 
     public boolean eliminar(int idEmpleado) {

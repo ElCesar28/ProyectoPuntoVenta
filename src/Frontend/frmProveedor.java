@@ -67,12 +67,32 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         jLabel7.setText("Teleofono1");
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnElimar.setText("Eliminar");
+        btnElimar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimarActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -241,6 +261,38 @@ public class frmProveedor extends javax.swing.JInternalFrame {
 
         }
     }//GEN-LAST:event_tablaProveedoresMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if (estavacias()) {
+            if (new DAOProducto().registrar(new Producto(
+                    txtidProducto.getText(),
+                    txtDescripcion.getText(),
+                    Integer.parseInt(spinerStock.getValue().toString()),
+                    Double.parseDouble(txtPrecio.getText()),
+                    lista1.get(cboxIdMarca.getSelectedIndex() - 1).getIdMarca(),
+                    lista2.get(cboxIdCategoria.getSelectedIndex() - 1).getIdCategoria(),
+                    lista3.get(cboxId_Proveedor.getSelectedIndex() - 1).getIdProveedor()
+            ))) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaProducto();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnElimarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnElimarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     ///Método encargado de llenar la tabla de proveedores
     public void actualizaTablaProducto() {
