@@ -40,6 +40,12 @@ public class Proveedor {
     public Proveedor(){
         
     }
+
+    @Override
+    public String toString() {
+        return idProveedor + "," + nombre + "," + numCuenta + "," + correo1 + "," + correo2 + "," + telefono1 + "," + telefono2 ;
+    }
+    
     
 
     public int getIdProveedor() {

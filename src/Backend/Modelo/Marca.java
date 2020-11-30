@@ -21,6 +21,13 @@ public class Marca {
         return idMarca;
     }
 
+    @Override
+    public String toString() {
+        return  idMarca + "," + nombre;
+    }
+    
+    
+
     public void setIdMarca(int idMarca) {
         this.idMarca = idMarca;
     }

@@ -49,11 +49,15 @@ public class frmMarca extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMarca = new javax.swing.JTable();
 
+        setClosable(true);
+        setIconifiable(true);
         setTitle("Modulo Marca");
 
         jLabel1.setText("ID:");
 
         jLabel2.setText("Nombre:");
+
+        txtidMarca.setEditable(false);
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -197,12 +201,12 @@ public class frmMarca extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (!txtNombre.getText().equals("")) {
             if (new DAOMarca().registrar(new Marca(txtNombre.getText()))) {
-                System.out.println("Se registro con exito");
                 limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                 actualizaTablaMarca();
-            } else {
-                System.out.println("No fue posible regristrar la marca");
-            }
+            } 
+        } else {
+            JOptionPane.showMessageDialog(null, "Valores incompatibles y/o vacios", null, JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -210,28 +214,35 @@ public class frmMarca extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (!txtNombre.getText().equals("") && !txtidMarca.getText().equals("")) {
             if (new DAOMarca().eliminar(new Marca(Integer.parseInt(txtidMarca.getText()), txtNombre.getText()))) {
-                System.out.println("Se elimino con exito");
                 limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Eliminado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                 actualizaTablaMarca();
             } else {
                 System.out.println("No fue posible eliminar la marca");
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun elemento", null, JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         if (!txtNombre.getText().equals("")) {
-            ArrayList<Marca> lista = new DAOMarca().buscar(txtNombre.getText());
-            String datos[][] = new String[lista.size()][2];
-            String columnas[] = new String[]{"ID", "Nombre"};
+            if (!txtNombre.getText().equals("")) {
+                ArrayList<Marca> lista = new DAOMarca().buscar(txtNombre.getText());
+                String datos[][] = new String[lista.size()][2];
+                String columnas[] = new String[]{"ID", "Nombre"};
 
-            for (int i = 0; i < lista.size(); i++) {
-                datos[i][0] = lista.get(i).getIdMarca() + "";
-                datos[i][1] = lista.get(i).getNombre();
+                for (int i = 0; i < lista.size(); i++) {
+                    datos[i][0] = lista.get(i).getIdMarca() + "";
+                    datos[i][1] = lista.get(i).getNombre();
+                }
+                tblMarca.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
             }
-            tblMarca.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+        }else {
+            JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
         }
+
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -239,12 +250,14 @@ public class frmMarca extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (!txtNombre.getText().equals("") && !txtidMarca.getText().equals("")) {
             if (new DAOMarca().actualizar(new Marca(Integer.parseInt(txtidMarca.getText()), txtNombre.getText()))) {
-                System.out.println("Se actualizo con exito");
                 limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                 actualizaTablaMarca();
             } else {
-                System.out.println("No fue posible actualizar la marca");
+                JOptionPane.showMessageDialog(null, "Edicion sin éxito", "Mensaje", JOptionPane.ERROR_MESSAGE);
             }
+        }else {
+            JOptionPane.showMessageDialog(null, "Cajas vacias", null, JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnModifciarActionPerformed
 

@@ -30,6 +30,13 @@ public class Cliente {
         
     }
 
+    @Override
+    public String toString() {
+        return idCliente + ","+nombre + "," + apellidos + "," + direccion + "," + telefono1 + "," + telefono2 ;
+    }
+    
+    
+
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }

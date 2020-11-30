@@ -19,9 +19,9 @@ public class DAOProducto {
         Statement stm = null;
         Connection con = null;
         
-        String sql = "insert into Producto values('"+ producto.getIdProducto()+"', '"+producto.getDescripcion()+"' ,"+
-                producto.getStock()+","+producto.getPrecio()+","+producto.getIdMarca()+","+producto.getIdCategoria()+
-                ","+producto.getIdProveedor()+") ;";
+        String sql = "insert into Producto values('"+producto.getIdProducto()+"', '"+producto.getDescripcion()+"', "+
+                producto.getStock()+", "+producto.getPrecio()+", "+producto.getIdMarca()+", "+producto.getIdCategoria()+
+                ", "+producto.getIdProveedor()+")";
         
         try{
             con = Conexion.Conectar();
@@ -38,7 +38,7 @@ public class DAOProducto {
     }
     public static void main(String[] args) {
         DAOProducto p = new DAOProducto();
-        p.registrar(new Producto("189DG005","Tarjeta para lavadora whirlpool",3,457,2,1,1));
+        p.registrar(new Producto("189DG005","Flecha de lavado con engrane",3,457,1,1,1));
     }
     //Obtiene todos los productos que se encuentren el la tabla Productos de la base de datos PutoVenta
     public ArrayList<Producto> obtener(){
@@ -60,7 +60,7 @@ public class DAOProducto {
                   p.setDescripcion(rs.getString(2));
                   p.setStock(rs.getInt(3));
                   p.setPrecio(rs.getDouble(4));
-                  p.setIdCategoria(rs.getInt(5));
+                  p.setIdMarca(rs.getInt(5));
                   p.setIdCategoria(rs.getInt(6));
                   p.setIdProveedor(rs.getInt(7));
                   
@@ -77,13 +77,13 @@ public class DAOProducto {
           return listaProducto;           
       }
     //Elimina un producto deacuerdo a su idProducto de la base de datos PuntoVenta
-    public boolean eliminar(int id){
+    public boolean eliminar(String id){
         Connection con = null;
         Statement stm = null;
         
         boolean eliminar = false;
         
-        String sql = "delete from Producto where idProducto = "+id;
+        String sql = "delete from Producto where idProducto = '"+id+"'";
         
         try{
             con = Conexion.Conectar();
@@ -99,7 +99,7 @@ public class DAOProducto {
         return eliminar;
     }
     
-    public ArrayList<Producto> buscar(int idProducto) {
+    public ArrayList<Producto> buscar(String idProducto) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
@@ -134,6 +134,27 @@ public class DAOProducto {
 
         return listaProducto;
 
+    }
+    
+    public boolean actualizar(Producto prodcuto) {
+        Connection connect = null;
+        Statement stm = null;
+
+        boolean actualizar = false;
+
+        String sql = "update Producto set descripcion= '"+prodcuto.getDescripcion()+"', stock="+prodcuto.getStock()
+                +" , precio= "+prodcuto.getPrecio()+", idMarca ="+prodcuto.getIdMarca()+", idCategoria ="+prodcuto.getIdCategoria()
+                +", idProveedor ="+prodcuto.getIdProveedor()+" where idProducto= '"+prodcuto.getIdProducto()+"'";
+        
+        try {
+            connect = Conexion.Conectar();
+            stm = connect.createStatement();
+            stm.execute(sql);
+            actualizar = true;
+        } catch (SQLException e) {
+            System.out.print(e+" actualizar proveedor");
+        }
+        return actualizar;
     }
     
     

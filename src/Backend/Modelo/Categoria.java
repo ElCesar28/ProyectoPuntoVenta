@@ -20,6 +20,13 @@ public class Categoria {
 
     }
 
+    @Override
+    public String toString() {
+        return idCategoria + "," + nombre ;
+    }
+    
+    
+
     public int getIdCategoria() {
         return idCategoria;
     }

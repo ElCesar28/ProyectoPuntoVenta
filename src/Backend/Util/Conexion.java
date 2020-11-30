@@ -27,7 +27,6 @@ public class Conexion {
             conexion = (Connection) DriverManager.getConnection(url, user, pass);
             // Si la conexion fue exitosa mostramos un mensaje de conexion exitosa
             if (conexion != null) {
-                System.out.println("Conexion establecida");
             }
         } // Si la conexion NO fue exitosa mostramos un mensaje de error
         catch (ClassNotFoundException | SQLException e) {

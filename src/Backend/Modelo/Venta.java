@@ -23,6 +23,13 @@ public class Venta {
         
     }
 
+    @Override
+    public String toString() {
+        return idVenta + "," + fecha + "," + total + "," + idCliente + "," + idEmpleado ;
+    }
+
+    
+    
     public int getIdVenta() {
         return idVenta;
     }

@@ -25,6 +25,14 @@ public class Producto {
         
     }
 
+    @Override
+    public String toString() {
+        return idProducto + "," + descripcion + "," + stock + "," + precio + "," + idMarca + "," + idCategoria + "," + idProveedor ;
+    }
+    
+
+    
+
     public String getIdProducto() {
         return idProducto;
     }

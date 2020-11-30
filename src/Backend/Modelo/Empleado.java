@@ -35,6 +35,13 @@ public class Empleado {
         
     }
 
+    @Override
+    public String toString() {
+        return idEmpleado + "," + user + "," + password + "," + nombre + "," + apellido + "," + correo + "," + telefono1 + "," + telefono2 + "," + rol + "," + direccion;
+    }
+
+    
+    
     public void setIdEmpleado(int idEmpleado) {
         this.idEmpleado = idEmpleado;
     }

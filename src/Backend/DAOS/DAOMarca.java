@@ -39,7 +39,7 @@ public class DAOMarca {
 
         String sql = "select * from Marca ;";
 
-        ArrayList<Marca> listaMarca = new ArrayList<Marca>();
+        ArrayList<Marca> listaMarca = new ArrayList<>();
 
         try {
             co = Conexion.Conectar();

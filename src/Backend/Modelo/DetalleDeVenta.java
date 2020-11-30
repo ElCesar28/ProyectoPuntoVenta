@@ -19,6 +19,13 @@ public class DetalleDeVenta {
         
     }
 
+    @Override
+    public String toString() {
+        return idProducto + "," + idVenta + "," + cantidad + "," + precio + "," + descuento;
+    }
+    
+    
+
     public String getIdProducto() {
         return idProducto;
     }
