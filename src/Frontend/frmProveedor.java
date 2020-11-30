@@ -267,23 +267,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (estavacias()) {
-            if (new DAOProducto().registrar(new Producto(
-                    txtidProducto.getText(),
-                    txtDescripcion.getText(),
-                    Integer.parseInt(spinerStock.getValue().toString()),
-                    Double.parseDouble(txtPrecio.getText()),
-                    lista1.get(cboxIdMarca.getSelectedIndex() - 1).getIdMarca(),
-                    lista2.get(cboxIdCategoria.getSelectedIndex() - 1).getIdCategoria(),
-                    lista3.get(cboxId_Proveedor.getSelectedIndex() - 1).getIdProveedor()
-            ))) {
-                limpiarcajas();
-                JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                actualizaTablaProducto();
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
-        }
+      
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnElimarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimarActionPerformed
