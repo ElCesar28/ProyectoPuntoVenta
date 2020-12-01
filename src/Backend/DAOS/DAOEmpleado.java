@@ -25,7 +25,7 @@ public void login(String us, String pass) {
         String sql = "select * from users where user='" + us + "'"
                 + " and password=sha1('" + pass + "');";
         try {
-            co = Conexion.Conectar();
+            co = con.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
 
