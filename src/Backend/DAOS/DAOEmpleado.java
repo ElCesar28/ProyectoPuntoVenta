@@ -3,13 +3,53 @@ package Backend.DAOS;
 
 import Backend.Modelo.Empleado;
 import Backend.Util.Conexion;
+import Frontend.frmLogin;
+import Frontend.frmMenuPrincipal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 
 public class DAOEmpleado {
+
+public void login(String us, String pass) {
+        Conexion con = new Conexion();
+        Empleado e = new Empleado();
+        Connection co = null;
+        Statement stm = null;
+        ResultSet rs = null;
+        int result;
+        String sql = "select * from users where user='" + us + "'"
+                + " and password=sha1('" + pass + "');";
+        try {
+            co = Conexion.Conectar();
+            stm = co.createStatement();
+            rs = stm.executeQuery(sql);
+
+            if (rs.next()) {
+                result = 1;
+                if (result == 1) {
+                    JOptionPane.showMessageDialog(null, "Welcome :D !");
+                    System.out.println(rs.getInt("idusers"));
+                    frmMenuPrincipal menu = new frmMenuPrincipal();
+                    menu.setVisible(true);
+                    frmLogin h = new frmLogin();
+                    h.dispose();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Try again");
+            }
+
+        } catch (Exception er) {
+            System.out.println("Algo salio mal con la consulta");
+        }
+
+    }
+    
     public boolean registrar(Empleado empleado) {
         boolean registrar = false;
 

@@ -5,6 +5,8 @@
  */
 package Frontend;
 
+
+import Backend.DAOS.DAOEmpleado;
 import javax.swing.JFrame;
 import org.jvnet.substance.SubstanceLookAndFeel;
 
@@ -123,8 +125,11 @@ public class frmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtlogin1ActionPerformed
 
     private void btnvalidarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvalidarLoginActionPerformed
+
+
         // TODO add your handling code here:
-       
+        DAOEmpleado d = new DAOEmpleado();
+        d.login(txtlogin1.getText(), txtpass.getText());
     }//GEN-LAST:event_btnvalidarLoginActionPerformed
 
     /**
