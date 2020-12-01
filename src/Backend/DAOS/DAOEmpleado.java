@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 public class DAOEmpleado {
 
 public void login(String us, String pass) {
-        Conexion con = new Conexion();
         Empleado e = new Empleado();
         Connection co = null;
         Statement stm = null;
@@ -25,7 +24,7 @@ public void login(String us, String pass) {
         String sql = "select * from users where user='" + us + "'"
                 + " and password=sha1('" + pass + "');";
         try {
-            co = con.Conectar();
+            co = Conexion.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
 
