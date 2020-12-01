@@ -35,6 +35,8 @@ public class Proveedor {
         this.numCuenta = numCuenta;
         this.correo1 = correo1;
         this.telefono1 = telefono1;
+        this.correo2="";
+        this.telefono2="";
     }
     
     public Proveedor(){

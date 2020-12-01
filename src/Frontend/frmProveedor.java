@@ -20,6 +20,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         initComponents();
         actualizaTablaProducto();
         limpiarcajas();
+        txtidProveedor.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -151,12 +152,12 @@ public class frmProveedor extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(txtidProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar))
+                            .addComponent(txtidProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -244,6 +245,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiarcajas();
+        actualizaTablaProducto();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void tablaProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProveedoresMouseClicked
@@ -255,27 +257,97 @@ public class frmProveedor extends javax.swing.JInternalFrame {
             txtNombre.setText(tablaProveedores.getValueAt(index, 1).toString());
             txtNumCuenta.setText(tablaProveedores.getValueAt(index, 2).toString());
             txtCorreo1.setText(tablaProveedores.getValueAt(index, 3).toString());
-            txtTelefono1.setText(tablaProveedores.getValueAt(index, 4).toString());
-            txtCorreo2.setText(tablaProveedores.getValueAt(index, 5).toString());
-            txtTelefono2.setText(tablaProveedores.getValueAt(index, 6).toString());
+            txtCorreo2.setText((String) tablaProveedores.getValueAt(index, 4));
+            txtTelefono1.setText(tablaProveedores.getValueAt(index, 5).toString());
+            txtTelefono2.setText((String) tablaProveedores.getValueAt(index, 6));
 
         }
     }//GEN-LAST:event_tablaProveedoresMouseClicked
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+        if (estavacias()) {
+            if (new DAOProveedor().actualizar(new Proveedor(
+                    Integer.parseInt(txtidProveedor.getText()),
+                    txtNombre.getText(),
+                    txtNumCuenta.getText(),
+                    txtCorreo1.getText(),
+                    txtCorreo2.getText(),
+                    txtTelefono1.getText(),
+                    txtTelefono2.getText()
+            ))) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaProducto();
+            } else {
+                JOptionPane.showMessageDialog(null, "No fue posible actualizar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-      
+        if (estavacias()) {
+            if (new DAOProveedor().registrar(new Proveedor(
+                    0,
+                    txtNombre.getText(),
+                    txtNumCuenta.getText(),
+                    txtCorreo1.getText(),
+                    txtCorreo2.getText(),
+                    txtTelefono1.getText(),
+                    txtTelefono2.getText()
+            ))) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaProducto();
+            } else {
+
+                JOptionPane.showMessageDialog(null, "No fue posible registrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnElimarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimarActionPerformed
-        // TODO add your handling code here:
+        if (estavacias()) {
+            if (new DAOProveedor().eliminar(new Proveedor(
+                    Integer.parseInt(txtidProveedor.getText()),
+                    txtNombre.getText(),
+                    txtNumCuenta.getText(),
+                    txtCorreo1.getText(),
+                    txtCorreo2.getText(),
+                    txtTelefono1.getText(),
+                    txtTelefono2.getText()
+            ))) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Eliminado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaProducto();
+            } else {
+                JOptionPane.showMessageDialog(null, "No fue posible eliminar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnElimarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        if (!txtidProveedor.getText().equals("")) {
+            ArrayList<Proveedor> lista = new DAOProveedor().buscar(Integer.parseInt(txtidProveedor.getText()));
+            String datos[][] = new String[lista.size()][2];
+            String columnas[] = new String[]{"ID", "Nombre", "NumCuenta", "Correo1", "Correo2", "Telefono1", "Telofono2"};
+
+            for (int i = 0; i < lista.size(); i++) {
+                datos[i] = lista.get(i).toString().split(",");
+
+            }
+            tablaProveedores.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+        } else {
+            JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     ///Método encargado de llenar la tabla de proveedores
@@ -293,7 +365,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
 
     ///Este metodo nos permite validar que las cajas no estén vacias 
     public boolean estavacias() {
-        return !txtidProveedor.getText().equals("") && !txtNombre.getText().equals("") && !txtNumCuenta.getText().equals("")
+        return !txtNombre.getText().equals("") && !txtNumCuenta.getText().equals("")
                 && !txtCorreo1.getText().equals("") && !txtTelefono1.getText().equals("");
     }
 

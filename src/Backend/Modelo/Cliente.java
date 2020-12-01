@@ -10,13 +10,6 @@ public class Cliente {
     private String telefono1;
     private String telefono2;
 
-    public Cliente(int idCliente, String nombre, String telefono1, String telefono2) {
-        this.idCliente = idCliente;
-        this.nombre = nombre;
-        this.telefono1 = telefono1;
-        this.telefono2 = telefono2;
-    }
-
     public Cliente(int idCliente, String nombre, String apellidos, String direccion, String telefono1, String telefono2) {
         this.idCliente = idCliente;
         this.nombre = nombre;
@@ -26,6 +19,15 @@ public class Cliente {
         this.telefono2 = telefono2;
     }
 
+     public Cliente(int idCliente, String nombre, String apellidos, String direccion, String telefono1) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefono1 = telefono1;
+        this.telefono2="";
+    }
+     
     public Cliente() {
         
     }

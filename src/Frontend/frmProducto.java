@@ -263,6 +263,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
                 limpiarcajas();
                 JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                 actualizaTablaProducto();
+            }else {
+                JOptionPane.showMessageDialog(null, "No fue posible registrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+
             }
         } else {
             JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);

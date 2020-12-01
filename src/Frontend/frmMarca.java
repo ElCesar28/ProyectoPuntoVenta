@@ -204,7 +204,9 @@ public class frmMarca extends javax.swing.JInternalFrame {
                 limpiarcajas();
                 JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                 actualizaTablaMarca();
-            } 
+            }else {
+                JOptionPane.showMessageDialog(null, "No fue posible registrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Valores incompatibles y/o vacios", null, JOptionPane.WARNING_MESSAGE);
         }

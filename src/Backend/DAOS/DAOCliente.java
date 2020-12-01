@@ -16,9 +16,9 @@ public class DAOCliente {
         Statement stm = null;
         Connection con = null;
 
-        String sql = "insert into Producto values(" + cliente.getIdCliente() + "," + cliente.getNombre() + ","
-                + cliente.getApellidos() + "," + cliente.getDireccion() + "," + cliente.getTelefono1() + "," + cliente.getTelefono2() + ") ;";
-
+        String sql = "insert into Cliente values( null , '" + cliente.getNombre() + "' ,'"
+                + cliente.getApellidos() + "', '" + cliente.getDireccion() + "' ,'" + cliente.getTelefono1() + "', '" 
+                + cliente.getTelefono2() + "' ) ";
         try {
             con = Conexion.Conectar();
             stm = con.createStatement();
@@ -38,7 +38,7 @@ public class DAOCliente {
         Statement stm = null;
         ResultSet rs = null;
 
-        String sql = "select * from Cliente ;";
+        String sql = "select * from Cliente ";
 
         ArrayList<Cliente> listaMarca = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class DAOCliente {
 
     }
 
-    public ArrayList<Cliente> buscar(String idCliente) {
+    public ArrayList<Cliente> buscar(int idCliente) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
@@ -110,12 +110,11 @@ public class DAOCliente {
 
         boolean actualizar = false;
 
-        String sql = "update Cliente set idCliente=" + cliente.getIdCliente()
-                + " ,nombre='" + cliente.getNombre()
+        String sql = "update Cliente set" + " nombre='" + cliente.getNombre()
                 + "' ,apellidos='" + cliente.getApellidos()
                 + "' ,direccion='" + cliente.getDireccion()
                 + "' ,telefono1='" + cliente.getTelefono1()
-                + "' ,telefono2='" + cliente.getTelefono2() + "' ;";
+                + "' ,telefono2='" + cliente.getTelefono2() + "' where idCliente="+cliente.getIdCliente();
 
         try {
             connect = Conexion.Conectar();
@@ -127,11 +126,6 @@ public class DAOCliente {
             System.out.println(e);
         }
         return actualizar;
-    }
-
-    public static void main(String[] args) {
-        DAOCliente c = new DAOCliente();
-        c.actualizar(new Cliente (1,"Jose Juan","Zamudio","Avenida Puebla #5","4451455052","0000000000"));
     }
 
     public boolean eliminar(Cliente cliente) {
