@@ -5,9 +5,9 @@
  */
 package Frontend;
 
-
 import Backend.DAOS.DAOEmpleado;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
@@ -20,8 +20,9 @@ public class frmLogin extends javax.swing.JFrame {
      * Creates new form frmLogin
      */
     public frmLogin() {
-      
+
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -126,10 +127,17 @@ public class frmLogin extends javax.swing.JFrame {
 
     private void btnvalidarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvalidarLoginActionPerformed
 
+        if (new DAOEmpleado().login(txtlogin1.getText(), txtpass.getText())) {
+            JOptionPane.showMessageDialog(null, "Bienvenido ");
+            frmMenuPrincipal menu = new frmMenuPrincipal();
+            menu.setVisible(true);
+            this.dispose();
 
-        // TODO add your handling code here:
-        DAOEmpleado d = new DAOEmpleado();
-        d.login(txtlogin1.getText(), txtpass.getText());
+        } else {
+            JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
+        }
+
+        
     }//GEN-LAST:event_btnvalidarLoginActionPerformed
 
     /**

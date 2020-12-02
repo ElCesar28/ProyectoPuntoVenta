@@ -371,6 +371,8 @@ public class frmCliente extends javax.swing.JInternalFrame {
 
     private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
         int index = tablaCliente.getSelectedRow();
+                btnAgregar.setEnabled(false);
+
         if (index == -1) {
             JOptionPane.showMessageDialog(null, "Empty table");
         } else {
@@ -425,6 +427,7 @@ public class frmCliente extends javax.swing.JInternalFrame {
         txtTel1.setText("");
         txtTel2.setText("");
         txtidClienteBusqueda.setText("");
+        btnAgregar.setEnabled(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

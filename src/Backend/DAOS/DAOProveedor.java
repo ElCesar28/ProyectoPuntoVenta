@@ -19,7 +19,7 @@ public class DAOProveedor {
         Connection con = null;
         
         String sql = "insert into Proveedor values(null,'"+proveedor.getNombre()+
-                "', hex(aes_encrypt('"+proveedor.getNumCuenta()+"',"+proveedor.getIdProveedor()+")), '"
+                "', hex(aes_encrypt('"+proveedor.getNumCuenta()+"',"+"'p'"+")), '"
                 +proveedor.getCorreo1()+"' , '"+proveedor.getCorreo2()+"' , '"+proveedor.getTelefono1()+"' , '"+proveedor.getTelefono2()+"')";
         try {
             con = Conexion.Conectar();
@@ -34,18 +34,13 @@ public class DAOProveedor {
         }
         return registrar;
     }
-    public static void main(String[] args) {
-        DAOProveedor p = new DAOProveedor();
-        p.registrar(new Proveedor(0,"LLYRSA","44515908876","llirsa1@gmail.com","","12345656543","")); 
-    }
-    
     
     public ArrayList<Proveedor> obtener() {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
 
-        String sql = "select * from Proveedor";
+        String sql = "select idProveedor, nombre, cast(aes_decrypt(unhex(numCuenta), 'p' ) as char) ,correo1,correo2,telefono1,telefono2 from Proveedor";
 
         ArrayList<Proveedor> listaMarca = new ArrayList<>();
 
@@ -123,7 +118,7 @@ public class DAOProveedor {
         boolean actualizar = false;
 
         String sql = "update Proveedor set nombre='"+ proveedor.getNombre()
-                +"' ,numCuenta= hex(aes_encrypt('"+ proveedor.getNumCuenta()+"',"+proveedor.getIdProveedor()+"))"
+                +"' ,numCuenta= numCuenta"
                 +" ,correo1= '"+ proveedor.getCorreo1()
                 +"' ,correo2= '"+ proveedor.getCorreo2()
                 +"' ,telefono1= '"+ proveedor.getTelefono1()

@@ -1,4 +1,3 @@
-
 package Backend.DAOS;
 
 import Backend.Modelo.Empleado;
@@ -12,43 +11,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-
 public class DAOEmpleado {
 
-public void login(String us, String pass) {
-        Empleado e = new Empleado();
+    public boolean login(String us, String pass) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
-        int result;
-        String sql = "select * from users where user='" + us + "'"
-                + " and password=sha1('" + pass + "');";
+        boolean result=false;
+        String sql = "select * from empleado where user='" + us + "'"
+                + " and password=sha1('" + pass + "')";
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
-
             if (rs.next()) {
-                result = 1;
-                if (result == 1) {
-                    JOptionPane.showMessageDialog(null, "Welcome :D !");
-                    System.out.println(rs.getInt("idusers"));
-                    frmMenuPrincipal menu = new frmMenuPrincipal();
-                    menu.setVisible(true);
-                    frmLogin h = new frmLogin();
-                    h.dispose();
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Try again");
+                result = true;  
             }
-
-        } catch (Exception er) {
-            System.out.println("Algo salio mal con la consulta");
+        } catch (SQLException er) {
+            System.out.println("Algo salio mal con la consulta "+er);
         }
-
+        return result;
     }
-    
     public boolean registrar(Empleado empleado) {
         boolean registrar = false;
 
@@ -60,7 +43,7 @@ public void login(String us, String pass) {
                 + ", '" + empleado.getRol() + "', '" + empleado.getDireccion() + "');";
         try {
             con = Conexion.Conectar();
-            stm = con.createStatement(); 
+            stm = con.createStatement();
             stm.execute(sql);
             registrar = true;
             stm.close();
@@ -71,7 +54,6 @@ public void login(String us, String pass) {
         }
         return registrar;
     }
-   
 
     public ArrayList<Empleado> obtener() {
         Connection co = null;
@@ -85,13 +67,13 @@ public void login(String us, String pass) {
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
-            rs = stm.executeQuery(sql);        
+            rs = stm.executeQuery(sql);
             while (rs.next()) {
                 Empleado e = new Empleado();
                 e.setIdEmpleado(rs.getInt(1));
                 e.setUser(rs.getString(2));
-                e.setNombre(rs.getString(3));
-                e.setPassword(rs.getString(4));
+                e.setPassword(rs.getString(3));
+                e.setNombre(rs.getString(4));
                 e.setApellido(rs.getString(5));
                 e.setCorreo(rs.getString(6));
                 e.setTelefono1(rs.getString(7));
@@ -117,9 +99,9 @@ public void login(String us, String pass) {
         Statement stm = null;
         ResultSet rs = null;
 
-        String sql = "select * from Empleado where idEmpleado = " + idEmpleado ;
+        String sql = "select * from Empleado where idEmpleado = " + idEmpleado;
 
-         ArrayList<Empleado> listaEmpleado = new ArrayList<>();
+        ArrayList<Empleado> listaEmpleado = new ArrayList<>();
 
         try {
             co = Conexion.Conectar();
@@ -129,14 +111,15 @@ public void login(String us, String pass) {
                 Empleado e = new Empleado();
                 e.setIdEmpleado(rs.getInt(1));
                 e.setUser(rs.getString(2));
-                e.setNombre(rs.getString(3));
-                e.setPassword(rs.getString(4));
+                e.setPassword(rs.getString(3));
+                e.setNombre(rs.getString(4));
                 e.setApellido(rs.getString(5));
                 e.setCorreo(rs.getString(6));
                 e.setTelefono1(rs.getString(7));
                 e.setTelefono2(rs.getString(8));
                 e.setRol(rs.getString(9));
                 e.setDireccion(rs.getString(10));
+                listaEmpleado.add(e);
             }
             stm.close();
             rs.close();
@@ -156,9 +139,9 @@ public void login(String us, String pass) {
 
         boolean actualizar = false;
 
-        String sql = "update Empleado set user= '" + empleado.getUser() + "', password= sha1(" + empleado.getPassword() + "), nombre= '" + empleado.getNombre() + "'"
+        String sql = "update Empleado set user= '" + empleado.getUser() + "', password= password" + ", nombre= '" + empleado.getNombre() + "'"
                 + ", apellido= '" + empleado.getApellido() + "',correo= '" + empleado.getCorreo() + "', telefono1= '" + empleado.getTelefono1() + "', telefono2='" + empleado.getTelefono2() + "'"
-                + ", rol='" + empleado.getRol() + "', direccion= '" + empleado.getDireccion() + "';";
+                + ", rol='" + empleado.getRol() + "', direccion= '" + empleado.getDireccion() + "' where idEmpleado=" + empleado.getIdEmpleado();
         try {
             connect = Conexion.Conectar();
             stm = connect.createStatement();
@@ -170,11 +153,26 @@ public void login(String us, String pass) {
         }
         return actualizar;
     }
-    
-     public static void main(String[] args) {
-        DAOEmpleado e = new DAOEmpleado();
-        e.eliminar(3);
-        e.registrar(new Empleado(2,"lapaty123","soylameramera","Patricia Cecilia","Sosa Guzman","qwert@gmail.com","4451221808","0000000000","empleado","ponciano vega #670"));
+
+    public boolean actualizarPassword(int id, String newPassword) {
+        Connection connect = null;
+        Statement stm = null;
+
+        boolean actualizar = false;
+
+        String sql = "update Empleado set user= user" + ", password= sha1('" + newPassword + "'), nombre= nombre" + ""
+                + ", apellido= apellido" + ",correo= correo" + ", telefono1= telefono1" + ", telefono2= telefono2" + ""
+                + ", rol= rol" + ", direccion= direccion where idEmpleado=" + id;
+        try {
+            connect = Conexion.Conectar();
+            stm = connect.createStatement();
+            stm.execute(sql);
+            actualizar = true;
+        } catch (SQLException e) {
+            System.out.println("actualizar pass empleado");
+            System.out.println(e);
+        }
+        return actualizar;
     }
 
     public boolean eliminar(int idEmpleado) {
@@ -183,7 +181,7 @@ public void login(String us, String pass) {
 
         boolean eliminar = false;
 
-        String sql = "delete from Empleado where idEmpleado="+ idEmpleado;
+        String sql = "delete from Empleado where idEmpleado=" + idEmpleado;
         try {
             connect = Conexion.Conectar();
             stm = connect.createStatement();

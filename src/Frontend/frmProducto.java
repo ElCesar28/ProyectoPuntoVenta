@@ -263,7 +263,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
                 limpiarcajas();
                 JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                 actualizaTablaProducto();
-            }else {
+            } else {
                 JOptionPane.showMessageDialog(null, "No fue posible registrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
 
             }
@@ -327,6 +327,8 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
     private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
         int index = tablaProductos.getSelectedRow();
+        btnAgregar.setEnabled(false);
+
         if (index == -1) {
             JOptionPane.showMessageDialog(null, "Empty table");
         } else {
@@ -428,6 +430,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
         cboxIdMarca.setSelectedIndex(0);
         cboxIdCategoria.setSelectedIndex(0);
         cboxId_Proveedor.setSelectedIndex(0);
+        btnAgregar.setEnabled(true);
     }
     ArrayList<Marca> lista1 = new DAOMarca().obtener();
     ArrayList<Categoria> lista2 = new DAOCategoria().obtener();

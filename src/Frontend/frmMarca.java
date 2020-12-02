@@ -272,6 +272,7 @@ public class frmMarca extends javax.swing.JInternalFrame {
     private void tblMarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMarcaMouseClicked
         // TODO add your handling code here:
         int index = tblMarca.getSelectedRow();
+        btnAgregar.setEnabled(false);
         if (index == -1) {
             JOptionPane.showMessageDialog(null, "Empty table");
         } else {
@@ -295,6 +296,7 @@ public class frmMarca extends javax.swing.JInternalFrame {
     public void limpiarcajas() {
         txtNombre.setText("");
         txtidMarca.setText("");
+        btnAgregar.setEnabled(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
