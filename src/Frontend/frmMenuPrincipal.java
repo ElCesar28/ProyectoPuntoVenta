@@ -5,9 +5,11 @@
  */
 package Frontend;
 
+import Backend.Modelo.Empleado;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
+
 
 /**
  *
@@ -18,11 +20,21 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form frmMenuPrincipal
      */
-    public frmMenuPrincipal() {
+    Empleado empleado;
+    public frmMenuPrincipal(Empleado e) {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
+        this.empleado = e;
+        permisos(e.getRol());
     }
 
+    
+    private void permisos(String p){
+        if(!p.equals("administrador")){
+            mnuMantenimiento.setEnabled(false);
+        }
+    }
+            
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -179,7 +191,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGenerarVentaActionPerformed
-        centrarVentana(new frmVenta());
+        centrarVentana(new frmVenta(empleado));
     }//GEN-LAST:event_mnuGenerarVentaActionPerformed
     ///Sirve para agregar y centrar un interlaframe a nuestro frame principal
     private void centrarVentana(JInternalFrame frame) {

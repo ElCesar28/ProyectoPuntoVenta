@@ -13,25 +13,106 @@ import javax.swing.JOptionPane;
 
 public class DAOEmpleado {
 
-    public boolean login(String us, String pass) {
+//    public boolean p(String us, String pass) {
+//        Connection co = null;
+//        Statement stm = null;
+//        ResultSet rs = null;
+//        boolean result=false;
+//        String sql = "select * from empleado where user='" + us + "'"
+//                + " and password=sha1('" + pass + "')";
+//        try {
+//            co = Conexion.Conectar();
+//            stm = co.createStatement();
+//            rs = stm.executeQuery(sql);
+//            if (rs.next()) {
+//                result = true;  
+//            }
+//        } catch (SQLException er) {
+//            System.out.println("Algo salio mal con la consulta "+er);
+//        }
+//        return result;
+//    }
+     public ArrayList<Empleado> login(String us, String pass) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
-        boolean result=false;
-        String sql = "select * from empleado where user='" + us + "'"
+
+         String sql = "select * from empleado where user='" + us + "'"
                 + " and password=sha1('" + pass + "')";
+
+        ArrayList<Empleado> listaEmpleado = new ArrayList<>();
+
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
-            if (rs.next()) {
-                result = true;  
+            while (rs.next()) {
+                Empleado e = new Empleado();
+                e.setIdEmpleado(rs.getInt(1));
+                e.setUser(rs.getString(2));
+                e.setPassword(rs.getString(3));
+                e.setNombre(rs.getString(4));
+                e.setApellido(rs.getString(5));
+                e.setCorreo(rs.getString(6));
+                e.setTelefono1(rs.getString(7));
+                e.setTelefono2(rs.getString(8));
+                e.setRol(rs.getString(9));
+                e.setDireccion(rs.getString(10));
+                listaEmpleado.add(e);
             }
-        } catch (SQLException er) {
-            System.out.println("Algo salio mal con la consulta "+er);
+            stm.close();
+            rs.close();
+            co.close();
+        } catch (SQLException e) {
+            System.out.println("obtener login");
+            System.out.println(e);
         }
-        return result;
+
+        return listaEmpleado;
+
     }
+    
+    
+    
+    public ArrayList<Empleado> buscar(int idEmpleado) {
+        Connection co = null;
+        Statement stm = null;
+        ResultSet rs = null;
+
+        String sql = "select * from Empleado where idEmpleado = " + idEmpleado;
+
+        ArrayList<Empleado> listaEmpleado = new ArrayList<>();
+
+        try {
+            co = Conexion.Conectar();
+            stm = co.createStatement();
+            rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                Empleado e = new Empleado();
+                e.setIdEmpleado(rs.getInt(1));
+                e.setUser(rs.getString(2));
+                e.setPassword(rs.getString(3));
+                e.setNombre(rs.getString(4));
+                e.setApellido(rs.getString(5));
+                e.setCorreo(rs.getString(6));
+                e.setTelefono1(rs.getString(7));
+                e.setTelefono2(rs.getString(8));
+                e.setRol(rs.getString(9));
+                e.setDireccion(rs.getString(10));
+                listaEmpleado.add(e);
+            }
+            stm.close();
+            rs.close();
+            co.close();
+        } catch (SQLException e) {
+            System.out.println("obtener Empleado");
+            System.out.println(e);
+        }
+
+        return listaEmpleado;
+
+    }
+    
     public boolean registrar(Empleado empleado) {
         boolean registrar = false;
 
@@ -94,45 +175,7 @@ public class DAOEmpleado {
 
     }
 
-    public ArrayList<Empleado> buscar(int idEmpleado) {
-        Connection co = null;
-        Statement stm = null;
-        ResultSet rs = null;
-
-        String sql = "select * from Empleado where idEmpleado = " + idEmpleado;
-
-        ArrayList<Empleado> listaEmpleado = new ArrayList<>();
-
-        try {
-            co = Conexion.Conectar();
-            stm = co.createStatement();
-            rs = stm.executeQuery(sql);
-            while (rs.next()) {
-                Empleado e = new Empleado();
-                e.setIdEmpleado(rs.getInt(1));
-                e.setUser(rs.getString(2));
-                e.setPassword(rs.getString(3));
-                e.setNombre(rs.getString(4));
-                e.setApellido(rs.getString(5));
-                e.setCorreo(rs.getString(6));
-                e.setTelefono1(rs.getString(7));
-                e.setTelefono2(rs.getString(8));
-                e.setRol(rs.getString(9));
-                e.setDireccion(rs.getString(10));
-                listaEmpleado.add(e);
-            }
-            stm.close();
-            rs.close();
-            co.close();
-        } catch (SQLException e) {
-            System.out.println("obtener Empleado");
-            System.out.println(e);
-        }
-
-        return listaEmpleado;
-
-    }
-
+   
     public boolean actualizar(Empleado empleado) {
         Connection connect = null;
         Statement stm = null;

@@ -6,6 +6,8 @@
 package Frontend;
 
 import Backend.DAOS.DAOEmpleado;
+import Backend.Modelo.Empleado;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.jvnet.substance.SubstanceLookAndFeel;
@@ -127,17 +129,24 @@ public class frmLogin extends javax.swing.JFrame {
 
     private void btnvalidarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvalidarLoginActionPerformed
 
-        if (new DAOEmpleado().login(txtlogin1.getText(), txtpass.getText())) {
-            JOptionPane.showMessageDialog(null, "Bienvenido ");
-            frmMenuPrincipal menu = new frmMenuPrincipal();
-            menu.setVisible(true);
-            this.dispose();
+        if (!txtlogin1.getText().equals("") && !txtpass.getText().equals("")) {
+            try {
+                ArrayList<Empleado> e = new DAOEmpleado().login(txtlogin1.getText(), txtpass.getText());
+                if (e.size() > 0) {
+                    JOptionPane.showMessageDialog(null, "          -- ¡Bienvenido! -- \n" + e.get(0).getNombre() + " " + e.get(0).getApellido() + "\n" + "Tus permisos son: " + e.get(0).getRol());
+                    new frmMenuPrincipal(e.get(0)).setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Credenciales invalidas", null, JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Credenciales invalidas", null, JOptionPane.WARNING_MESSAGE);
+            }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
+            JOptionPane.showMessageDialog(null, "Cajas vacias", null, JOptionPane.WARNING_MESSAGE);
         }
 
-        
     }//GEN-LAST:event_btnvalidarLoginActionPerformed
 
     /**
