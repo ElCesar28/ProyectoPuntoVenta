@@ -33,7 +33,7 @@ public class frmLogin extends javax.swing.JFrame {
 
         this.setContentPane(fondo);
         initComponents();
-        btnvalidarLogin.setIcon(setIcono("/imagenes/entrar.png", btnvalidarLogin));
+       
         this.setLocationRelativeTo(null);
        
     }
