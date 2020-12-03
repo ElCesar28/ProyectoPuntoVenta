@@ -10,7 +10,9 @@ import Backend.Modelo.Empleado;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,7 +32,9 @@ public class frmLogin extends javax.swing.JFrame {
 
         this.setContentPane(fondo);
         initComponents();
+        btnvalidarLogin.setIcon(setIcono("/imagenes/entrar.png", btnvalidarLogin));
         this.setLocationRelativeTo(null);
+       
     }
 
     /**
@@ -75,7 +79,7 @@ public class frmLogin extends javax.swing.JFrame {
         txtpass.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         txtpass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        btnvalidarLogin.setText("ENTRAR");
+        btnvalidarLogin.setForeground(new java.awt.Color(102, 51, 255));
         btnvalidarLogin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         btnvalidarLogin.setMaximumSize(new java.awt.Dimension(567, 517));
         btnvalidarLogin.setMinimumSize(new java.awt.Dimension(567, 517));
@@ -106,7 +110,7 @@ public class frmLogin extends javax.swing.JFrame {
                         .addGap(0, 162, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnvalidarLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnvalidarLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -224,5 +228,14 @@ public class frmLogin extends javax.swing.JFrame {
         }
     }
 
+    public Icon setIcono(String url, JButton boton){
+        ImageIcon icon=new ImageIcon(getClass().getResource(url));
+        
+        int ancho = boton.getWidth();
+        int alto = boton.getHeight();
+        
+        ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
+        return icono;
+    }
 }
 
