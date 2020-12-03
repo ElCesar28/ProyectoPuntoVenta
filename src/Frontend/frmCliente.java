@@ -435,7 +435,6 @@ public class frmCliente extends javax.swing.JInternalFrame {
         txtidClienteBusqueda.setText("");
         btnAgregar.setEnabled(true);
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
