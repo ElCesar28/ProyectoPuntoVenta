@@ -6,10 +6,14 @@
 package Frontend;
 
 import Backend.DAOS.DAOCliente;
+import Backend.DAOS.DAODetalleDeVenta;
 import Backend.DAOS.DAOProducto;
+import Backend.DAOS.DAOVenta;
 import Backend.Modelo.Cliente;
+import Backend.Modelo.DetalleDeVenta;
 import Backend.Modelo.Empleado;
 import Backend.Modelo.Producto;
+import Backend.Modelo.Venta;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,17 +28,19 @@ import java.util.*;
 public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
     int cliente;
-    ArrayList<Producto> productosNota;
+    ArrayList<Producto> productosNotaObjetos;
+    ArrayList<String> productosNotaTabla;
     SpinnerNumberModel modeloSpinner;
     Empleado empleado;
     Producto producto;
     String hora, minutos, segundos;
     Thread hilo;
+    Double total;
 
     public frmVenta(Empleado e) {
         initComponents();
         this.cliente = 0;
-        this.productosNota = new ArrayList<>();
+        this.productosNotaObjetos = new ArrayList<>();
         this.modeloSpinner = new SpinnerNumberModel();
         this.empleado = e;
         this.txtNombreEmpleado.setText(e.getNombre() + " " + e.getApellido());
@@ -45,8 +51,12 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         txtFecha.setEnabled(false);
         txtHora.setEnabled(false);
         txtTotal.setEnabled(false);
+        btnAgregarProducto.setEnabled(false);
+        productosNotaTabla = new ArrayList<>();
+        total = 0.0;
     }
 
+    ///determina la hora en tiempo real 
     public void hora() {
         Calendar calendario = new GregorianCalendar();
         Date horaactual = new Date();
@@ -55,6 +65,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         minutos = calendario.get(Calendar.MINUTE) > 9 ? "" + calendario.get(Calendar.MINUTE) : "0" + calendario.get(Calendar.MINUTE);
         segundos = calendario.get(Calendar.SECOND) > 9 ? "" + calendario.get(Calendar.SECOND) : "0" + calendario.get(Calendar.SECOND);
     }
+    ///ejecutamos nuestro hilo que muestra la fecha en tiempo real
 
     @Override
     public void run() {
@@ -66,9 +77,10 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         }
     }
 
+    ///Nos proporciona la fecha en un formato especifico 
     public static String fecha() {
         Date fecha = new Date();
-        SimpleDateFormat formatodefecha = new SimpleDateFormat("dd/MM/YYYY");
+        SimpleDateFormat formatodefecha = new SimpleDateFormat("YYYY/MM/dd");
         return formatodefecha.format(fecha);
     }
 
@@ -120,6 +132,8 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         jLabel10 = new javax.swing.JLabel();
         btnGenerarVenta = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        txtEfectivo = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -404,7 +418,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -413,8 +427,23 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         jLabel10.setText("Total:");
 
         btnGenerarVenta.setText("Generar Venta");
+        btnGenerarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarVentaActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Efectivo:");
+
+        txtEfectivo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtEfectivo.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -429,16 +458,19 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(btnCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel10))
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnGenerarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                    .addComponent(txtTotal))
+                    .addComponent(txtTotal)
+                    .addComponent(txtEfectivo))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -446,12 +478,16 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(txtEfectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGenerarVenta)
                     .addComponent(btnCancelar))
@@ -485,11 +521,13 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 ArrayList<Producto> p = new DAOProducto().buscar(txtIdProducto.getText());
 
                 if (p.get(0).getStock() > 0) {
+
                     txtProducto.setText(p.get(0).getDescripcion());
                     txtProducto.setEnabled(false);
 
                     txtPrecio.setText(String.valueOf(p.get(0).getPrecio()));
                     txtPrecio.setEnabled(false);
+
                     txtStock.setText(String.valueOf(p.get(0).getStock()));
                     txtStock.setEnabled(false);
 
@@ -499,7 +537,9 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                     modeloSpinner.setValue(1);
                     spinerCantidad.setModel(modeloSpinner);
 
-                    productosNota.add(p.get(0));
+                    btnAgregarProducto.setEnabled(true);
+                    txtIdProducto.setEnabled(false);
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Producto Agotado", null, JOptionPane.ERROR_MESSAGE);
                 }
@@ -514,26 +554,192 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
+        boolean bandera = false;
+        try {
+            if (!productosNotaTabla.isEmpty()) {
+                for (int i = 0; i < productosNotaObjetos.size(); i++) {
+                    if (txtIdProducto.getText().equals(productosNotaObjetos.get(i).getIdProducto())) {
+
+                        String[] aux = productosNotaTabla.get(i).split(",");
+                        int cantidad = Integer.parseInt(aux[2]);
+
+                        int nuevacantidad = cantidad + Integer.parseInt(spinerCantidad.getValue().toString());
+
+                        if (nuevacantidad <= productosNotaObjetos.get(i).getStock()) {
+                            productosNotaTabla.set(i, aux[0] + "," + aux[1] + "," + nuevacantidad + "," + aux[3] + "," + nuevacantidad * productosNotaObjetos.get(i).getPrecio());
+                            actualizaTablaNota();
+                            limpiarProducto();
+                            obtenerTotal();
+                            txtTotal.setText(total + "");
+                            bandera = true;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Stock insuficiente", null, JOptionPane.ERROR_MESSAGE);
+                            bandera = true;
+                            limpiarProducto();
+                        }
+                    }
+                }
+                if (!bandera) {
+                    cargaProducto(new DAOProducto().buscar(txtIdProducto.getText()).get(0));
+                }
+
+            } else {
+                cargaProducto(new DAOProducto().buscar(txtIdProducto.getText()).get(0));
+            }
+            btnAgregarProducto.setEnabled(false);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "No se pudo cargar el ultimo producto", null, JOptionPane.WARNING_MESSAGE);
+        }
+
 
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
+    ///este metodo nos ayuda guardar los datos del producto que se venderá en estructuraas internas y en la tabla para man
+    public void cargaProducto(Producto p) {
+        //definimos las variables que formaran parte de n uestra tabla y calculamos el total 
+        String idProducto = p.getIdProducto();
+        String descripcion = p.getDescripcion();
+        String cantidad = spinerCantidad.getValue().toString();
+        String precio = p.getPrecio() + "";
+        String importe = String.valueOf((Integer.parseInt(cantidad) * Double.parseDouble(precio)));
+        //preparamos nuestros datos para ingresarlos de manera más sensilla a la tabla
+        String aux = idProducto + "," + descripcion + "," + cantidad + "," + precio + "," + importe;
+        //Agregamos los objetos creados a nuestros Arrays que nos ayudan a llenar la tabla y a guardar en la base de datos
+        productosNotaTabla.add(aux);
+        productosNotaObjetos.add(p);
+        //controlamos la interfaz 
+        actualizaTablaNota();
+        limpiarProducto();
+        obtenerTotal();
+        txtTotal.setText(total + "");
+        btnAgregarProducto.setEnabled(false);
+        txtIdProducto.setEnabled(true);
+    }
+
     private void btnLimpiarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarProductoActionPerformed
-
-
+        limpiarProducto();
     }//GEN-LAST:event_btnLimpiarProductoActionPerformed
 
     private void btnLimpiarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarClienteActionPerformed
         limpiarCliente();
     }//GEN-LAST:event_btnLimpiarClienteActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiarCliente();
+        limpiarProducto();
+        limpiarTabla();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
+        try {
+            if (revisaCajas()) {
+                if ((Double.parseDouble(txtEfectivo.getText()) - Double.parseDouble(txtTotal.getText())) >= 0) {
+                    if (new DAOVenta().GuardarVenta(new Venta(0, txtFecha.getText() + " " + txtHora.getText(), total, cliente, empleado.getIdEmpleado()))) {
+                        if (insertarDetalleVenta()) {
+                            JOptionPane.showMessageDialog(null, "Vendido con éxito\nSu cambio:  " + (Double.parseDouble(txtEfectivo.getText()) - Double.parseDouble(txtTotal.getText())) + "", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                            limpiarCliente();
+                            limpiarProducto();
+                            limpiarTabla();
+                            txtEfectivo.setText("");
+                            txtTotal.setText("");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al realizar la venta", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al realizar la venta", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El efectivo no es suficiente", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Rellene todos los campos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnGenerarVentaActionPerformed
+
+    public boolean insertarDetalleVenta() {
+        boolean bandera=false;
+        for(int i =0; i<productosNotaObjetos.size(); i++){
+            String[]aux =productosNotaTabla.get(i).split(",");
+            int cantidad = Integer.parseInt(aux[2]); 
+            bandera=new DAODetalleDeVenta().GuardarDetalleVenta( new DetalleDeVenta(productosNotaObjetos.get(i).getIdProducto()
+                                                        ,new DAOVenta().idVenta(empleado.getIdEmpleado())
+                                                        ,cantidad
+                                                        ,productosNotaObjetos.get(i).getPrecio()
+                                                        ,0));
+            if(!bandera)break;
+        }
+        if(bandera){
+            productosNotaObjetos.clear();
+            productosNotaTabla.clear();
+            total=0.0;
+        }
+        
+        return bandera;
+    }
+
+    ///este metodo verifica que las cajas requeridas para realizar la venta no estén vacias
+    public boolean revisaCajas() {
+        return !txtCliente.getText().equals("") && !productosNotaTabla.isEmpty() && !txtEfectivo.getText().equals("");
+    }
+
+    ///limpia nuestra tabla de ventas
+    public void limpiarTabla() {
+        String datos[][] = new String[0][2];
+        String columnas[] = new String[]{"ID", "Descripcion", "Cantidad", "Precio", "Impore"};
+        TablaDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+    }
+
+    ///Limpia nuestros listas internas para el procesamiento de ventas
+    public void limpiaListas() {
+
+    }
+
+    ///obtenmos el total a partir de la lista 
+    public void obtenerTotal() {
+        double sum = 0;
+        for (int i = 0; i < productosNotaTabla.size(); i++) {
+            String[] aux = productosNotaTabla.get(i).split(",");
+            sum += Double.parseDouble(aux[4]);
+        }
+
+        total = sum;
+    }
+
+    ///actualizamos los datos de la tabla cada que se agregue un nuevo producto
+    public void actualizaTablaNota() {
+        String datos[][] = new String[productosNotaTabla.size()][2];
+        String columnas[] = new String[]{"ID", "Descripcion", "Cantidad", "Precio", "Impore"};
+
+        for (int i = 0; i < productosNotaTabla.size(); i++) {
+            datos[i] = productosNotaTabla.get(i).split(",");
+
+        }
+        TablaDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+    }
+
+    ///limpiamos la sección de cliente  de nuestro formulario por si nos equivocamos
     public void limpiarCliente() {
         txtIdCliente.setText("");
         txtCliente.setText("");
     }
 
+    ///limpiamos la sección de productos
     public void limpiarProducto() {
         txtIdProducto.setText("");
         txtProducto.setText("");
         txtPrecio.setText("");
+        txtStock.setText("");
+        spinerCantidad.setValue(1);
+        txtIdProducto.setEnabled(true);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -549,6 +755,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -567,6 +774,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     private javax.swing.JLabel lblNombreEmpleado;
     private javax.swing.JSpinner spinerCantidad;
     private javax.swing.JTextField txtCliente;
+    private javax.swing.JFormattedTextField txtEfectivo;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtHora;
     private javax.swing.JTextField txtIdCliente;

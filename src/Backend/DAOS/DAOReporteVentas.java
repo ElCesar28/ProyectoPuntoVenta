@@ -5,10 +5,15 @@
  */
 package Backend.DAOS;
 
+import Backend.Modelo.DetalleDeVenta;
+import Backend.Util.Conexion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 /**
  *
  * @author ElCésar26
  */
 public class DAOReporteVentas {
-    
+   
 }

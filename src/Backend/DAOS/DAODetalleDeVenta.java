@@ -10,6 +10,32 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DAODetalleDeVenta {
+    
+     
+     public boolean GuardarDetalleVenta(DetalleDeVenta dv){
+        PreparedStatement ps = null;
+        Connection co = null;
+        boolean bandera=false;
+        String sql="call insertarDetalleVenta(?,?,?,?,?)";
+        try{
+            co=Conexion.Conectar();
+            ps=co.prepareStatement(sql);
+            ps.setString(1, dv.getIdProducto());
+            ps.setInt(2, dv.getIdVenta());
+            ps.setInt(3, dv.getCantidad());
+            ps.setDouble(4, dv.getPrecio());
+            ps.setDouble(5, dv.getDescuento());
+            ps.executeUpdate();
+            bandera=true;
+            ps.close();
+            co.close();
+            
+               
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return bandera;
+    }
 
     public boolean registrar(DetalleDeVenta detalleDeVenta) {
         boolean registrar = false;
