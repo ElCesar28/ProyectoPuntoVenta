@@ -7,7 +7,11 @@ package Frontend;
 
 import Backend.DAOS.DAOCliente;
 import Backend.Modelo.Cliente;
+import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,12 +19,14 @@ import javax.swing.JOptionPane;
  * @author ElCésar26
  */
 public class frmCliente extends javax.swing.JInternalFrame {
-
+    
+    
     /**
      * Creates new form frmCliente
      */
     public frmCliente() {
         initComponents();
+        btnLimpiar.setIcon(setIcono("/imagenes/limpiar.png", btnLimpiar));
         actualizaTablaCliente();
         txtidCliente.setEnabled(false);
     }
@@ -458,4 +464,14 @@ public class frmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtidCliente;
     private javax.swing.JTextField txtidClienteBusqueda;
     // End of variables declaration//GEN-END:variables
+    
+    public Icon setIcono(String url, JButton boton){
+        ImageIcon icon=new ImageIcon(getClass().getResource(url));
+        
+        int ancho = boton.getWidth();
+        int alto = boton.getHeight();
+        
+        ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
+        return icono;
+    }
 }
