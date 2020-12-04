@@ -474,13 +474,13 @@ public class frmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtidClienteBusqueda;
     // End of variables declaration//GEN-END:variables
     
-    public Icon setIcono(String url, JButton boton){
-        ImageIcon icon=new ImageIcon(getClass().getResource(url));
-        
-        int ancho = boton.getWidth();
-        int alto = boton.getHeight();
-        
-        ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
-        return icono;
-    }
+//    public Icon setIcono(String url, JButton boton){
+//        ImageIcon icon=new ImageIcon(getClass().getResource(url));
+//        
+//        int ancho = boton.getWidth();
+//        int alto = boton.getHeight();
+//        
+//        ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
+//        return icono;
+//    }
 }
