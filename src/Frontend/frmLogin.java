@@ -30,13 +30,12 @@ public class frmLogin extends javax.swing.JFrame {
      */
     FondoPanel fondo = new FondoPanel();
     public frmLogin() {
-<<<<<<< HEAD
         JFrame.setDefaultLookAndFeelDecorated(true);
         SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlueSteelSkin");
-=======
+
 
         this.setContentPane(fondo);
->>>>>>> 705d14e5590247147daab391993e7847811ce433
+
         initComponents();
        
         this.setLocationRelativeTo(null);
