@@ -31,10 +31,7 @@ public class DAOCategoria {
         }
         return registrar;
     }
-    public static void main(String[] args) {
-        DAOCategoria obj=new DAOCategoria();
-        System.out.println(obj.eliminar(new Categoria("Lavadoras")));
-    }
+  
     public ArrayList<Categoria> obtener() {
         Connection co = null;
         Statement stm = null;

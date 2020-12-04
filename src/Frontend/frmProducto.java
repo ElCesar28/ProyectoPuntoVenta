@@ -245,6 +245,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiarcajas();
         actualizaTablaProducto();
+        llenarCombos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -341,7 +342,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
             cboxId_Proveedor.setSelectedIndex(fijarCboxs(Integer.parseInt(tablaProductos.getValueAt(index, 6).toString()), "Proveedor"));
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
-    ///Este metodo nos permite colocar en los combo box el item seleccionado con el que se capturo el id de marca, categoria y proveedores
+    ///Este metodo nos permite colocar en los combo box el item seleccionado con el que se capturo el id de marca, idcategoria e idproveedores
     public int fijarCboxs(int id, String cual) {
         int r = 0;
         switch (cual) {

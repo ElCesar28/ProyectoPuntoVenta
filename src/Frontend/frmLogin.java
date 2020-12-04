@@ -22,7 +22,8 @@ public class frmLogin extends javax.swing.JFrame {
      * Creates new form frmLogin
      */
     public frmLogin() {
-
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlueSteelSkin");
         initComponents();
         this.setLocationRelativeTo(null);
     }

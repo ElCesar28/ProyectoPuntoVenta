@@ -693,7 +693,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     ///limpia nuestra tabla de ventas
     public void limpiarTabla() {
         String datos[][] = new String[0][2];
-        String columnas[] = new String[]{"ID", "Descripcion", "Cantidad", "Precio", "Impore"};
+        String columnas[] = new String[]{"ID", "Descripcion", "Cantidad", "Precio", "Importe"};
         TablaDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
     }
 

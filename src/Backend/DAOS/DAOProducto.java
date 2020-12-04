@@ -36,10 +36,7 @@ public class DAOProducto {
         }
         return registrar;    
     }
-    public static void main(String[] args) {
-        DAOProducto p = new DAOProducto();
-        p.registrar(new Producto("189DG005","Flecha de lavado con engrane",3,457,1,1,1));
-    }
+    
     //Obtiene todos los productos que se encuentren el la tabla Productos de la base de datos PutoVenta
     public ArrayList<Producto> obtener(){
           Connection con = null;

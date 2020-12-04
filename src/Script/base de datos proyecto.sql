@@ -89,3 +89,60 @@ INSERT INTO `proveedor` VALUES (null,'llyrsa',hex(aes_encrypt('459459459','p')),
 INSERT INTO `producto` VALUES ('189DG001','Lining ',3,536.00,2,1,1),('189DG002','Banda Maytag',6,200.00,4,1,1),('189DG005','Flecha de lavado con engrane',3,457.80,2,1,1),('189DG008','Sello tina Olympia',15,45.50,1,1,1),('189DG010','Navaja Oster original reversible',10,165.00,2,1,1);
 
 
+DELIMITER $$
+CREATE PROCEDURE insertarDetalleVenta(
+	in idp varchar(35),
+    in idv int,
+    in cantida int,
+    in preci decimal(10,2),
+    in descuent float)
+BEGIN
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+	BEGIN
+	-- ERROR, WARNING
+	ROLLBACK;
+END;
+	START TRANSACTION;
+	insert into detalledeventa values(idp,idv,cantida,preci,descuent);
+    update producto set descripcion=descripcion,
+						stock=(stock-cantida),
+                        precio=precio,
+                        idmarca=idmarca,
+                        idcategoria=idcategoria,
+                        idproveedor=idproveedor where idProducto=idp;
+                        
+	COMMIT;
+END
+$$
+DELIMITER ;
+
+
+delimiter $$
+drop procedure prodxcat;
+create procedure prodxcat (clave int, fechain datetime, fechafin datetime)
+begin
+select p.idproducto, p.descripcion, p.precio, p.stock, c.nombre,
+	(	
+		select  sum(d.cantidad) from detalledeventa d  where d.idproducto = p.idproducto
+	) as ProductoVendido,
+	(
+		select sum(ProductoVendido*d.precio) from detalledeventa d join venta v 
+        on d.idventa= v.idventa 
+        where d.idproducto=p.idproducto and v.fecha between fechain and fechafin 
+	) as MontoProducto
+    
+from producto p join categoria c 
+on p.idcategoria = c.idcategoria
+where c.idcategoria=clave ;
+end $$
+delimiter ;
+
+delimiter $$
+drop procedure lista;
+CREATE PROCEDURE Lista(fechaInicial datetime, fechaFinal datetime)
+BEGIN
+select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) from venta v 
+join empleado e where e.idempleado = v.idempleado and v.fecha between fechaInicial and fechaFinal
+order by v.fecha desc; 
+END$$
+delimiter ;

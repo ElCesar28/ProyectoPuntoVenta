@@ -5,6 +5,14 @@
  */
 package Frontend;
 
+import Backend.DAOS.DAOCategoria;
+import Backend.DAOS.DAOMarca;
+import Backend.DAOS.DAOReporteProductos;
+import Backend.Modelo.Categoria;
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ElCésar26
@@ -16,6 +24,7 @@ public class frmReporteProductos extends javax.swing.JInternalFrame {
      */
     public frmReporteProductos() {
         initComponents();
+        llenarCombo();
     }
 
     /**
@@ -27,35 +36,51 @@ public class frmReporteProductos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cboxIdMarca = new javax.swing.JComboBox<>();
+        cboxIdCategoria = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        dtcFechaIncial = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaReporte = new javax.swing.JTable();
+        dtcFechaIncial = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        dtcFechaFinal = new com.toedter.calendar.JDateChooser();
+        btnAgregar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setTitle("Reporte de productos");
 
-        jLabel4.setText("ID_Marca:");
+        jLabel4.setText("ID_Categoria");
 
         jLabel1.setText("Fecha Incial");
 
-        jLabel2.setText("Fecha Terminal");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaReporte.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Descriocion", "Precio", "Stock", "Categoria", "Cantidad", "Monto"
             }
-        ));
-        jScrollPane2.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablaReporte);
+
+        jLabel5.setText("Fecha Terminal");
+
+        btnAgregar.setText("Generar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Reporte producto por categoria");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,53 +89,121 @@ public class frmReporteProductos extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dtcFechaIncial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(64, 64, 64)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(dtcFechaIncial, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboxIdMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(229, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(dtcFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(56, 56, 56)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cboxIdCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(406, 406, 406)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dtcFechaIncial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(cboxIdMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel2)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(cboxIdCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAgregar))
+                            .addComponent(dtcFechaIncial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dtcFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    ArrayList<Categoria> lista2 = new DAOCategoria().obtener();
+
+    public void llenarCombo() {
+
+        cboxIdCategoria.addItem("Seleccione");
+        for (int i = 0; i < lista2.size(); i++) {
+            cboxIdCategoria.addItem(lista2.get(i).getNombre());
+        }
+
+    }
+
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+
+        try {
+            String fi = "";
+            int year = dtcFechaIncial.getCalendar().get(Calendar.YEAR);
+            int month = dtcFechaIncial.getCalendar().get(Calendar.MONTH) + 1;
+            int day = dtcFechaIncial.getCalendar().get(Calendar.DAY_OF_MONTH);
+            fi = year + "-" + month + "-" + day + "";
+            String ff = "";
+            int yearf = dtcFechaFinal.getCalendar().get(Calendar.YEAR);
+            int monthf = dtcFechaFinal.getCalendar().get(Calendar.MONTH) + 1;
+            int dayf = dtcFechaFinal.getCalendar().get(Calendar.DAY_OF_MONTH);
+            ff = yearf + "-" + monthf + "-" + dayf + "";
+
+            if (!cboxIdCategoria.getSelectedItem().toString().equals("Seleccione")) {
+                
+                try {
+
+                    ArrayList<String> lista = new DAOReporteProductos().ReporteVentasProductoporCategoria(new DAOCategoria().buscar(cboxIdCategoria.getSelectedItem().toString()).get(0).getIdCategoria(),fi, ff);
+
+                    String datos[][] = new String[lista.size()][2];
+                    String columnas[] = new String[]{"ID", "Descripcion", "Precio", "Stock", "Categoria", "Cantidad", "Monto"};
+
+                    for (int i = 0; i < lista.size(); i++) {
+                        datos[i] = lista.get(i).split(",");
+                    }
+                    tablaReporte.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "A ocurrido un error", null, JOptionPane.ERROR_MESSAGE);
+                }
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna Categoria", null, JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun fecha", null, JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cboxIdMarca;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JComboBox<String> cboxIdCategoria;
+    private com.toedter.calendar.JDateChooser dtcFechaFinal;
     private com.toedter.calendar.JDateChooser dtcFechaIncial;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaReporte;
     // End of variables declaration//GEN-END:variables
 }
