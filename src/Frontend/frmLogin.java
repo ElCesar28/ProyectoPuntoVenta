@@ -85,7 +85,9 @@ public class frmLogin extends javax.swing.JFrame {
         txtpass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         btnvalidarLogin.setForeground(new java.awt.Color(102, 51, 255));
-        btnvalidarLogin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        btnvalidarLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/entrar.png"))); // NOI18N
+        btnvalidarLogin.setText("Entrar");
+        btnvalidarLogin.setBorder(new javax.swing.border.MatteBorder(null));
         btnvalidarLogin.setMaximumSize(new java.awt.Dimension(567, 517));
         btnvalidarLogin.setMinimumSize(new java.awt.Dimension(567, 517));
         btnvalidarLogin.addActionListener(new java.awt.event.ActionListener() {
