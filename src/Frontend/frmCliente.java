@@ -26,7 +26,7 @@ public class frmCliente extends javax.swing.JInternalFrame {
      */
     public frmCliente() {
         initComponents();
-        btnLimpiar.setIcon(setIcono("/imagenes/limpiar.png", btnLimpiar));
+       // btnLimpiar.setIcon(setIcono("/imagenes/limpiar.png", btnLimpiar));
         actualizaTablaCliente();
         txtidCliente.setEnabled(false);
     }
