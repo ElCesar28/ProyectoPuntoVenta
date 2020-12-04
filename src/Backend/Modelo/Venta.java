@@ -5,12 +5,14 @@ import java.util.Date;
 
 
 public class Venta {
+    // propiedades de la clase venta
     private int idVenta;
     private String fecha;
     private double total;
     private int idCliente;
     private int idEmpleado;
 
+    // constructor con sus parametros
     public Venta(int idVenta, String fecha, double total, int idCliente, int idEmpleado) {
         this.idVenta = idVenta;
         this.fecha = fecha;
@@ -19,17 +21,19 @@ public class Venta {
         this.idEmpleado = idEmpleado;
     }
     
+    // constructor vacio
     public Venta(){
         
     }
 
+    // metodo tostring para concatenar
     @Override
     public String toString() {
         return idVenta + "," + fecha + "," + total + "," + idCliente + "," + idEmpleado ;
     }
 
     
-    
+    // set y get de la clase venta
     public int getIdVenta() {
         return idVenta;
     }

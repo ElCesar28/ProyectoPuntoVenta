@@ -2,6 +2,7 @@
 
 public class Producto {
 
+    // propiedades de producto
     private String idProducto;
     private String descripcion;
     private int stock;
@@ -10,6 +11,7 @@ public class Producto {
     private int idCategoria;
     private int idProveedor;
 
+    // constructor con sus parametros
     public Producto(String idProducto, String descripcion, int stock, double precio, int idMarca, int idCategoria, int idProveedor) {
         this.idProducto = idProducto;
         this.descripcion = descripcion;
@@ -21,10 +23,12 @@ public class Producto {
 
     }
     
+    // constructor vacio
     public Producto(){
         
     }
 
+    // metodo tostring para conctanear
     @Override
     public String toString() {
         return idProducto + "," + descripcion + "," + stock + "," + precio + "," + idMarca + "," + idCategoria + "," + idProveedor ;
@@ -32,7 +36,7 @@ public class Producto {
     
 
     
-
+// set y get de la clase producto
     public String getIdProducto() {
         return idProducto;
     }

@@ -3,6 +3,7 @@ package Backend.Modelo;
 
 public class Cliente {
 
+    // propiedades de cliente
     private int idCliente;
     private String nombre;
     private String apellidos;
@@ -10,6 +11,7 @@ public class Cliente {
     private String telefono1;
     private String telefono2;
 
+    // constructor de cliente con sus parametros
     public Cliente(int idCliente, String nombre, String apellidos, String direccion, String telefono1, String telefono2) {
         this.idCliente = idCliente;
         this.nombre = nombre;
@@ -19,6 +21,7 @@ public class Cliente {
         this.telefono2 = telefono2;
     }
 
+    // constructor con algunas parametros
      public Cliente(int idCliente, String nombre, String apellidos, String direccion, String telefono1) {
         this.idCliente = idCliente;
         this.nombre = nombre;
@@ -28,10 +31,12 @@ public class Cliente {
         this.telefono2="";
     }
      
+     // constructor vacio
     public Cliente() {
         
     }
 
+    // metodo tostring para concatenar
     @Override
     public String toString() {
         return idCliente + ","+nombre + "," + apellidos + "," + direccion + "," + telefono1 + "," + telefono2 ;
@@ -39,6 +44,7 @@ public class Cliente {
     
     
 
+    // set y get de cliente
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }

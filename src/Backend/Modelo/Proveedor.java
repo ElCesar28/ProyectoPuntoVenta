@@ -10,7 +10,8 @@ package Backend.Modelo;
  * @author USER
  */
 public class Proveedor {
-    
+
+    // propiedades de proveedor
     private int idProveedor;
     private String nombre;
     private String numCuenta;
@@ -19,6 +20,7 @@ public class Proveedor {
     private String telefono1;
     private String telefono2;
 
+    // constructor con sus arametros
     public Proveedor(int idProveeedor, String nombre, String numCuenta, String correo1, String correo2, String telefono1, String telefono2) {
         this.idProveedor = idProveeedor;
         this.nombre = nombre;
@@ -29,6 +31,7 @@ public class Proveedor {
         this.telefono2 = telefono2;
     }
 
+    // constructor con algunos parametros
     public Proveedor(int idProveeedor, String nombre, String numCuenta, String correo1, String telefono1) {
         this.idProveedor = idProveeedor;
         this.nombre = nombre;
@@ -39,17 +42,19 @@ public class Proveedor {
         this.telefono2="";
     }
     
+    // constructor vacio
     public Proveedor(){
         
     }
 
+    // metodo tostring para concatenar
     @Override
     public String toString() {
         return idProveedor + "," + nombre + "," + numCuenta + "," + correo1 + "," + correo2 + "," + telefono1 + "," + telefono2 ;
     }
     
     
-
+// set y get de la clase proveedor
     public int getIdProveedor() {
         return idProveedor;
     }
