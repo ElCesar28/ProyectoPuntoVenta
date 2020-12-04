@@ -2,12 +2,14 @@ package Backend.Modelo;
 
 public class DetalleDeVenta {
 
+    // propiedades de detalle de venta
     private String idProducto ;
     private int idVenta;
     private int cantidad;
     private double precio;
     private double descuento;
 
+    // constructor de la clase con sus paramteros
     public DetalleDeVenta(String idProducto, int idVenta, int cantidad, double precio, double descuento) {
         this.idProducto = idProducto;
         this.idVenta = idVenta;
@@ -15,17 +17,19 @@ public class DetalleDeVenta {
         this.precio = precio;
         this.descuento = descuento;
     }
+    // constructor sin parametros
     public DetalleDeVenta(){
         
     }
 
+    // metodo tostring para concatenar
     @Override
     public String toString() {
         return idProducto + "," + idVenta + "," + cantidad + "," + precio + "," + descuento;
     }
     
     
-
+// set y get para detalle de venta
     public String getIdProducto() {
         return idProducto;
     }

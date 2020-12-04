@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Backend.Modelo;
 
 public class Empleado {
 
+    // se declaran las propiedades que tendra la clase
     private int idEmpleado;
     private String user;
     private String password;
@@ -18,6 +15,7 @@ public class Empleado {
     private String rol;
     private String direccion;
 
+    // constructor que pide y almacena cada propiedad
     public Empleado(int idEmpleado, String user, String password, String nombre, String apellido, String correo, String telefono1, String telefono2, String rol, String direccion) {
         this.idEmpleado = idEmpleado;
         this.user = user;
@@ -30,18 +28,19 @@ public class Empleado {
         this.rol = rol;
         this.direccion = direccion;
     }
-    
+    // constructor vacio
     public Empleado(){
         
     }
 
+    // metodo toString para concatenar
     @Override
     public String toString() {
         return idEmpleado + "," + user + "," + password + "," + nombre + "," + apellido + "," + correo + "," + telefono1 + "," + telefono2 + "," + rol + "," + direccion;
     }
 
     
-    
+    // set y getters de las propiedades
     public void setIdEmpleado(int idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
