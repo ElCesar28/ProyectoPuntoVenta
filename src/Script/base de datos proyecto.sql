@@ -1,4 +1,4 @@
-drop database puntoventa;
+drop database if exists PuntoVenta;
 create database PuntoVenta;
 use puntoVenta;
 
@@ -49,8 +49,6 @@ create table Marca(
     nombre varchar(20) not null
 );
 
-
-
 create table Categoria(
 	idCategoria int not null auto_increment primary key,
     nombre varchar(20) not null
@@ -72,7 +70,8 @@ create table Producto(
 	idProducto varchar(35) not null,
     idVenta int unsigned not null,
     cantidad tinyint not null,
-    precio decimal (10,2) not null,
+	precioPublico decimal(10,2) not null,
+    precioTaller decimal(10,2) not null,
     descuento float not null,
     primary key(idProducto,idVenta),
     constraint foreign key (idProducto) references Producto(idProducto),
@@ -86,10 +85,12 @@ INSERT INTO `marca` VALUES (1,'Mabe'),(2,'Whirlpool'),(3,'Across'),(4,'Maytag'),
 INSERT INTO `proveedor` VALUES (null,'llyrsa',hex(aes_encrypt('459459459','p')),'llirsa1@gmail.com','','12345656543','')
 								,(null,'Ryse',hex(aes_encrypt('987987987','p')),'ryse1@gmail.com','ryse2@gmail.com','45556772829','')
                                 ,(null,'Frilav',hex(aes_encrypt('123123123','p')),'correo1@gmail.com','correo2@gmail.com','111111111','222222222');
-INSERT INTO `producto` VALUES ('189DG001','Lining ',3,536.00,2,1,1),('189DG002','Banda Maytag',6,200.00,4,1,1),('189DG005','Flecha de lavado con engrane',3,457.80,2,1,1),('189DG008','Sello tina Olympia',15,45.50,1,1,1),('189DG010','Navaja Oster original reversible',10,165.00,2,1,1);
-
+INSERT INTO `producto` VALUES ('189DG001','Lining ',3,536.00,(536.00-(536*0.10)),2,1,1),('189DG002','Banda Maytag',6,200.00,(200.00-(200*0.10)),4,1,1)
+,('189DG005','Flecha de lavado con engrane',3,457.80,(457.80-(457.80*0.10)),2,1,1),('189DG008','Sello tina Olympia',15,45.50,(45.50-(45.50*0.10)),1,1,1)
+,('189DG010','Navaja Oster original reversible',10,165.00,(165.0-(165.0*0.10)),2,1,1)
 
 DELIMITER $$
+drop procedure if exists insertarDetalleVenta$$
 CREATE PROCEDURE insertarDetalleVenta(
 	in idp varchar(35),
     in idv int,
@@ -118,7 +119,7 @@ DELIMITER ;
 
 
 delimiter $$
-drop procedure prodxcat;
+drop procedure if exists prodxcat$$
 create procedure prodxcat (clave int, fechain datetime, fechafin datetime)
 begin
 select p.idproducto, p.descripcion, p.precio, p.stock, c.nombre,
@@ -138,7 +139,7 @@ end $$
 delimiter ;
 
 delimiter $$
-drop procedure lista;
+drop procedure if exists lista$$
 CREATE PROCEDURE Lista(fechaInicial datetime, fechaFinal datetime)
 BEGIN
 select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) from venta v 
