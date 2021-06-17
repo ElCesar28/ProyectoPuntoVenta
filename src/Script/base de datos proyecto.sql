@@ -78,10 +78,10 @@ create table Producto(
     constraint foreign key (idVenta) references Venta(idVenta)
  );
  
-INSERT INTO `categoria` VALUES (1,'Lavadoras'),(2,'Refrigeradores'),(3,'Ollas de presion'),(4,'Estufas');
-INSERT INTO `cliente` VALUES (1,'Juan Jesus','Rocha Martinez','Contitucion #5','000999887755',''),(2,'Miguel','Chica Juarez','Maria Concepción zanches #12','445567765','0000000000'),(4,'Jose Juan','Zamudio','Avenida Puebla #5','4451455052','09999099909');
-INSERT INTO `empleado` VALUES (3,'admin',sha1('admin'),'César Antonio','Navarro Sosa','cesaaar26@gmail.com','4451455052','','administrador','Ponciano Vega #670');
-INSERT INTO `marca` VALUES (1,'Mabe'),(2,'Whirlpool'),(3,'Across'),(4,'Maytag'),(5,'Super Matic'),(6,'Koblenz');
+INSERT INTO `categoria` VALUES (null,'Lavadoras'),(null,'Refrigeradores'),(null,'Ollas de presion'),(null,'Estufas');
+INSERT INTO `cliente` VALUES (null,'Juan Jesus','Rocha Martinez','Contitucion #5','000999887755',''),(null,'Miguel','Chica Juarez','Maria Concepción zanches #12','445567765','0000000000'),(null,'Jose Juan','Zamudio','Avenida Puebla #5','4451455052','09999099909');
+INSERT INTO `empleado` VALUES (null,'admin',sha1('admin'),'César Antonio','Navarro Sosa','cesaaar26@gmail.com','4451455052','','administrador','Ponciano Vega #670');
+INSERT INTO `marca` VALUES (null,'Mabe'),(null,'Whirlpool'),(null,'Across'),(null,'Maytag'),(null,'Super Matic'),(null,'Koblenz');
 INSERT INTO `proveedor` VALUES (null,'llyrsa',hex(aes_encrypt('459459459','p')),'llirsa1@gmail.com','','12345656543','')
 								,(null,'Ryse',hex(aes_encrypt('987987987','p')),'ryse1@gmail.com','ryse2@gmail.com','45556772829','')
                                 ,(null,'Frilav',hex(aes_encrypt('123123123','p')),'correo1@gmail.com','correo2@gmail.com','111111111','222222222');

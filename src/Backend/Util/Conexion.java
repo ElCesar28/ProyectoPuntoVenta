@@ -14,7 +14,7 @@ public class Conexion {
     private static final String url = "jdbc:mysql://localhost:3306/puntoventa?Unicode=true&useJDBCCompilantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private static final String driver = "com.mysql.cj.jdbc.Driver";
     private static final String user = "root";
-    private static final String pass = "Elcapulin_26";
+    private static final String pass = "root";
 
     //Clase que nos proporcionará la conexión a la base de datos
     public static Connection Conectar() {
