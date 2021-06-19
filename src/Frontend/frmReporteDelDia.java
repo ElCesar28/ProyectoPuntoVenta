@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
  *
  * @author ElCésar26
  */
-public class frmReporteVentas extends javax.swing.JInternalFrame {
+public class frmReporteDelDia extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form frmReporteVentas
      */
-    public frmReporteVentas() {
+    public frmReporteDelDia() {
         initComponents();
     }
 
@@ -90,12 +90,9 @@ public class frmReporteVentas extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(dtcFechaIncial, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(103, 103, 103))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(180, 180, 180)))
+                            .addComponent(dtcFechaIncial, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(103, 103, 103)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)

@@ -1,4 +1,4 @@
-    package Backend.Modelo;
+package Backend.Modelo;
 
 public class Producto {
 
@@ -6,36 +6,36 @@ public class Producto {
     private String idProducto;
     private String descripcion;
     private int stock;
-    private double precio;
+    private double precioPublico;
+    private double precioTaller;
     private int idMarca;
     private int idCategoria;
     private int idProveedor;
 
     // constructor con sus parametros
-    public Producto(String idProducto, String descripcion, int stock, double precio, int idMarca, int idCategoria, int idProveedor) {
+    public Producto(String idProducto, String descripcion, int stock, double precioPublico, double precioTaller, int idMarca, int idCategoria, int idProveedor) {
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.stock = stock;
-        this.precio = precio;
+        this.precioPublico = precioPublico;
+        this.precioTaller = precioTaller;
         this.idMarca = idMarca;
         this.idCategoria = idCategoria;
         this.idProveedor = idProveedor;
 
     }
-    
+
     // constructor vacio
-    public Producto(){
-        
+    public Producto() {
+
     }
 
     // metodo tostring para conctanear
     @Override
     public String toString() {
-        return idProducto + "," + descripcion + "," + stock + "," + precio + "," + idMarca + "," + idCategoria + "," + idProveedor ;
+        return idProducto + "," + descripcion + "," + stock + "," + precioPublico + "," + precioTaller + "," + idMarca + "," + idCategoria + "," + idProveedor;
     }
-    
 
-    
 // set y get de la clase producto
     public String getIdProducto() {
         return idProducto;
@@ -61,14 +61,22 @@ public class Producto {
         this.stock = stock;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrecioPublico() {
+        return precioPublico;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrecioPublico(double precioPublico) {
+        this.precioPublico = precioPublico;
     }
 
+    public double getPrecioTaller() {
+        return precioTaller;
+    }
+
+    public void setPrecioTaller(double precioTaller) {
+        this.precioTaller = precioTaller;
+    }
+    
     public int getIdMarca() {
         return idMarca;
     }
@@ -92,9 +100,5 @@ public class Producto {
     public void setIdProveedor(int idProveedor) {
         this.idProveedor = idProveedor;
     }
-
-    
-
-    
 
 }

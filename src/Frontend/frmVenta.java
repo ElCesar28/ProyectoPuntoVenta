@@ -36,6 +36,8 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     String hora, minutos, segundos;
     Thread hilo;
     Double total;
+    boolean descuento;
+    String fechadb;
 
     public frmVenta(Empleado e) {
         initComponents();
@@ -53,6 +55,8 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         txtTotal.setEnabled(false);
         btnAgregarProducto.setEnabled(false);
         productosNotaTabla = new ArrayList<>();
+        descuento=false;
+        fechadb="";
         total = 0.0;
     }
 
@@ -80,8 +84,15 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     ///Nos proporciona la fecha en un formato especifico 
     public static String fecha() {
         Date fecha = new Date();
-        SimpleDateFormat formatodefecha = new SimpleDateFormat("YYYY/MM/dd");
+        //SimpleDateFormat formatodefechadb = new SimpleDateFormat("YYYY/MM/dd");
+        SimpleDateFormat formatodefecha = new SimpleDateFormat("dd/MM/YYYY");
         return formatodefecha.format(fecha);
+    }
+    public static String fechadb() {
+        Date fecha = new Date();
+        SimpleDateFormat formatodefechadb = new SimpleDateFormat("YYYY/MM/dd");
+        //SimpleDateFormat formatodefecha = new SimpleDateFormat("dd/MM/YYYY");
+        return formatodefechadb.format(fecha);
     }
 
     /**
@@ -139,11 +150,13 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         setIconifiable(true);
         setTitle("Generar Venta");
 
-        jLabel9.setFont(new java.awt.Font("Comic Sans MS", 3, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Comic Sans MS", 3, 24)); // NOI18N
         jLabel9.setText("Refacciones Origninales ");
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Boulevar Ponciano Vega #670");
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Tel: 4451455052");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -151,18 +164,16 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(247, 247, 247)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(307, 307, 307)
+                        .addGap(39, 39, 39)
                         .addComponent(jLabel11))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(344, 344, 344)
+                        .addGap(82, 82, 82)
                         .addComponent(jLabel12)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addGap(271, 271, 271))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,7 +184,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         TablaDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
@@ -188,8 +199,12 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Cliente"));
 
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel1.setText("ID_Cliente:");
 
+        txtIdCliente.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+
+        btnBuscarCliente.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnBuscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar (2).png"))); // NOI18N
         btnBuscarCliente.setText("Buscar");
         btnBuscarCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -200,10 +215,13 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         });
 
         txtCliente.setEditable(false);
+        txtCliente.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         txtCliente.setDragEnabled(true);
 
+        jLabel5.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel5.setText("Cliente:");
 
+        btnLimpiarCliente.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnLimpiarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/limpiar.png"))); // NOI18N
         btnLimpiarCliente.setText("Limpiar");
         btnLimpiarCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -224,12 +242,13 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnLimpiarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(btnBuscarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnLimpiarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnBuscarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
                 .addGap(50, 50, 50)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,8 +265,12 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Producto"));
 
+        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel2.setText("ID_Producto:");
 
+        txtIdProducto.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+
+        btnBuscarProducto.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnBuscarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar (2).png"))); // NOI18N
         btnBuscarProducto.setText("Buscar");
         btnBuscarProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -257,20 +280,30 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel6.setText("Producto:");
 
         txtProducto.setEditable(false);
+        txtProducto.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
+        txtPrecio.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel3.setText("Precio:");
 
+        jLabel7.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel7.setText("Stock:");
 
         txtStock.setEditable(false);
+        txtStock.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
+        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel4.setText("Cantidad:");
 
+        spinerCantidad.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         spinerCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
+        btnAgregarProducto.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnAgregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/agregar.png"))); // NOI18N
         btnAgregarProducto.setText("Agregar");
         btnAgregarProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -280,6 +313,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
             }
         });
 
+        btnLimpiarProducto.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnLimpiarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/limpiar.png"))); // NOI18N
         btnLimpiarProducto.setText("Limpiar");
         btnLimpiarProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -294,39 +328,41 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinerCantidad))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPrecio))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel4)
+                                .addGap(9, 9, 9)))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spinerCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                            .addComponent(txtPrecio))))
+                .addGap(26, 26, 26)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(btnBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addComponent(jLabel6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                         .addComponent(btnLimpiarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtProducto)
-                    .addComponent(txtStock)))
+                    .addComponent(txtStock)
+                    .addComponent(txtProducto, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,15 +390,20 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Empleado"));
 
+        lblNombreEmpleado.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         lblNombreEmpleado.setText("Le atiende:");
 
         txtNombreEmpleado.setEditable(false);
+        txtNombreEmpleado.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
+        jLabel8.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel8.setText("Fecha:");
 
         txtFecha.setEditable(false);
+        txtFecha.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
         txtHora.setEditable(false);
+        txtHora.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -373,12 +414,13 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 .addComponent(lblNombreEmpleado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtNombreEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
+                .addGap(62, 62, 62)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtHora)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,9 +478,13 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         );
 
         txtTotal.setEditable(false);
+        txtTotal.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtTotal.setForeground(new java.awt.Color(31, 214, 31));
 
+        jLabel10.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         jLabel10.setText("Total:");
 
+        btnGenerarVenta.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnGenerarVenta.setText("Generar Venta");
         btnGenerarVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -446,6 +492,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
             }
         });
 
+        btnCancelar.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -453,10 +500,12 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
             }
         });
 
+        jLabel13.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         jLabel13.setText("Efectivo:");
 
         txtEfectivo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtEfectivo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        txtEfectivo.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -500,7 +549,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txtEfectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGenerarVenta)
                     .addComponent(btnCancelar))
@@ -518,6 +567,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 txtCliente.setText(c.get(0).getNombre() + " " + c.get(0).getApellidos());
                 cliente = Integer.parseInt(txtIdCliente.getText());
                 txtCliente.setEnabled(false);
+                descuento = c.get(0).getTipo().equals("Tecnico") ? true : false;
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Cliente no encontrado", null, JOptionPane.WARNING_MESSAGE);
@@ -538,7 +588,8 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                     txtProducto.setText(p.get(0).getDescripcion());
                     txtProducto.setEnabled(false);
 
-                    txtPrecio.setText(String.valueOf(p.get(0).getPrecio()));
+                    //saber que precio poner en la nota
+                    txtPrecio.setText(String.valueOf(descuento ? p.get(0).getPrecioTaller() : p.get(0).getPrecioPublico()));
                     txtPrecio.setEnabled(false);
 
                     txtStock.setText(String.valueOf(p.get(0).getStock()));
@@ -579,7 +630,8 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                         int nuevacantidad = cantidad + Integer.parseInt(spinerCantidad.getValue().toString());
 
                         if (nuevacantidad <= productosNotaObjetos.get(i).getStock()) {
-                            productosNotaTabla.set(i, aux[0] + "," + aux[1] + "," + nuevacantidad + "," + aux[3] + "," + nuevacantidad * productosNotaObjetos.get(i).getPrecio());
+                            productosNotaTabla.set(i, aux[0] + "," + aux[1] + "," + nuevacantidad + "," + aux[3] + ","
+                                    + nuevacantidad * (descuento ? productosNotaObjetos.get(i).getPrecioTaller() : productosNotaObjetos.get(i).getPrecioPublico()));
                             actualizaTablaNota();
                             limpiarProducto();
                             obtenerTotal();
@@ -615,7 +667,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         String idProducto = p.getIdProducto();
         String descripcion = p.getDescripcion();
         String cantidad = spinerCantidad.getValue().toString();
-        String precio = p.getPrecio() + "";
+        String precio = (descuento ? p.getPrecioTaller() : p.getPrecioPublico()) + "";
         String importe = String.valueOf((Integer.parseInt(cantidad) * Double.parseDouble(precio)));
         //preparamos nuestros datos para ingresarlos de manera más sensilla a la tabla
         String aux = idProducto + "," + descripcion + "," + cantidad + "," + precio + "," + importe;
@@ -647,16 +699,17 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
         try {
-            if (revisaCajas()) {
-                if ((Double.parseDouble(txtEfectivo.getText()) - Double.parseDouble(txtTotal.getText())) >= 0) {
-                    if (new DAOVenta().GuardarVenta(new Venta(0, txtFecha.getText() + " " + txtHora.getText(), total, cliente, empleado.getIdEmpleado()))) {
-                        if (insertarDetalleVenta()) {
+            if (revisaCajas()) {//revisar que las cajas no est{en vacias
+                if ((Double.parseDouble(txtEfectivo.getText()) - Double.parseDouble(txtTotal.getText())) >= 0) {//(revisamos que el efectivo sea el apropiado
+                    if (new DAOVenta().GuardarVenta(new Venta(0, fechadb() + " " + txtHora.getText(), total, cliente, empleado.getIdEmpleado()))) {//registramos en primer instancia la fecha
+                        if (insertarDetalleVenta()) {// insertamos los detalles de venta
                             JOptionPane.showMessageDialog(null, "Vendido con éxito\nSu cambio:  " + (Double.parseDouble(txtEfectivo.getText()) - Double.parseDouble(txtTotal.getText())) + "", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                            limpiarCliente();
+                            limpiarCliente(); //limpiamos las cajas 
                             limpiarProducto();
                             limpiarTabla();
                             txtEfectivo.setText("");
                             txtTotal.setText("");
+                            //descontar stock e imprimir ticket
                         } else {
                             JOptionPane.showMessageDialog(null, "Error al realizar la venta", "Mensaje", JOptionPane.ERROR_MESSAGE);
                         }
@@ -678,23 +731,25 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     public boolean insertarDetalleVenta() {
-        boolean bandera=false;
-        for(int i =0; i<productosNotaObjetos.size(); i++){
-            String[]aux =productosNotaTabla.get(i).split(",");
-            int cantidad = Integer.parseInt(aux[2]); 
-            bandera=new DAODetalleDeVenta().GuardarDetalleVenta( new DetalleDeVenta(productosNotaObjetos.get(i).getIdProducto()
-                                                        ,new DAOVenta().idVenta(empleado.getIdEmpleado())
-                                                        ,cantidad
-                                                        ,productosNotaObjetos.get(i).getPrecio()
-                                                        ,0));
-            if(!bandera)break;
+        boolean bandera = false;
+        for (int i = 0; i < productosNotaObjetos.size(); i++) {
+            String[] aux = productosNotaTabla.get(i).split(",");
+            int cantidad = Integer.parseInt(aux[2]);
+            bandera = new DAODetalleDeVenta().GuardarDetalleVenta(new DetalleDeVenta(productosNotaObjetos.get(i).getIdProducto(),
+                    new DAOVenta().idVenta(empleado.getIdEmpleado()),
+                    cantidad,
+                    (descuento ? productosNotaObjetos.get(i).getPrecioTaller() : productosNotaObjetos.get(i).getPrecioPublico()),
+                    0));
+            if (!bandera) {
+                break;
+            }
         }
-        if(bandera){
+        if (bandera) {
             productosNotaObjetos.clear();
             productosNotaTabla.clear();
-            total=0.0;
+            total = 0.0;
         }
-        
+
         return bandera;
     }
 

@@ -17,12 +17,12 @@ import javax.swing.JOptionPane;
  *
  * @author ElCésar26
  */
-public class frmReporteProductos extends javax.swing.JInternalFrame {
+public class frmEstadisticas extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form frmReporteProductos
      */
-    public frmReporteProductos() {
+    public frmEstadisticas() {
         initComponents();
         llenarCombo();
     }

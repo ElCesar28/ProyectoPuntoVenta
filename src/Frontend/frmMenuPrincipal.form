@@ -1,137 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
-      <SubComponents>
-        <Menu class="javax.swing.JMenu" name="mnuMenu">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Menu"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuAcercaDe">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Acerca de"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuSalir">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Salir"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuSalirActionPerformed"/>
-              </Events>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="mnuVentas">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ventas"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuGenerarVenta">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Generar Venta"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuGenerarVentaActionPerformed"/>
-              </Events>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="mnuMantenimiento">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Mantenimiento"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuCliente">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cliente"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuClienteActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuEmpleado">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Empleado"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuEmpleadoActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuProveedor">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Proveedor"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuProveedorActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <Menu class="javax.swing.JMenu" name="mnuProductos">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Productos"/>
-              </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="mnuMarca">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Marca"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuMarcaActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="mnuCategoria">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Categoria"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCategoriaActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="mnuProducto">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Producto"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuProductoActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="mnuReportes">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Reportes"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuReporteProductos">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cantindad de productos"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuReporteProductosActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuVentasPeriodo">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ventas por periodo"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuVentasPeriodoActionPerformed"/>
-              </Events>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-      </SubComponents>
-    </Menu>
-  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
@@ -161,6 +34,11 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JDesktopPane" name="MenuPirncipal">
+      <Properties>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Default Cursor"/>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -170,28 +48,28 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnGenerarVenta" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton7" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButton1" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
+                          <Component id="btnGenerarPedido" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnReporteDelDia" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnProductos" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton9" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton4" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton8" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jButton6" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnEstadisticas" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnEmpleados" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <Component id="btnCategorias" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnProveedores" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnMarcas" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnClientes" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="630" max="32767" attributes="0"/>
+                  <EmptySpace pref="579" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -201,24 +79,24 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnGenerarVenta" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnReporteDelDia" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGenerarPedido" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnProductos" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnProveedores" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton9" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCategorias" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnClientes" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                  <Component id="btnMarcas" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="btnEmpleados" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton8" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnEstadisticas" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jButton6" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -227,7 +105,7 @@
         <Component class="javax.swing.JButton" name="btnGenerarVenta">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -243,10 +121,10 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenerarVentaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnProductos">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -258,11 +136,14 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProductosActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btnMarcas">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -275,13 +156,13 @@
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMarcasActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="btnReporteDelDia">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -293,11 +174,14 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReporteDelDiaActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="btnProveedores">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -309,11 +193,14 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProveedoresActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton5">
+        <Component class="javax.swing.JButton" name="btnEmpleados">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -326,13 +213,13 @@
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEmpleadosActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton6">
+        <Component class="javax.swing.JButton" name="btnEstadisticas">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -344,11 +231,14 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEstadisticasActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton7">
+        <Component class="javax.swing.JButton" name="btnGenerarPedido">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -361,10 +251,10 @@
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton8">
+        <Component class="javax.swing.JButton" name="btnClientes">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -376,11 +266,14 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClientesActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton9">
+        <Component class="javax.swing.JButton" name="btnCategorias">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Comic Sans MS" size="12" style="3"/>
+              <Font name="Comic Sans MS" size="14" style="3"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -392,6 +285,9 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCategoriasActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

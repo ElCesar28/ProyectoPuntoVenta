@@ -31,7 +31,7 @@ public class frmLogin extends javax.swing.JFrame {
     FondoPanel fondo = new FondoPanel();
     public frmLogin() {
         JFrame.setDefaultLookAndFeelDecorated(true);
-        //SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlueSteelSkin");
+        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessSkin");
         this.setContentPane(fondo);
         initComponents();
         this.setLocationRelativeTo(null);

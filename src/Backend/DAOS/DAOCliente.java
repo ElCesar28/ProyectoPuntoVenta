@@ -18,7 +18,7 @@ public class DAOCliente {
 
         String sql = "insert into Cliente values( null , '" + cliente.getNombre() + "' ,'"
                 + cliente.getApellidos() + "', '" + cliente.getDireccion() + "' ,'" + cliente.getTelefono1() + "', '" 
-                + cliente.getTelefono2() + "' ) ";
+                + cliente.getTelefono2() + "', '"+ cliente.getTipo()+"' ) ";
         try {
             con = Conexion.Conectar();
             stm = con.createStatement();
@@ -54,6 +54,7 @@ public class DAOCliente {
                 c.setDireccion(rs.getString(4));
                 c.setTelefono1(rs.getString(5));
                 c.setTelefono2(rs.getString(6));
+                c.setTipo(rs.getString(7)); 
 
                 listaMarca.add(c);
             }
@@ -90,6 +91,8 @@ public class DAOCliente {
                 c.setDireccion(rs.getString(4));
                 c.setTelefono1(rs.getString(5));
                 c.setTelefono2(rs.getString(6));
+                c.setTipo(rs.getString(7)); 
+
                 listaMarca.add(c);
             }
             stm.close();
@@ -114,7 +117,8 @@ public class DAOCliente {
                 + "' ,apellidos='" + cliente.getApellidos()
                 + "' ,direccion='" + cliente.getDireccion()
                 + "' ,telefono1='" + cliente.getTelefono1()
-                + "' ,telefono2='" + cliente.getTelefono2() + "' where idCliente="+cliente.getIdCliente();
+                + "' ,telefono2='" + cliente.getTelefono2() 
+                + "' ,tipo='" + cliente.getTipo()+ "' where idCliente="+cliente.getIdCliente();
 
         try {
             connect = Conexion.Conectar();
