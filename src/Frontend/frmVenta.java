@@ -357,9 +357,9 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                        .addComponent(btnLimpiarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnAgregarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLimpiarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtStock)
                     .addComponent(txtProducto, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
@@ -723,14 +723,14 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
             } else {
                 JOptionPane.showMessageDialog(null, "Rellene todos los campos", "Mensaje", JOptionPane.WARNING_MESSAGE);
-            }
+            }   
 
         } catch (Exception e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
-    public boolean insertarDetalleVenta() {
+       public boolean insertarDetalleVenta() {
         boolean bandera = false;
         for (int i = 0; i < productosNotaObjetos.size(); i++) {
             String[] aux = productosNotaTabla.get(i).split(",");

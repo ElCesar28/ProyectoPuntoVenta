@@ -7,8 +7,13 @@ package Frontend;
 
 import Backend.Modelo.Empleado;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
 
 /**
  *
@@ -20,13 +25,15 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
      * Creates new form frmMenuPrincipal
      */
     Empleado empleado;
-
+    
     public frmMenuPrincipal(Empleado e) {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         this.empleado = e;
         //permisos(e.getRol());
     }
+    
+    
 
 //    private void permisos(String p) {
 //        if (!p.equals("administrador")) {
@@ -38,7 +45,14 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        MenuPirncipal = new javax.swing.JDesktopPane();
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Imagenes/menuPrincipal.jpg"));
+        Image image = icon.getImage();
+        MenuPirncipal = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(image, 0, 0,getWidth(),getHeight(),this);
+            }
+        }
+        ;
         btnGenerarVenta = new javax.swing.JButton();
         btnProductos = new javax.swing.JButton();
         btnMarcas = new javax.swing.JButton();

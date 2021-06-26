@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.jvnet.substance.SubstanceLookAndFeel;
 
-
 /**
  *
  * @author ElCésar26
@@ -29,13 +28,14 @@ public class frmLogin extends javax.swing.JFrame {
      * Creates new form frmLogin
      */
     FondoPanel fondo = new FondoPanel();
+
     public frmLogin() {
         JFrame.setDefaultLookAndFeelDecorated(true);
-        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessSkin");
+        //SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessSkin");
         this.setContentPane(fondo);
         initComponents();
         this.setLocationRelativeTo(null);
-       
+
     }
 
     /**
@@ -57,11 +57,10 @@ public class frmLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel12.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setFont(new java.awt.Font("Comic Sans MS", 3, 26)); // NOI18N
         jLabel12.setText("LOGIN");
 
-        txtlogin1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        txtlogin1.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtlogin1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         txtlogin1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,18 +68,17 @@ public class frmLogin extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("User:");
+        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        jLabel2.setText("Usuario:");
 
-        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 1, 13)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Password:");
+        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        jLabel3.setText("Contraseña:");
 
-        txtpass.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        txtpass.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtpass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        btnvalidarLogin.setForeground(new java.awt.Color(102, 51, 255));
+        btnvalidarLogin.setBackground(new java.awt.Color(204, 204, 204));
+        btnvalidarLogin.setFont(new java.awt.Font("Comic Sans MS", 0, 16)); // NOI18N
         btnvalidarLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/entrar.png"))); // NOI18N
         btnvalidarLogin.setText("Entrar");
         btnvalidarLogin.setBorder(new javax.swing.border.MatteBorder(null));
@@ -91,6 +89,11 @@ public class frmLogin extends javax.swing.JFrame {
                 btnvalidarLoginActionPerformed(evt);
             }
         });
+        btnvalidarLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnvalidarLoginKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,46 +102,50 @@ public class frmLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(txtpass, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(txtlogin1))
-                        .addGap(0, 170, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(txtlogin1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(161, 161, 161)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnvalidarLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnvalidarLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel12)
-                .addGap(151, 151, 151))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(147, 147, 147)
                     .addComponent(jLabel4)
-                    .addContainerGap(253, Short.MAX_VALUE)))
+                    .addContainerGap(283, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
                 .addComponent(jLabel12)
-                .addGap(6, 6, 6)
-                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtlogin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtlogin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(37, 37, 37)
                 .addComponent(btnvalidarLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(247, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addContainerGap(198, Short.MAX_VALUE)
+                    .addContainerGap(246, Short.MAX_VALUE)
                     .addComponent(jLabel4)
                     .addGap(212, 212, 212)))
         );
@@ -171,6 +178,34 @@ public class frmLogin extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnvalidarLoginActionPerformed
+
+    private void btnvalidarLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnvalidarLoginKeyPressed
+        
+        
+    }//GEN-LAST:event_btnvalidarLoginKeyPressed
+
+    class FondoPanel extends JPanel {
+
+        private Image imagen;
+
+        public void paint(Graphics g) {
+            imagen = new ImageIcon(getClass().getResource("/imagenes/login.jpg")).getImage();
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+
+            setOpaque(false);
+            super.paint(g);
+        }
+    }
+
+    public Icon setIcono(String url, JButton boton) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(url));
+
+        int ancho = boton.getWidth();
+        int alto = boton.getHeight();
+
+        ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
+        return icono;
+    }
 
     /**
      * @param args the command line arguments
@@ -206,7 +241,7 @@ public class frmLogin extends javax.swing.JFrame {
             }
         });
     }
-   
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnvalidarLogin;
@@ -217,27 +252,5 @@ public class frmLogin extends javax.swing.JFrame {
     private javax.swing.JTextField txtlogin1;
     private javax.swing.JPasswordField txtpass;
     // End of variables declaration//GEN-END:variables
-    
-    class FondoPanel extends JPanel
-    {
-        private Image imagen;
-        public void paint(Graphics g) {
-            imagen = new  ImageIcon(getClass().getResource("/imagenes/login.jpg")).getImage();
-            g.drawImage(imagen, 0, 0, getWidth(),getHeight(),this);
-            
-            setOpaque(false);
-            super.paint(g);
-        }
-    }
 
-    public Icon setIcono(String url, JButton boton){
-        ImageIcon icon=new ImageIcon(getClass().getResource(url));
-        
-        int ancho = boton.getWidth();
-        int alto = boton.getHeight();
-        
-        ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
-        return icono;
-    }
 }
-
