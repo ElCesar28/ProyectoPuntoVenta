@@ -64,23 +64,7 @@ public class GestionCeldas extends DefaultTableCellRenderer {
          * Se definen los tipos de datos que contendrán las celdas basado en la instancia que
          * se hace en la ventana de la tabla al momento de construirla
          */
-        if (tipo.equals("producto")) {
-            //si es tipo texto define el color de fondo del texto y de la celda así como la alineación
-            if (focused) {
-                colorFondo = colorFondoSeleccion;
-            } else {
-                colorFondo = colorFondoPorDefecto;
-            }
-            this.setHorizontalAlignment(JLabel.LEFT);
-            this.setText((String) value);
-            this.setForeground( (selected)? new Color(255,255,255) :new Color(0,0,0) ); 
-            //this.setForeground( (selected)? new Color(255,255,255) :new Color(32,117,32) );
-            this.setBackground((selected) ? colorFondo : Color.WHITE);
-            this.setFont(normal);
-            this.setSize(150, 25);
-            //this.setFont(bold);
-            return this;
-        }
+        
         if (tipo.equals("texto")) {
             //si es tipo texto define el color de fondo del texto y de la celda así como la alineación
             if (focused) {

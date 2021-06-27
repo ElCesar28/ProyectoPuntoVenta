@@ -224,7 +224,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPrecioTaller, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -304,10 +304,8 @@ public class frmProducto extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 909, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -426,7 +424,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
     ///Este metodo nos permite colocar en los combo box el item seleccionado con el que se capturo el id de marca, idcategoria e idproveedores
-    public int fijarCboxs(int id, String cual) {
+    private int fijarCboxs(int id, String cual) {
         int r = 0;
         switch (cual) {
             case "Marca": {
@@ -486,7 +484,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     }
 
     ///Método encargado de llenar la tabla de productos
-    public void actualizaTablaProducto() {
+    private void actualizaTablaProducto() {
         ArrayList<Producto> lista = new DAOProducto().obtener();
         String datos[][] = new String[lista.size()][2];
         String columnas[] = new String[]{"ID", "Descripcion", "Stock", "PrecioPublico", "PrecioTaller", "Marca", "Categoria", "Proveedor"};
@@ -495,20 +493,31 @@ public class frmProducto extends javax.swing.JInternalFrame {
             datos[i] = lista.get(i).toString().split(",");
         }
 
+        //Instanciamos un modelo de tabla con los datos de los productos
         ModeloTabla = new ModeloTabla(datos, columnas);
+        //Le asignamos a nuestra tabla el modelo
         tablaProductos.setModel(ModeloTabla);
 
+        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
+        // gestionEncabezados (setCellRerender)
         tablaProductos.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("texto"));
-        tablaProductos.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("producto"));
-        
+        tablaProductos.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("texto"));
         for (int i = 2; i < columnas.length; i++) {
             tablaProductos.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("numerico"));
         }
+
+        //Ajustamos otras cosas del encavezado
         tablaProductos.getTableHeader().setReorderingAllowed(false);
-        tablaProductos.setRowHeight(25);//tamaño de las celdas
-        tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(130);
-        tablaProductos.setGridColor(new java.awt.Color(0, 0, 0));
-        //Se define el tamaño de largo para cada columna y su contenido
+        tablaProductos.setRowHeight(25);//definimos el alto de las celdas
+        //Establecemos el ancho de las celdas (al gusto y necesidad)
+        tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(120);
+        tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(270);
+        tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(35);
+        tablaProductos.getColumnModel().getColumn(5).setPreferredWidth(35);
+        tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(40);
+        tablaProductos.getColumnModel().getColumn(7).setPreferredWidth(45);
+
+        tablaProductos.setGridColor(new java.awt.Color(0, 0, 0));//Color
 
         //personaliza el encabezado
         JTableHeader jtableHeader = tablaProductos.getTableHeader();
@@ -518,7 +527,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
         //tablaProductos.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
     }
 
-    public boolean estavacias() {
+    private void formatoTabla(String datos[][], String columnas[]) {
+
+    }
+
+    private boolean estavacias() {
         return !txtPrecioPublico.getText().equals("") && !txtPrecioTaller.getText().equals("") && !txtidProducto.getText().equals("") && !txtDescripcion.getText().equals("")
                 && !cboxIdCategoria.getSelectedItem().toString().equals("Seleccione")
                 && !cboxIdMarca.getSelectedItem().toString().equals("Seleccione")
@@ -526,7 +539,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     }
 
     ///Este método nos sirve para limpiar las cajas
-    public void limpiarcajas() {
+    private void limpiarcajas() {
         txtDescripcion.setText("");
         txtidProducto.setText("");
         txtPrecio.setText("");
@@ -545,7 +558,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     ArrayList<Proveedor> lista3 = new DAOProveedor().obtener();
 
     ///Este método nos ayuda obtener la lista completa de marca, categoria y proveedores disponibles directamente de la base de datos
-    public void llenarCombos() {
+    private void llenarCombos() {
         cboxIdMarca.removeAllItems();
         cboxIdMarca.addItem("Seleccione");
         for (int i = 0; i < lista1.size(); i++) {
