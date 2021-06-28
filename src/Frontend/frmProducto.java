@@ -150,6 +150,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
         spinerStock.setModel(new javax.swing.SpinnerNumberModel(0, 0, 1000, 1));
 
         txtPrecio.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyPressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Comic Sans MS", 3, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -423,6 +428,53 @@ public class frmProducto extends javax.swing.JInternalFrame {
             cboxId_Proveedor.setSelectedIndex(fijarCboxs(Integer.parseInt(tablaProductos.getValueAt(index, 7).toString()), "Proveedor"));
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
+    //establece precio publico y taller
+    private void txtPrecioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyPressed
+        // TODO add your handling code here:
+
+        try {
+            String precioS = txtPrecio.getText();
+            double precio = precioS.matches("[0-9]+(.)[0-9]+")?Double.parseDouble(txtPrecio.getText()):Double.parseDouble(txtPrecio.getText() + ".0");
+            
+            System.out.println("precio = " + precio);
+            double pp = precio;
+
+            pp += (pp * 0.10);
+            pp += (pp * 0.10);
+            pp += (pp * 0.10);
+            pp += (pp * 0.10);
+
+            if (precio < 200) {
+                if (precio < 50) {
+                    pp += 1;
+                } else {
+                    pp += 5;
+                }
+            } else {
+                pp += 7;
+            }
+
+            pp += (pp * 0.10);
+
+            if (precio < 200) {
+                if (precio < 50) {
+                    pp += 1;
+                } else {
+                    pp += 5;
+                }
+            } else {
+                pp += 7;
+            }
+
+            txtPrecioPublico.setText(pp + "");
+            txtPrecioTaller.setText((pp - (pp * 0.10)) + "");
+        } catch (Exception e) {
+            txtPrecioPublico.setText("");
+            txtPrecioTaller.setText("");
+        }
+
+
+    }//GEN-LAST:event_txtPrecioKeyPressed
     ///Este metodo nos permite colocar en los combo box el item seleccionado con el que se capturo el id de marca, idcategoria e idproveedores
     private int fijarCboxs(int id, String cual) {
         int r = 0;
@@ -493,6 +545,13 @@ public class frmProducto extends javax.swing.JInternalFrame {
             datos[i] = lista.get(i).toString().split(",");
         }
 
+        formatoTabla(datos, columnas);//llamamos el metodo para dar formato especifico a la tabla
+
+        //tablaProductos.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+    }
+
+    //metodo para dar formato especifico a la tabla
+    private void formatoTabla(String datos[][], String columnas[]) {
         //Instanciamos un modelo de tabla con los datos de los productos
         ModeloTabla = new ModeloTabla(datos, columnas);
         //Le asignamos a nuestra tabla el modelo
@@ -523,12 +582,6 @@ public class frmProducto extends javax.swing.JInternalFrame {
         JTableHeader jtableHeader = tablaProductos.getTableHeader();
         jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
         tablaProductos.setTableHeader(jtableHeader);
-
-        //tablaProductos.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-    }
-
-    private void formatoTabla(String datos[][], String columnas[]) {
-
     }
 
     private boolean estavacias() {
