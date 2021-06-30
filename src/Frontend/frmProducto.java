@@ -30,9 +30,17 @@ public class frmProducto extends javax.swing.JInternalFrame {
      * Creates new form frmProductos
      */
     ModeloTabla ModeloTabla;
+    ArrayList<Marca> listaMarca;
+    ArrayList<Categoria> listaCategoria;
+    ArrayList<Proveedor> listaProveedor;
 
     public frmProducto() {
         initComponents();
+        
+        listaMarca = new DAOMarca().obtener();
+        listaCategoria = new DAOCategoria().obtener();
+        listaProveedor = new DAOProveedor().obtener();
+        
         actualizaTablaProducto();
         llenarCombos();
 
@@ -66,7 +74,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
         txtPrecioPublico = new javax.swing.JFormattedTextField();
         jLabel9 = new javax.swing.JLabel();
         txtPrecioTaller = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
+        btnCalculaPrecio = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
 
@@ -120,7 +128,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
         btnBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar (2).png"))); // NOI18N
         btnBuscar.setText("Buscar");
-        btnBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnBuscar.setBorder(null);
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -183,11 +191,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
         txtPrecioTaller.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calculator.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCalculaPrecio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/calculator.png"))); // NOI18N
+        btnCalculaPrecio.setBorder(null);
+        btnCalculaPrecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCalculaPrecioActionPerformed(evt);
             }
         });
 
@@ -225,7 +233,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
                         .addGap(85, 85, 85)
                         .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCalculaPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -273,14 +281,15 @@ public class frmProducto extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7)
                     .addComponent(cboxId_Proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtPrecioPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtPrecioTaller, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCalculaPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)
+                        .addComponent(txtPrecioPublico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9)
+                        .addComponent(txtPrecioTaller, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                     .addComponent(btnElimar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -347,9 +356,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
                     Integer.parseInt(spinerStock.getValue().toString()),
                     Double.parseDouble(txtPrecioPublico.getText()),
                     Double.parseDouble(txtPrecioTaller.getText()),
-                    lista1.get(cboxIdMarca.getSelectedIndex() - 1).getIdMarca(),
-                    lista2.get(cboxIdCategoria.getSelectedIndex() - 1).getIdCategoria(),
-                    lista3.get(cboxId_Proveedor.getSelectedIndex() - 1).getIdProveedor()
+                    listaMarca.get(cboxIdMarca.getSelectedIndex() - 1).getIdMarca(),
+                    listaCategoria.get(cboxIdCategoria.getSelectedIndex() - 1).getIdCategoria(),
+                    listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getIdProveedor()
             ))) {
                 limpiarcajas();
                 JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -371,9 +380,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
                     Integer.parseInt(spinerStock.getValue().toString()),
                     Double.parseDouble(txtPrecioPublico.getText()),
                     Double.parseDouble(txtPrecioTaller.getText()),
-                    lista1.get(cboxIdMarca.getSelectedIndex() - 1).getIdMarca(),
-                    lista2.get(cboxIdCategoria.getSelectedIndex() - 1).getIdCategoria(),
-                    lista3.get(cboxId_Proveedor.getSelectedIndex() - 1).getIdProveedor()
+                    listaMarca.get(cboxIdMarca.getSelectedIndex() - 1).getIdMarca(),
+                    listaCategoria.get(cboxIdCategoria.getSelectedIndex() - 1).getIdCategoria(),
+                    listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getIdProveedor()
             ))) {
                 limpiarcajas();
                 JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -436,15 +445,23 @@ public class frmProducto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCalculaPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculaPrecioActionPerformed
         // TODO add your handling code here:
         //condicionales-precio
-        if(cboxId_Proveedor.getSelectedItem().equals("")){ 
-            
+        if (!cboxId_Proveedor.getSelectedItem().equals("Seleccionado")) {
+            if (listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getNombre().equals("Ryse")) {
+                preciosR();
+            } else if (listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getNombre().equals("Frilav")) {
+                preciosFY();
+            }else if (listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getNombre().equals("llyrsa")) {
+                preciosFY();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe Seleccionar un Proveedor", "Mensaje", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCalculaPrecioActionPerformed
 
-        //establece precio publico y taller
+//establece precio publico y taller
     private void preciosFY() {
         try {
             String precioS = txtPrecio.getText();
@@ -487,6 +504,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
             txtPrecioTaller.setText("");
         }
     }
+
     private void preciosR() {
         try {
             String precioS = txtPrecio.getText();
@@ -497,7 +515,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
             pp += (pp * 0.16);//IVA
             pp += (pp * 0.5);
-            
+
             if (precio < 200) {
                 if (precio < 50) {
                     pp += 1;
@@ -534,9 +552,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
         switch (cual) {
             case "Marca": {
 
-                for (int i = 0; i < lista1.size(); i++) {
-                    if (id == lista1.get(i).getIdMarca()) {
-                        String aux = lista1.get(i).getIdMarca() + " " + lista1.get(i).getNombre();
+                for (int i = 0; i < listaMarca.size(); i++) {
+                    if (id == listaMarca.get(i).getIdMarca()) {
+                        String aux = listaMarca.get(i).getIdMarca() + " " + listaMarca.get(i).getNombre();
                         for (int j = 0; j < cboxIdMarca.getItemCount(); j++) {
                             if (aux.equals(cboxIdMarca.getItemAt(j))) {
                                 r = j;
@@ -550,9 +568,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
             }
             case "Categoria": {
 
-                for (int i = 0; i < lista2.size(); i++) {
-                    if (id == lista2.get(i).getIdCategoria()) {
-                        String aux = lista2.get(i).getIdCategoria() + " " + lista2.get(i).getNombre();
+                for (int i = 0; i < listaCategoria.size(); i++) {
+                    if (id == listaCategoria.get(i).getIdCategoria()) {
+                        String aux = listaCategoria.get(i).getIdCategoria() + " " + listaCategoria.get(i).getNombre();
                         for (int j = 0; j < cboxIdCategoria.getItemCount(); j++) {
                             if (aux.equals(cboxIdCategoria.getItemAt(j))) {
                                 r = j;
@@ -567,9 +585,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
             }
             case "Proveedor": {
 
-                for (int i = 0; i < lista3.size(); i++) {
-                    if (id == lista3.get(i).getIdProveedor()) {
-                        String aux = lista3.get(i).getIdProveedor() + " " + lista3.get(i).getNombre();
+                for (int i = 0; i < listaProveedor.size(); i++) {
+                    if (id == listaProveedor.get(i).getIdProveedor()) {
+                        String aux = listaProveedor.get(i).getIdProveedor() + " " + listaProveedor.get(i).getNombre();
                         for (int j = 0; j < cboxId_Proveedor.getItemCount(); j++) {
                             if (aux.equals(cboxId_Proveedor.getItemAt(j))) {
                                 r = j;
@@ -659,26 +677,23 @@ public class frmProducto extends javax.swing.JInternalFrame {
         txtidProducto.setEnabled(true);
         txtidProducto.setEditable(true);
     }
-    ArrayList<Marca> lista1 = new DAOMarca().obtener();
-    ArrayList<Categoria> lista2 = new DAOCategoria().obtener();
-    ArrayList<Proveedor> lista3 = new DAOProveedor().obtener();
 
     ///Este método nos ayuda obtener la lista completa de marca, categoria y proveedores disponibles directamente de la base de datos
     private void llenarCombos() {
         cboxIdMarca.removeAllItems();
         cboxIdMarca.addItem("Seleccione");
-        for (int i = 0; i < lista1.size(); i++) {
-            cboxIdMarca.addItem(lista1.get(i).getIdMarca() + " " + lista1.get(i).getNombre());
+        for (int i = 0; i < listaMarca.size(); i++) {
+            cboxIdMarca.addItem(listaMarca.get(i).getIdMarca() + " " + listaMarca.get(i).getNombre());
         }
         cboxIdCategoria.removeAllItems();
         cboxIdCategoria.addItem("Seleccione");
-        for (int i = 0; i < lista2.size(); i++) {
-            cboxIdCategoria.addItem((lista2.get(i).getIdCategoria() + " " + lista2.get(i).getNombre()));
+        for (int i = 0; i < listaCategoria.size(); i++) {
+            cboxIdCategoria.addItem((listaCategoria.get(i).getIdCategoria() + " " + listaCategoria.get(i).getNombre()));
         }
         cboxId_Proveedor.removeAllItems();
         cboxId_Proveedor.addItem("Seleccione");
-        for (int i = 0; i < lista3.size(); i++) {
-            cboxId_Proveedor.addItem(lista3.get(i).getIdProveedor() + " " + lista3.get(i).getNombre());
+        for (int i = 0; i < listaProveedor.size(); i++) {
+            cboxId_Proveedor.addItem(listaProveedor.get(i).getIdProveedor() + " " + listaProveedor.get(i).getNombre());
         }
     }
 
@@ -686,13 +701,13 @@ public class frmProducto extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCalculaPrecio;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnElimar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> cboxIdCategoria;
     private javax.swing.JComboBox<String> cboxIdMarca;
     private javax.swing.JComboBox<String> cboxId_Proveedor;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
