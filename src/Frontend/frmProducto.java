@@ -514,7 +514,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
             double pp = precio;
 
             pp += (pp * 0.16);//IVA
-            pp += (pp * 0.5);
+            pp += (pp * 0.05);
 
             if (precio < 200) {
                 if (precio < 50) {
