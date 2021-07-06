@@ -14,17 +14,19 @@ public class Proveedor {
     // propiedades de proveedor
     private int idProveedor;
     private String nombre;
-    private String numCuenta;
+    private String numCuenta1;
+    private String numCuenta2;
     private String correo1;
     private String correo2;
     private String telefono1;
     private String telefono2;
 
     // constructor con sus arametros
-    public Proveedor(int idProveeedor, String nombre, String numCuenta, String correo1, String correo2, String telefono1, String telefono2) {
+    public Proveedor(int idProveeedor, String nombre, String numCuenta1, String numCuenta2, String correo1, String correo2, String telefono1, String telefono2) {
         this.idProveedor = idProveeedor;
         this.nombre = nombre;
-        this.numCuenta = numCuenta;
+        this.numCuenta1 = numCuenta1;
+        this.numCuenta2 = numCuenta2;
         this.correo1 = correo1;
         this.correo2 = correo2;
         this.telefono1 = telefono1;
@@ -32,10 +34,10 @@ public class Proveedor {
     }
 
     // constructor con algunos parametros
-    public Proveedor(int idProveeedor, String nombre, String numCuenta, String correo1, String telefono1) {
+    public Proveedor(int idProveeedor, String nombre, String numCuenta1, String correo1, String telefono1) {
         this.idProveedor = idProveeedor;
         this.nombre = nombre;
-        this.numCuenta = numCuenta;
+        this.numCuenta1 = numCuenta1;
         this.correo1 = correo1;
         this.telefono1 = telefono1;
         this.correo2="";
@@ -50,8 +52,9 @@ public class Proveedor {
     // metodo tostring para concatenar
     @Override
     public String toString() {
-        return idProveedor + "," + nombre + "," + numCuenta + "," + correo1 + "," + correo2 + "," + telefono1 + "," + telefono2 ;
+        return idProveedor + "," + nombre + "," + numCuenta1 +"," + numCuenta2 + "," + correo1 + "," + correo2 + "," + telefono1 + "," + telefono2 ;
     }
+    
     
     
 // set y get de la clase proveedor
@@ -71,13 +74,22 @@ public class Proveedor {
         this.nombre = nombre;
     }
 
-    public String getNumCuenta() {
-        return numCuenta;
+    public String getNumCuenta1() {
+        return numCuenta1;
     }
 
-    public void setNumCuenta(String numCuenta) {
-        this.numCuenta = numCuenta;
+    public void setNumCuenta1(String numCuenta1) {
+        this.numCuenta1 = numCuenta1;
     }
+
+    public String getNumCuenta2() {
+        return numCuenta2;
+    }
+
+    public void setNumCuenta2(String numCuenta2) {
+        this.numCuenta2 = numCuenta2;
+    }
+    
 
     public String getCorreo1() {
         return correo1;

@@ -24,12 +24,14 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form frmMenuPrincipal
      */
-    Empleado empleado;
-    
+    private Empleado empleado;
+    private frmVenta frmVenta;
+         
     public frmMenuPrincipal(Empleado e) {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         this.empleado = e;
+        //this.frmVenta= new frmVenta(this.empleado,this);
         //permisos(e.getRol());
     }
     
@@ -261,7 +263,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     ///Sirve para agregar y centrar un interlaframe a nuestro frame principal
 
-    private void centrarVentana(JInternalFrame frame) {
+    public void centrarVentana(JInternalFrame frame) {
         MenuPirncipal.add(frame);
         Dimension dimension = MenuPirncipal.getSize();
         Dimension dframe = frame.getSize();
@@ -281,7 +283,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
 
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
         // TODO add your handling code here:
-        centrarVentana(new frmVenta(empleado));
+        centrarVentana(new frmVenta(this.empleado,this));
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     private void btnCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriasActionPerformed

@@ -36,11 +36,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
     public frmProducto() {
         initComponents();
-        
+
         listaMarca = new DAOMarca().obtener();
         listaCategoria = new DAOCategoria().obtener();
         listaProveedor = new DAOProveedor().obtener();
-        
+
         actualizaTablaProducto();
         llenarCombos();
 
@@ -82,7 +82,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setTitle("Modulo Producto");
 
-        jPanel1.setBackground(new java.awt.Color(31, 190, 190));
+        jPanel1.setBackground(new java.awt.Color(0, 153, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Comic Sans MS", 0, 14), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 3, 14)); // NOI18N
@@ -243,7 +243,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPrecioTaller, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -343,6 +343,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        listaMarca = new DAOMarca().obtener();
+        listaCategoria = new DAOCategoria().obtener();
+        listaProveedor = new DAOProveedor().obtener();
         limpiarcajas();
         actualizaTablaProducto();
         llenarCombos();
@@ -448,12 +451,12 @@ public class frmProducto extends javax.swing.JInternalFrame {
     private void btnCalculaPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculaPrecioActionPerformed
         // TODO add your handling code here:
         //condicionales-precio
-        if (!cboxId_Proveedor.getSelectedItem().equals("Seleccionado")) {
+        if (!cboxId_Proveedor.getSelectedItem().toString().equals("Seleccione")) {
             if (listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getNombre().equals("Ryse")) {
                 preciosR();
             } else if (listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getNombre().equals("Frilav")) {
                 preciosFY();
-            }else if (listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getNombre().equals("llyrsa")) {
+            } else if (listaProveedor.get(cboxId_Proveedor.getSelectedIndex() - 1).getNombre().equals("llyrsa")) {
                 preciosFY();
             }
         } else {
@@ -510,7 +513,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
             String precioS = txtPrecio.getText();
             double precio = precioS.contains(".") ? Double.parseDouble(txtPrecio.getText() + "") : Double.parseDouble((txtPrecio.getText() + ".0"));
 
-            System.out.println("precio = " + precio);
+            //System.out.println("precio = " + precio);
             double pp = precio;
 
             pp += (pp * 0.16);//IVA

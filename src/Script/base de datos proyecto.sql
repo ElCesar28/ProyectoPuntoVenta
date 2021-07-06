@@ -38,7 +38,8 @@ create table Venta(
 create table Proveedor (
 	idProveedor int unsigned not null auto_increment primary key,
     nombre varchar(30) not null,
-    numCuenta text not null,
+    numCuenta1 text not null,
+    numCuenta2 text null,
     correo1 varchar(45) not null,
     correo2 varchar(45) null,
     telefono1 varchar(20) not null,
@@ -83,14 +84,13 @@ INSERT INTO `categoria` VALUES (null,'Lavadoras'),(null,'Refrigeradores'),(null,
 INSERT INTO `cliente` VALUES (null,'Tecnico','General','---------------','0000000000','','tecnico'),(null,'Publico','General','---------------','0000000000','','publico');
 INSERT INTO `empleado` VALUES (null,'admin',sha1('admin'),'César Antonio','Navarro Sosa','cesaaar26@gmail.com','4451455052','','administrador','Ponciano Vega #670');
 INSERT INTO `marca` VALUES (null,'Mabe'),(null,'Whirlpool'),(null,'Across'),(null,'Maytag'),(null,'Excel'),(null,'Koblenz');
-INSERT INTO `proveedor` VALUES (null,'llyrsa',hex(aes_encrypt('459459459','p')),'llirsa1@gmail.com','','12345656543','')
-								,(null,'Ryse',hex(aes_encrypt('987987987','p')),'ryse1@gmail.com','ryse2@gmail.com','45556772829','')
-                                ,(null,'Frilav',hex(aes_encrypt('123123123','p')),'correo1@gmail.com','correo2@gmail.com','111111111','222222222');
+INSERT INTO `proveedor` VALUES (null,'llyrsa','459459459','','llirsa1@gmail.com','','12345656543','')
+								,(null,'Ryse','459459459','','ryse1@gmail.com','ryse2@gmail.com','45556772829','')
+                                ,(null,'Frilav','459459459','','correo1@gmail.com','correo2@gmail.com','111111111','222222222');
 INSERT INTO `producto` VALUES ('189DG001','Lining ',3,536.00,(536.00-(536*0.10)),2,1,1),('189DG002','Banda Maytag',6,200.00,(200.00-(200*0.10)),4,1,1)
 ,('189DG005','Flecha de lavado con engrane',3,457.80,(457.80-(457.80*0.10)),2,1,1),('189DG008','Sello tina Olympia',15,45.50,(45.50-(45.50*0.10)),1,1,1)
 ,('189DG010','Navaja Oster original reversible',10,165.00,(165.0-(165.0*0.10)),2,1,1);   
 
-DELIMITER $$
 DELIMITER $$
 drop procedure if exists insertarDetalleVenta$$
 CREATE PROCEDURE insertarDetalleVenta(
