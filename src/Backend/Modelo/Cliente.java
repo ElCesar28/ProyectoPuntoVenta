@@ -43,6 +43,9 @@ public class Cliente {
     public String toString() {
         return idCliente + "," + nombre + "," + apellidos + "," + direccion + "," + telefono1 + "," + telefono2+","+tipo;
     }
+    public String toStringCorto() {
+        return idCliente + "," + nombre + " " + apellidos + "," +tipo;
+    }
 
     // set y get de cliente
     public void setIdCliente(int idCliente) {
