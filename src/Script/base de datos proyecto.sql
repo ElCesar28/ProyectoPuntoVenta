@@ -121,7 +121,7 @@ $$
 DELIMITER ;
 
 
-delimiter $$
+DELIMITER $$
 drop procedure if exists prodxcat$$
 create procedure prodxcat (clave int, fechain datetime, fechafin datetime)
 begin
@@ -139,9 +139,9 @@ from producto p join categoria c
 on p.idcategoria = c.idcategoria
 where c.idcategoria=clave ;
 end $$
-delimiter ;
+DELIMITER ;
 
-delimiter $$
+DELIMITER $$
 drop procedure if exists lista$$
 CREATE PROCEDURE Lista(fechaInicial datetime, fechaFinal datetime)
 BEGIN
@@ -149,5 +149,15 @@ select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) from venta v
 join empleado e where e.idempleado = v.idempleado and v.fecha between fechaInicial and fechaFinal
 order by v.fecha desc; 
 END$$
-delimiter ;
+DELIMITER ;
 
+
+DELIMITER $$
+drop procedure if exists reporteDia $$
+CREATE PROCEDURE reporteDia(fecha datetime)
+BEGIN
+select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) from venta v 
+join empleado e where e.idempleado = v.idempleado and v.fecha between fechaInicial and fechaFinal
+order by v.fecha desc; 
+END$$
+DELIMITER ;
