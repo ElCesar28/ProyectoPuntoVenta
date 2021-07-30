@@ -1,12 +1,14 @@
+-- ---------------------------------------------- DATABASE ----------------------------------------------
 drop database if exists PuntoVenta;
 create database PuntoVenta;
 use puntoVenta;
 
+-- ---------------------------------------------- TABLES ----------------------------------------------
 create table Cliente (
 	idCliente int unsigned not null auto_increment primary key,
     nombre varchar(45) not null,
     apellidos varchar(45) not null,
-    direccion varchar(50) not null,
+    direccion varchar(50) not null,     
     telefono1 varchar(20) not null,
     telefono2 varchar(20) null,
     tipo enum('Tecnico','Publico') not null
@@ -29,6 +31,7 @@ create table Venta(
 	idVenta int unsigned not null auto_increment primary key,
     fecha datetime not null,
     total decimal(10,2) not null,
+    estado enum('pagada','porCobrar','cancelada'),
     idCliente int unsigned not null,
     idEmpleado int unsigned not null,
     constraint foreign key (idCliente) references Cliente (idCliente), 
@@ -58,7 +61,8 @@ create table Categoria(
 
 create table Producto(
 	idProducto varchar(35) not null primary key,
-    descripcion varchar(70) not null,
+    descripcion varchar(100) not null,
+    descripcionCorta varchar(50)not null,
     stock int unsigned not null,
     precioPublico decimal(10,2) not null,
     precioTaller decimal(10,2) not null,
@@ -80,19 +84,34 @@ create table Producto(
     constraint foreign key (idVenta) references Venta(idVenta)
  );
  
-INSERT INTO `categoria` VALUES (null,'Lavadoras'),(null,'Refrigeradores'),(null,'Ollas de presion'),(null,'Estufas');
-INSERT INTO `cliente` VALUES (null,'Tecnico','General','---------------','0000000000','','tecnico'),(null,'Publico','General','---------------','0000000000','','publico');
-INSERT INTO `empleado` VALUES (null,'admin',sha1('admin'),'César Antonio','Navarro Sosa','cesaaar26@gmail.com','4451455052','','administrador','Ponciano Vega #670');
-INSERT INTO `marca` VALUES (null,'Mabe'),(null,'Whirlpool'),(null,'Across'),(null,'Maytag'),(null,'Excel'),(null,'Koblenz');
-INSERT INTO `proveedor` VALUES (null,'llyrsa','459459459','','llirsa1@gmail.com','','12345656543','')
-								,(null,'Ryse','459459459','','ryse1@gmail.com','ryse2@gmail.com','45556772829','')
-                                ,(null,'Frilav','459459459','','correo1@gmail.com','correo2@gmail.com','111111111','222222222');
-INSERT INTO `producto` VALUES ('189DG001','Lining ',3,536.00,(536.00-(536*0.10)),2,1,1),('189DG002','Banda Maytag',6,200.00,(200.00-(200*0.10)),4,1,1)
-,('189DG005','Flecha de lavado con engrane',3,457.80,(457.80-(457.80*0.10)),2,1,1),('189DG008','Sello tina Olympia',15,45.50,(45.50-(45.50*0.10)),1,1,1)
-,('189DG010','Navaja Oster original reversible',10,165.00,(165.0-(165.0*0.10)),2,1,1);   
+ -- ---------------------------------------------- TESTDAT ----------------------------------------------
+INSERT INTO `categoria` VALUES (null,'Lavadoras')
+							  ,(null,'Refrigeradores')
+                              ,(null,'Secadoras')
+                              ,(null,'Estufas');
 
+INSERT INTO `cliente` VALUES (null,'Tecnico','General','---------------','0000000000','','tecnico')
+							,(null,'Publico','General','---------------','0000000000','','publico');
+
+INSERT INTO `empleado` VALUES (null,'admin',sha1('admin'),'César Antonio','Navarro Sosa','cesaaar26@gmail.com','4451455052','','administrador','Ponciano Vega #670');
+
+INSERT INTO `marca` VALUES (null,'Mabe')
+						  ,(null,'Whirlpool')
+                          ,(null,'Across')
+                          ,(null,'Maytag')
+                          ,(null,'Excel')
+                          ,(null,'Koblenz');
+
+INSERT INTO `proveedor` VALUES (null,'llyrsa','459459459','','llirsa1@gmail.com','','12345656543','')
+							  ,(null,'Ryse','459459459','','ryse1@gmail.com','ryse2@gmail.com','45556772829','')
+							  ,(null,'Frilav','459459459','','correo1@gmail.com','correo2@gmail.com','111111111','222222222');
+                              
+INSERT INTO `producto` VALUES ('189D1903P001','Rotula superior Oly','Rotula Olympia',20,25.00,(25.00-(25.00*0.10)),1,1,2)
+							 ,('W10530058','Thermostato p/refrigerador','Thermostato Mabe',5,239,(239-(239*0.10)),2,2,3);   
+-- ---------------------------------------------- StorageProcedures ----------------------------------------------
+-- Insertamos los productos de la vnta en la tabla detalle de venta
 DELIMITER $$
-drop procedure if exists insertarDetalleVenta$$
+DROP PROCEDURE IF EXISTS insertarDetalleVenta$$
 CREATE PROCEDURE insertarDetalleVenta(
 	in idp varchar(35),
     in idv int,
@@ -120,44 +139,48 @@ END
 $$
 DELIMITER ;
 
-
+-- Realiza una cosulta en la tabla detalledeventa para conocer los productos que se han vendido, por categoria
 DELIMITER $$
-drop procedure if exists prodxcat$$
-create procedure prodxcat (clave int, fechain datetime, fechafin datetime)
-begin
-select p.idproducto, p.descripcion, p.precio, p.stock, c.nombre,
-	(	
-		select  sum(d.cantidad) from detalledeventa d  where d.idproducto = p.idproducto
-	) as ProductoVendido,
-	(
-		select sum(ProductoVendido*d.precio) from detalledeventa d join venta v 
-        on d.idventa= v.idventa 
-        where d.idproducto=p.idproducto and v.fecha between fechain and fechafin 
-	) as MontoProducto
-    
-from producto p join categoria c 
-on p.idcategoria = c.idcategoria
-where c.idcategoria=clave ;
-end $$
+DROP PROCEDURE IF EXISTS prodxcat$$
+CREATE PROCEDURE prodxcat (clave int, fechain datetime, fechafin datetime)
+BEGIN
+	select p.idproducto, p.descripcion, p.precio, p.stock, c.nombre,
+		(	
+			select  sum(d.cantidad) from detalledeventa d  where d.idproducto = p.idproducto
+		) as ProductoVendido,
+		(
+			select sum(ProductoVendido*d.precio) from detalledeventa d join venta v 
+			on d.idventa= v.idventa 
+			where d.idproducto=p.idproducto and v.fecha between fechain and fechafin 
+		) as MontoProducto
+		
+	from producto p join categoria c 
+	on p.idcategoria = c.idcategoria
+	where c.idcategoria=clave ;
+END 
+$$
 DELIMITER ;
 
+-- Obtenemos una lista de las ventas en un rago de fechas
 DELIMITER $$
-drop procedure if exists lista$$
+DROP PROCEDURE IF EXISTS lista$$
 CREATE PROCEDURE Lista(fechaInicial datetime, fechaFinal datetime)
 BEGIN
-select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) from venta v 
-join empleado e where e.idempleado = v.idempleado and v.fecha between fechaInicial and fechaFinal
-order by v.fecha desc; 
-END$$
+	select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) from venta v 
+	join empleado e where e.idempleado = v.idempleado and v.fecha between fechaInicial and fechaFinal
+	order by v.fecha desc; 
+END
+$$  
 DELIMITER ;
 
-
+-- Obtenemos un reporte de ventas y productos de la fecha proporcionada
 DELIMITER $$
-drop procedure if exists reporteDia $$
+DROP PROCEDURE IF EXISTS reporteDia $$
 CREATE PROCEDURE reporteDia(fecha datetime)
 BEGIN
-select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) from venta v 
-join empleado e where e.idempleado = v.idempleado and v.fecha between fechaInicial and fechaFinal
-order by v.fecha desc; 
+    select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) 
+    from venta v join detalledeventa dtv 
+    on v.idVenta = dtv.idVenta 
+    where date(v.fecha)=fecha;
 END$$
 DELIMITER ;
