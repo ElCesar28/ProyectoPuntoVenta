@@ -6,9 +6,13 @@
 package Frontend;
 
 import Backend.DAOS.DAOReporteVentas;
+import Backend.Util.ModeloTabla.GestionCeldas;
+import Backend.Util.ModeloTabla.GestionEncabezadoTabla;
+import Backend.Util.ModeloTabla.ModeloTabla;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -19,8 +23,10 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
     /**
      * Creates new form frmReporteVentas
      */
+    private ModeloTabla ModeloTabla;
     public frmReporteDelDia() {
         initComponents();
+        //Al iniciar la frm colocar automaticamente la fecha en el jdatechoser
     }
 
     /**
@@ -39,7 +45,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         dtcFechaIncial = new com.toedter.calendar.JDateChooser();
-        btnAgregar = new javax.swing.JButton();
+        btnGenerar = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jTree1);
 
@@ -65,11 +71,11 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Fecha");
 
-        btnAgregar.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        btnAgregar.setText("Generar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnGenerar.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btnGenerar.setText("Generar");
+        btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnGenerarActionPerformed(evt);
             }
         });
 
@@ -83,7 +89,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dtcFechaIncial, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -96,7 +102,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
                         .addComponent(dtcFechaIncial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(btnAgregar)))
+                        .addComponent(btnGenerar)))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -124,14 +130,48 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    //metodo para dar formato especifico a la tabla
+    private void formatoTabla(String datos[][], String columnas[]) {
+        //Instanciamos un modelo de tabla con los datos de los productos
+        ModeloTabla = new ModeloTabla(datos, columnas);
+        //Le asignamos a nuestra tabla el modelo
+        tablaReporte.setModel(ModeloTabla);
+
+        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
+        // gestionEncabezados (setCellRerender)
+        tablaReporte.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("texto"));
+        tablaReporte.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("texto"));
+        for (int i = 2; i < columnas.length; i++) {
+            tablaReporte.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("numerico"));
+        }
+
+        //Ajustamos otras cosas del encavezado
+        tablaReporte.getTableHeader().setReorderingAllowed(false);
+        tablaReporte.setRowHeight(25);//definimos el alto de las celdas
+        //Establecemos el ancho de las celdas (al gusto y necesidad)
+        tablaReporte.getColumnModel().getColumn(0).setPreferredWidth(130);
+        tablaReporte.getColumnModel().getColumn(1).setPreferredWidth(280);
+        tablaReporte.getColumnModel().getColumn(2).setPreferredWidth(45);
+        tablaReporte.getColumnModel().getColumn(3).setPreferredWidth(45);
+        tablaReporte.getColumnModel().getColumn(4).setPreferredWidth(45);
+        
+
+        tablaReporte.setGridColor(new java.awt.Color(0, 0, 0));//Color
+
+        //personaliza el encabezado
+        JTableHeader jtableHeader = tablaReporte.getTableHeader();
+        jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
+        tablaReporte.setTableHeader(jtableHeader);
+    }
+    
+    private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
 
         try {
-            String fi = "";
+            String fecha = "";
             int year = dtcFechaIncial.getCalendar().get(Calendar.YEAR);
             int month = dtcFechaIncial.getCalendar().get(Calendar.MONTH) + 1;
             int day = dtcFechaIncial.getCalendar().get(Calendar.DAY_OF_MONTH);
-            fi = year +"-"+ month +"-"+day + "";
+            fecha = year +"-"+ month +"-"+day + "";
 //            String ff = "";
 //            int yearf = dtcFechaFinal.getCalendar().get(Calendar.YEAR);
 //            int monthf = dtcFechaFinal.getCalendar().get(Calendar.MONTH) + 1;
@@ -140,7 +180,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
            
             try {
                 
-                ArrayList<String> lista = new DAOReporteVentas().ReporteVentasPorPeriodo(fi, ff);
+                ArrayList<String> lista = new DAOReporteVentas().ReporteVentaDelDia(fecha);
 
                 String datos[][] = new String[lista.size()][2];
                 String columnas[] = new String[]{"Clave", "Fecha", "MontoTotal", "Vendedor"};
@@ -148,7 +188,8 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
                 for (int i = 0; i < lista.size(); i++) {
                     datos[i] = lista.get(i).split(",");
                 }
-                tablaReporte.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+                formatoTabla(datos, columnas);
+                //tablaReporte.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "A ocurrido un error", null, JOptionPane.ERROR_MESSAGE);
@@ -157,13 +198,15 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No ha seleccionado ningun fecha", null, JOptionPane.WARNING_MESSAGE);
         }
+        
+        
 
 
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }//GEN-LAST:event_btnGenerarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnGenerar;
     private com.toedter.calendar.JDateChooser dtcFechaIncial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

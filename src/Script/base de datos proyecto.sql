@@ -173,14 +173,27 @@ END
 $$  
 DELIMITER ;
 
--- Obtenemos un reporte de ventas y productos de la fecha proporcionada
+-- Obtenemos un reporte de ventas, detalles de venta y productos de la fecha proporcionada
 DELIMITER $$
 DROP PROCEDURE IF EXISTS reporteDia $$
-CREATE PROCEDURE reporteDia(fecha datetime)
+CREATE PROCEDURE reporteDia(fechaDelDia DATETIME)
 BEGIN
-    select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) 
-    from venta v join detalledeventa dtv 
-    on v.idVenta = dtv.idVenta 
-    where date(v.fecha)=fecha;
+	SELECT v.idventa AS ID
+		 , v.fecha AS Fecha 
+		 , p.idProducto AS IDProducto
+		 , p.descripcion AS Descripcion
+		 , ddv.cantidad AS Cantidad
+		 , (SELECT c.tipo FROM cliente c WHERE c.idCliente=v.idCliente) AS Tipo
+		 , ddv.precio AS Precio
+		 , (ddv.cantidad*ddv.precio) AS Importe
+		 , (SELECT concat(e.nombre, " ", e.apellido) FROM empleado e WHERE e.idEmpleado=v.idEmpleado ) AS Empleado
+		 , (SELECT concat(c.nombre," ",c.apellido) FROM cliente c WHERE c.idCliente=v.idCliente) AS Cliente	
+	FROM venta v JOIN detalledeventa ddv JOIN producto p
+	ON v.idVenta = ddv.idVenta AND ddv.productid=p.productid
+	where date(v.fecha)=fechaDelDia;
 END$$
 DELIMITER ;
+
+
+
+
