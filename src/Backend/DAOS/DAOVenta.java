@@ -45,14 +45,15 @@ public class DAOVenta {
         Connection co = null;
         boolean bandera=false;
             
-        String sql="insert into Venta (idVenta, fecha, total, idCliente, idEmpleado)values (null,?,?,?,?)";
+        String sql="insert into Venta (idVenta, fecha, total, estado, idCliente, idEmpleado)values (null,?,?,?,?,?)";
         try{
             co=Conexion.Conectar();
             ps=co.prepareStatement(sql);
             ps.setString(1, v.getFecha());
             ps.setDouble(2, v.getTotal());
-            ps.setInt(3, v.getIdCliente());
-            ps.setInt(4, v.getIdEmpleado());
+            ps.setString(3, v.getEstado());
+            ps.setInt(4, v.getIdCliente());
+            ps.setInt(5, v.getIdEmpleado());
             ps.executeUpdate();
             bandera=true;
       

@@ -113,7 +113,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1206, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -123,7 +123,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -139,21 +139,32 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
 
         //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
         // gestionEncabezados (setCellRerender)
-        tablaReporte.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("texto"));
+        tablaReporte.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("numerico"));
         tablaReporte.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("texto"));
-        for (int i = 2; i < columnas.length; i++) {
-            tablaReporte.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("numerico"));
-        }
+        tablaReporte.getColumnModel().getColumn(2).setCellRenderer(new GestionCeldas("numerico"));
+        tablaReporte.getColumnModel().getColumn(3).setCellRenderer(new GestionCeldas("texto"));
+        tablaReporte.getColumnModel().getColumn(4).setCellRenderer(new GestionCeldas("numerico"));
+        tablaReporte.getColumnModel().getColumn(5).setCellRenderer(new GestionCeldas("texto"));
+        tablaReporte.getColumnModel().getColumn(6).setCellRenderer(new GestionCeldas("numerico"));
+        tablaReporte.getColumnModel().getColumn(7).setCellRenderer(new GestionCeldas("numerico"));
+        tablaReporte.getColumnModel().getColumn(8).setCellRenderer(new GestionCeldas("texto"));
+        tablaReporte.getColumnModel().getColumn(9).setCellRenderer(new GestionCeldas("texto"));
+        
 
         //Ajustamos otras cosas del encavezado
         tablaReporte.getTableHeader().setReorderingAllowed(false);
         tablaReporte.setRowHeight(25);//definimos el alto de las celdas
         //Establecemos el ancho de las celdas (al gusto y necesidad)
-        tablaReporte.getColumnModel().getColumn(0).setPreferredWidth(130);
-        tablaReporte.getColumnModel().getColumn(1).setPreferredWidth(280);
-        tablaReporte.getColumnModel().getColumn(2).setPreferredWidth(45);
-        tablaReporte.getColumnModel().getColumn(3).setPreferredWidth(45);
-        tablaReporte.getColumnModel().getColumn(4).setPreferredWidth(45);
+        tablaReporte.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tablaReporte.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tablaReporte.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tablaReporte.getColumnModel().getColumn(3).setPreferredWidth(250);
+        tablaReporte.getColumnModel().getColumn(4).setPreferredWidth(50);
+        tablaReporte.getColumnModel().getColumn(5).setPreferredWidth(40);
+        tablaReporte.getColumnModel().getColumn(6).setPreferredWidth(40);
+        tablaReporte.getColumnModel().getColumn(7).setPreferredWidth(50);
+        tablaReporte.getColumnModel().getColumn(8).setPreferredWidth(150);
+        tablaReporte.getColumnModel().getColumn(9).setPreferredWidth(150);
         
 
         tablaReporte.setGridColor(new java.awt.Color(0, 0, 0));//Color
@@ -183,7 +194,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
                 ArrayList<String> lista = new DAOReporteVentas().ReporteVentaDelDia(fecha);
 
                 String datos[][] = new String[lista.size()][2];
-                String columnas[] = new String[]{"Clave", "Fecha", "MontoTotal", "Vendedor"};
+                String columnas[] = new String[]{"ID", "Fecha", "IDProducto", "Descripcion","Cantidad","Tipo","Precio","Importe","Empleado","Cliente"};
 
                 for (int i = 0; i < lista.size(); i++) {
                     datos[i] = lista.get(i).split(",");

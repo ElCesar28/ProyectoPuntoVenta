@@ -166,7 +166,11 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS lista$$
 CREATE PROCEDURE Lista(fechaInicial datetime, fechaFinal datetime)
 BEGIN
-	select v.idventa, v.fecha, v.total, concat(e.nombre," ",e.apellido) from venta v 
+	select v.idventa
+         , v.fecha
+         , v.total
+         , concat(e.nombre," ",e.apellido) 
+	from venta v 
 	join empleado e where e.idempleado = v.idempleado and v.fecha between fechaInicial and fechaFinal
 	order by v.fecha desc; 
 END
@@ -187,7 +191,7 @@ BEGIN
 		 , ddv.precio AS Precio
 		 , (ddv.cantidad*ddv.precio) AS Importe
 		 , (SELECT concat(e.nombre, " ", e.apellido) FROM empleado e WHERE e.idEmpleado=v.idEmpleado ) AS Empleado
-		 , (SELECT concat(c.nombre," ",c.apellido) FROM cliente c WHERE c.idCliente=v.idCliente) AS Cliente	
+		 , (SELECT concat(c.nombre," ",c.apellidos) FROM cliente c WHERE c.idCliente=v.idCliente) AS Cliente	
 	FROM venta v JOIN detalledeventa ddv JOIN producto p
 	ON v.idVenta = ddv.idVenta AND ddv.productid=p.productid
 	where date(v.fecha)=fechaDelDia;

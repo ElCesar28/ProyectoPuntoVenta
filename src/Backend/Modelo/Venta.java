@@ -9,14 +9,16 @@ public class Venta {
     private int idVenta;
     private String fecha;
     private double total;
+    private String estado;
     private int idCliente;
     private int idEmpleado;
 
     // constructor con sus parametros
-    public Venta(int idVenta, String fecha, double total, int idCliente, int idEmpleado) {
+    public Venta(int idVenta, String fecha, double total, String estado, int idCliente, int idEmpleado) {
         this.idVenta = idVenta;
         this.fecha = fecha;
         this.total = total;
+        this.estado=estado;
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
     }
@@ -29,7 +31,7 @@ public class Venta {
     // metodo tostring para concatenar
     @Override
     public String toString() {
-        return idVenta + "," + fecha + "," + total + "," + idCliente + "," + idEmpleado ;
+        return idVenta + "," + fecha + "," + total + "," + estado + "," + idCliente + "," + idEmpleado ;
     }
 
     
@@ -73,8 +75,14 @@ public class Venta {
     public void setIdEmpleado(int idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
-    
-    
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
     
     
 }

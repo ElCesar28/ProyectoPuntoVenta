@@ -17,7 +17,7 @@ public class DAOProducto {
         Statement stm = null;
         Connection con = null;
 
-        String sql = "insert into Producto values('" + producto.getIdProducto() + "', '" + producto.getDescripcion() + "', "
+        String sql = "insert into Producto values('" + producto.getIdProducto() + "', '" + producto.getDescripcion() + "', '" + producto.getDescripcionCorta() + "', "
                 + producto.getStock() + ", " + producto.getPrecioPublico() + ", " + producto.getPrecioTaller() + ", " + producto.getIdMarca() + ", " + producto.getIdCategoria()
                 + ", " + producto.getIdProveedor() + ")";
 
@@ -53,12 +53,13 @@ public class DAOProducto {
                 Producto p = new Producto();
                 p.setIdProducto(rs.getString(1));
                 p.setDescripcion(rs.getString(2));
-                p.setStock(rs.getInt(3));
-                p.setPrecioPublico(rs.getDouble(4));
-                p.setPrecioTaller(rs.getDouble(5));
-                p.setIdMarca(rs.getInt(6));
-                p.setIdCategoria(rs.getInt(7));
-                p.setIdProveedor(rs.getInt(8));
+                p.setDescripcionCorta(rs.getString(3));
+                p.setStock(rs.getInt(4));
+                p.setPrecioPublico(rs.getDouble(5));
+                p.setPrecioTaller(rs.getDouble(6));
+                p.setIdMarca(rs.getInt(7));
+                p.setIdCategoria(rs.getInt(8));
+                p.setIdProveedor(rs.getInt(9));
 
                 listaProducto.add(p);
             }
@@ -113,12 +114,13 @@ public class DAOProducto {
                 Producto p = new Producto();
                 p.setIdProducto(rs.getString(1));
                 p.setDescripcion(rs.getString(2));
-                p.setStock(rs.getInt(3));
-                p.setPrecioPublico(rs.getDouble(4));
-                p.setPrecioTaller(rs.getDouble(5));
-                p.setIdMarca(rs.getInt(6));
-                p.setIdCategoria(rs.getInt(7));
-                p.setIdProveedor(rs.getInt(8));
+                p.setDescripcionCorta(rs.getString(3));
+                p.setStock(rs.getInt(4));
+                p.setPrecioPublico(rs.getDouble(5));
+                p.setPrecioTaller(rs.getDouble(6));
+                p.setIdMarca(rs.getInt(7));
+                p.setIdCategoria(rs.getInt(8));
+                p.setIdProveedor(rs.getInt(9));
 
                 listaProducto.add(p);
             }
@@ -140,8 +142,8 @@ public class DAOProducto {
 
         boolean actualizar = false;
 
-        String sql = "update Producto set descripcion= '" + prodcuto.getDescripcion() + "', stock=" + prodcuto.getStock()
-                + " , precioPublico= " + prodcuto.getPrecioPublico()+" , precioTaller= " + prodcuto.getPrecioTaller()+ ", idMarca =" + prodcuto.getIdMarca() + ", idCategoria =" + prodcuto.getIdCategoria()
+        String sql = "update Producto set descripcion= '" + prodcuto.getDescripcion() +", descripcionCorta= '" + prodcuto.getDescripcionCorta()+ "', stock=" + prodcuto.getStock()
+                + " , precioPublico= " + prodcuto.getPrecioPublico() + " , precioTaller= " + prodcuto.getPrecioTaller() + ", idMarca =" + prodcuto.getIdMarca() + ", idCategoria =" + prodcuto.getIdCategoria()
                 + ", idProveedor =" + prodcuto.getIdProveedor() + " where idProducto= '" + prodcuto.getIdProducto() + "'";
 
         try {

@@ -70,6 +70,7 @@ public class DAOReporteVentas {
 
             while (rs.next()) {
                 String aux = "";
+
                 aux += rs.getString(1);
                 aux+=",";
                 aux += rs.getString(2);
