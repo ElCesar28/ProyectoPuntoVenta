@@ -28,17 +28,20 @@ import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 
 /**
- *
- * @author ElCésar26
+ 
+ 
+ * 
+ * 
  */
 public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
-    private int cliente;
+    //Principales variables que ayudan al funcionamiento
+    private Cliente objCliente;
+    private Empleado objEmpleado;
+    private Producto objProducto;
     private ArrayList<Producto> productosNotaObjetos;
-    private ArrayList<String> productosNotaTabla;
+    private ArrayList<String> productosNotaString;
     private SpinnerNumberModel modeloSpinner;
-    private Empleado empleado;
-    private Producto producto;
     private String hora, minutos, segundos;
     private Thread hilo;
     private Double total;
@@ -48,12 +51,13 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     private frmMenuPrincipal menu;
    
 
+    //Como parametros recivimos un menu y un objEmpleado para la logica y algunos datos importantes
     public frmVenta(Empleado e, frmMenuPrincipal menu) {
+   
         initComponents();
-        this.cliente = 0;
         this.productosNotaObjetos = new ArrayList<>();
         this.modeloSpinner = new SpinnerNumberModel();
-        this.empleado = e;
+        this.objEmpleado = e;
         this.txtNombreEmpleado.setText(e.getNombre() + " " + e.getApellido());
         this.txtFecha.setText(fecha());
         this.hilo = new Thread(this);
@@ -63,7 +67,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         this.txtHora.setEditable(false);
         this.txtTotal.setEditable(false);
         this.btnAgregarProducto.setEnabled(false);
-        this.productosNotaTabla = new ArrayList<>();
+        this.productosNotaString = new ArrayList<>();
         this.descuento = false;
         this.fechadb = "";
         this.total = 0.0;
@@ -71,6 +75,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         this.rbtnContado.setSelected(true);
     }
     
+    //getters y setters
     public JTextField getTxtIdCliente() {
         return txtIdCliente;
     }
@@ -148,8 +153,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         minutos = calendario.get(Calendar.MINUTE) > 9 ? "" + calendario.get(Calendar.MINUTE) : "0" + calendario.get(Calendar.MINUTE);
         segundos = calendario.get(Calendar.SECOND) > 9 ? "" + calendario.get(Calendar.SECOND) : "0" + calendario.get(Calendar.SECOND);
     }
-    ///ejecutamos nuestro hilo que muestra la fecha en tiempo real
-
+    ///metodo run del hilo que muestra la fecha y hora en tiempo real
     @Override
     public void run() {
         Thread current = Thread.currentThread();
@@ -160,14 +164,15 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         }
     }
 
-    ///Nos proporciona la fecha en un formato especifico 
+    ///Proporciona la fecha en un formato especifico (dia,mes,anio) o (anio,mes,dia)
+    //que usaremos para mostrar al usuario e insertar datos en la base de datos
     private static String fecha() {
         Date fecha = new Date();
         //SimpleDateFormat formatodefechadb = new SimpleDateFormat("YYYY/MM/dd");
         SimpleDateFormat formatodefecha = new SimpleDateFormat("dd/MM/YYYY");
         return formatodefecha.format(fecha);
     }
-
+    //
     private static String fechadb() {
         Date fecha = new Date();
         SimpleDateFormat formatodefechadb = new SimpleDateFormat("YYYY/MM/dd");
@@ -766,25 +771,31 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
 
+    //Metodo para buscar el cliente 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        if (!txtIdCliente.getText().equals("")) {
+        if (!txtIdCliente.getText().equals("")) {//revisamos si hay un id de cliente para asi buscarlo
             try {
-                ArrayList<Cliente> c = new DAOCliente().buscar(Integer.parseInt(txtIdCliente.getText()));
-                txtCliente.setText(c.get(0).getNombre() + " " + c.get(0).getApellidos());
-                cliente = Integer.parseInt(txtIdCliente.getText());
+                //buscamos y asignamos un Cliente a un objCliente 
+                objCliente = new DAOCliente().buscar(Integer.parseInt(txtIdCliente.getText())).get(0);
+                //enviamos informacion y formato a los txt
+                txtCliente.setText(objCliente.getNombre() + " " + objCliente.getApellidos());
                 txtCliente.setEditable(false);
-                descuento = c.get(0).getTipo().equals("Tecnico") ? true : false;
+                //de acuerdo al tipo de cliente aplicacmos o no descuento
+                descuento = objCliente.getTipo().equals("Tecnico") ? true : false;
 
             } catch (Exception e) {
+                //si hubo un error es porque no se encontro al cliente 
+                //y arroja una notificacion
                 JOptionPane.showMessageDialog(null, "Cliente no encontrado", null, JOptionPane.WARNING_MESSAGE);
-            }
-
-        } else {
+            } 
+        } else {//si no hay un id, se desplega una ventana con los nombres de clientes donde podemos seleccionarlos
             this.menu.centrarVentana(new frmTablaCliente(this));
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
+    //Metodo para buscar el Producto
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
         if (!txtIdProducto.getText().equals("")) {
             try {
@@ -827,17 +838,17 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
         boolean bandera = false;
         try {
-            if (!productosNotaTabla.isEmpty()) {
+            if (!productosNotaString.isEmpty()) {
                 for (int i = 0; i < productosNotaObjetos.size(); i++) {
                     if (txtIdProducto.getText().equals(productosNotaObjetos.get(i).getIdProducto())) {
 
-                        String[] aux = productosNotaTabla.get(i).split(",");
+                        String[] aux = productosNotaString.get(i).split(",");
                         int cantidad = Integer.parseInt(aux[2]);
 
                         int nuevacantidad = cantidad + Integer.parseInt(spinerCantidad.getValue().toString());
 
                         if (nuevacantidad <= productosNotaObjetos.get(i).getStock()) {
-                            productosNotaTabla.set(i, aux[0] + "," + aux[1] + "," + nuevacantidad + "," + aux[3] + ","
+                            productosNotaString.set(i, aux[0] + "," + aux[1] + "," + nuevacantidad + "," + aux[3] + ","
                                     + nuevacantidad * (descuento ? productosNotaObjetos.get(i).getPrecioTaller() : productosNotaObjetos.get(i).getPrecioPublico()));
                             actualizaTablaNota();
                             limpiarProducto();
@@ -879,7 +890,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         //preparamos nuestros datos para ingresarlos de manera más sensilla a la tabla
         String aux = idProducto + "," + descripcion + "," + cantidad + "," + precio + "," + importe;
         //Agregamos los objetos creados a nuestros Arrays que nos ayudan a llenar la tabla y a guardar en la base de datos
-        productosNotaTabla.add(aux);
+        productosNotaString.add(aux);
         productosNotaObjetos.add(p);
         //controlamos la interfaz 
         actualizaTablaNota();
@@ -903,7 +914,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         limpiarProducto();
         limpiarTabla();
         productosNotaObjetos.clear();
-        productosNotaTabla.clear();
+        productosNotaString.clear();
         total=0.0; 
         txtTotal.setText("");
         txtEfectivo.setText("");
@@ -913,7 +924,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         try {
             if (revisaCajas()) {//revisar que las cajas no est{en vacias
                 if ((Double.parseDouble(txtEfectivo.getText()) - Double.parseDouble(txtTotal.getText())) >= 0) {//(revisamos que el efectivo sea el apropiado
-                    if (new DAOVenta().GuardarVenta(new Venta(0, fechadb() + " " + txtHora.getText(), total,rbtnContado.isSelected()?"pagada":"porCobrar", cliente, empleado.getIdEmpleado()))) {//registramos en primer instancia la fecha
+                    if (new DAOVenta().GuardarVenta(new Venta(0, fechadb() + " " + txtHora.getText(), total,rbtnContado.isSelected()?"pagada":"porCobrar", objCliente.getIdCliente(), objEmpleado.getIdEmpleado()))) {//registramos en primer instancia la fecha
                         if (insertarDetalleVenta()) {// insertamos los detalles de venta
                             JOptionPane.showMessageDialog(null, "Vendido con éxito\nSu cambio:  " + Math.round(Double.parseDouble(txtEfectivo.getText()) - Double.parseDouble(txtTotal.getText())) + "", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCliente(); //limpiamos las cajas 
@@ -949,10 +960,10 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     private boolean insertarDetalleVenta() {
         boolean bandera = false;
         for (int i = 0; i < productosNotaObjetos.size(); i++) {
-            String[] aux = productosNotaTabla.get(i).split(",");
+            String[] aux = productosNotaString.get(i).split(",");
             int cantidad = Integer.parseInt(aux[2]);
             bandera = new DAODetalleDeVenta().GuardarDetalleVenta(new DetalleDeVenta(productosNotaObjetos.get(i).getIdProducto(),
-                    new DAOVenta().idVenta(empleado.getIdEmpleado()),
+                    new DAOVenta().idVenta(objEmpleado.getIdEmpleado()),
                     cantidad,
                     (descuento ? productosNotaObjetos.get(i).getPrecioTaller() : productosNotaObjetos.get(i).getPrecioPublico()),
                     0));
@@ -962,7 +973,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         }
         if (bandera) {
             productosNotaObjetos.clear();
-            productosNotaTabla.clear();
+            productosNotaString.clear();
             total = 0.0;
         }
 
@@ -971,7 +982,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
     ///este metodo verifica que las cajas requeridas para realizar la venta no estén vacias
     private boolean revisaCajas() {
-        return !txtCliente.getText().equals("") && !productosNotaTabla.isEmpty() && !txtEfectivo.getText().equals("");
+        return !txtCliente.getText().equals("") && !productosNotaString.isEmpty() && !txtEfectivo.getText().equals("");
     }
 
     ///limpia nuestra tabla de ventas
@@ -990,8 +1001,8 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
     ///obtenmos el total a partir de la lista 
     private void obtenerTotal() {
         double sum = 0;
-        for (int i = 0; i < productosNotaTabla.size(); i++) {
-            String[] aux = productosNotaTabla.get(i).split(",");
+        for (int i = 0; i < productosNotaString.size(); i++) {
+            String[] aux = productosNotaString.get(i).split(",");
             sum += Double.parseDouble(aux[4]);
         }
 
@@ -1000,11 +1011,11 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
     ///actualizamos los datos de la tabla cada que se agregue un nuevo producto
     private void actualizaTablaNota() {
-        String datos[][] = new String[productosNotaTabla.size()][2];
+        String datos[][] = new String[productosNotaString.size()][2];
         String columnas[] = new String[]{"ID", "Descripcion", "Cantidad", "Precio", "Importe"};
 
-        for (int i = 0; i < productosNotaTabla.size(); i++) {
-            datos[i] = productosNotaTabla.get(i).split(",");
+        for (int i = 0; i < productosNotaString.size(); i++) {
+            datos[i] = productosNotaString .get(i).split(",");
 
         }
         formatoTabla(datos, columnas);

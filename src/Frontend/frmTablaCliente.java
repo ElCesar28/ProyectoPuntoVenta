@@ -17,9 +17,7 @@ import javax.swing.table.JTableHeader;
 public class frmTablaCliente extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form frmTablaCliente
-     *
-     * @param vv
+     
      */
     ModeloTabla ModeloTabla;
     private frmVenta vv;
@@ -60,6 +58,7 @@ public class frmTablaCliente extends javax.swing.JInternalFrame {
         tablaIndexCliente.setTableHeader(jtableHeader);
     }
 
+    
     public void actualizaTablaCliente() {
         lista = new DAOCliente().obtener();
         String datos[][] = new String[lista.size()][2];
