@@ -70,21 +70,20 @@ public class DAOCliente {
 
     }
 
-    public ArrayList<Cliente> buscar(int idCliente) {
+    public Cliente buscar(int idCliente) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
+        Cliente c = new Cliente();
 
         String sql = "select * from Cliente where idCliente = '" + idCliente + "';";
-
-        ArrayList<Cliente> listaMarca = new ArrayList<>();
 
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                Cliente c = new Cliente();
+                
                 c.setIdCliente(rs.getInt(1));
                 c.setNombre(rs.getString(2));
                 c.setApellidos(rs.getString(3));
@@ -92,8 +91,6 @@ public class DAOCliente {
                 c.setTelefono1(rs.getString(5));
                 c.setTelefono2(rs.getString(6));
                 c.setTipo(rs.getString(7)); 
-
-                listaMarca.add(c);
             }
             stm.close();
             rs.close();
@@ -103,7 +100,7 @@ public class DAOCliente {
             System.out.println(e);
         }
 
-        return listaMarca;
+        return c;
 
     }
 

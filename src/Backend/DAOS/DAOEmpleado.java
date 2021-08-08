@@ -84,18 +84,16 @@ public class DAOEmpleado {
     }
     
     
-    // metodo buscar de tipo arralist de empleado
-    public ArrayList<Empleado> buscar(int idEmpleado) {
+    public Empleado buscar(int idEmpleado) {
         // conexiones
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
+        // se crea una instancia de tipo empleado
+        Empleado e = new Empleado();
 
         // consulta de obtener los datos de empleado
-        String sql = "select * from Empleado where idEmpleado = " + idEmpleado;
-
-        // se crea una lista de tipo empleado
-        ArrayList<Empleado> listaEmpleado = new ArrayList<>();
+        String sql = "select * from Empleado where idEmpleado = '" + idEmpleado+"';";
 
         try {
             // se activan las conexiones
@@ -103,8 +101,7 @@ public class DAOEmpleado {
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                // se crea una instancia de tipo empleado
-                Empleado e = new Empleado();
+               
                 // se almacenan los datos registrados a mostrar
                 e.setIdEmpleado(rs.getInt(1));
                 e.setUser(rs.getString(2));
@@ -116,19 +113,19 @@ public class DAOEmpleado {
                 e.setTelefono2(rs.getString(8));
                 e.setRol(rs.getString(9));
                 e.setDireccion(rs.getString(10));
-                listaEmpleado.add(e);
+
             }
             // se cierran las conexiones
             stm.close();
             rs.close();
             co.close();
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
             System.out.println("obtener Empleado");
-            System.out.println(e);
+            System.out.println(ex);
         }
 
         // se retorna la lista
-        return listaEmpleado;
+        return e;
 
     }
     

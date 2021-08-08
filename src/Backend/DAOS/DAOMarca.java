@@ -1,3 +1,5 @@
+
+
 package Backend.DAOS;
 
 import Backend.Modelo.Marca;
@@ -64,24 +66,21 @@ public class DAOMarca {
 
     }
 
-    public ArrayList<Marca> buscar(String nombre) {
+    public Marca buscar(String nombre) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
-
+        Marca m = new Marca();
         String sql = "select * from Marca where nombre = '" + nombre + "';";
-
-         ArrayList<Marca> listaMarca = new ArrayList<>();
 
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                Marca m = new Marca();
+                
                 m.setIdMarca(rs.getInt(1));
                 m.setNombre(rs.getString(2));
-                listaMarca.add(m);
             }
             stm.close();
             rs.close();
@@ -91,7 +90,7 @@ public class DAOMarca {
             System.out.println(e);
         }
 
-        return listaMarca;
+        return m;
 
     }
 

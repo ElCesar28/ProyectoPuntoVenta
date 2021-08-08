@@ -778,7 +778,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         if (!txtIdCliente.getText().equals("")) {//revisamos si hay un id de cliente para asi buscarlo
             try {
                 //buscamos y asignamos un Cliente a un objCliente 
-                objCliente = new DAOCliente().buscar(Integer.parseInt(txtIdCliente.getText())).get(0);
+                objCliente = new DAOCliente().buscar(Integer.parseInt(txtIdCliente.getText()));
                 //enviamos informacion y formato a los txt
                 txtCliente.setText(objCliente.getNombre() + " " + objCliente.getApellidos());
                 txtCliente.setEditable(false);
@@ -797,23 +797,23 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
 
     //Metodo para buscar el Producto
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
-        if (!txtIdProducto.getText().equals("")) {
-            try {
-                ArrayList<Producto> p = new DAOProducto().buscar(txtIdProducto.getText());
+        if (!txtIdProducto.getText().equals("")) {//Revisamos que el txt no este vacio
+            try {//usamos un try por convenencia por si ocurre algun error
+                Producto p = new DAOProducto().buscar(txtIdProducto.getText());
 
-                if (p.get(0).getStock() > 0) {
+                if (p.getStock() > 0) {//revisamos que 
 
-                    txtProducto.setText(p.get(0).getDescripcion());
+                    txtProducto.setText(p.getDescripcion());
                     txtProducto.setEditable(false);
 
                     //saber que precio poner en la nota
-                    txtPrecio.setText(String.valueOf(descuento ? p.get(0).getPrecioTaller() : p.get(0).getPrecioPublico()));
+                    txtPrecio.setText(String.valueOf(descuento ? p.getPrecioTaller() : p.getPrecioPublico()));
                     txtPrecio.setEditable(false);
 
-                    txtStock.setText(String.valueOf(p.get(0).getStock()));
+                    txtStock.setText(String.valueOf(p.getStock()));
                     txtStock.setEditable(false);
 
-                    modeloSpinner.setMaximum(p.get(0).getStock());
+                    modeloSpinner.setMaximum(p.getStock());
                     modeloSpinner.setMinimum(1);
                     modeloSpinner.setStepSize(1);
                     modeloSpinner.setValue(1);
@@ -830,7 +830,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                 JOptionPane.showMessageDialog(null, "Producto no encontrado", null, JOptionPane.WARNING_MESSAGE);
             }
 
-        } else {
+        } else {//si esta vacio, se notificar{a con un mensaje
             JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
@@ -863,11 +863,11 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
                     }
                 }
                 if (!bandera) {
-                    cargaProducto(new DAOProducto().buscar(txtIdProducto.getText()).get(0));
+                    cargaProducto(new DAOProducto().buscar(txtIdProducto.getText()));
                 }
 
             } else {
-                cargaProducto(new DAOProducto().buscar(txtIdProducto.getText()).get(0));
+                cargaProducto(new DAOProducto().buscar(txtIdProducto.getText()));
             }
             btnAgregarProducto.setEnabled(false);
 

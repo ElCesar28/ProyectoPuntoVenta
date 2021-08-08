@@ -97,21 +97,19 @@ public class DAOProducto {
         return eliminar;
     }
 
-    public ArrayList<Producto> buscar(String idProducto) {
+    public Producto buscar(String idProducto) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
+        Producto p = new Producto();
 
         String sql = "select * from Producto where idProducto = '" + idProducto + "';";
-
-        ArrayList<Producto> listaProducto = new ArrayList<>();
 
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                Producto p = new Producto();
                 p.setIdProducto(rs.getString(1));
                 p.setDescripcion(rs.getString(2));
                 p.setDescripcionCorta(rs.getString(3));
@@ -121,8 +119,6 @@ public class DAOProducto {
                 p.setIdMarca(rs.getInt(7));
                 p.setIdCategoria(rs.getInt(8));
                 p.setIdProveedor(rs.getInt(9));
-
-                listaProducto.add(p);
             }
             stm.close();
             rs.close();
@@ -132,7 +128,7 @@ public class DAOProducto {
             System.out.println(e);
         }
 
-        return listaProducto;
+        return p;
 
     }
 

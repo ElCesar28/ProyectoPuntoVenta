@@ -41,7 +41,7 @@ public class DAOProveedor {
         Statement stm = null;
         ResultSet rs = null;
 
-        String sql = "select idProveedor, nombre, numCuenta1,numCuenta2,correo1,correo2,telefono1,telefono2 from Proveedor";
+        String sql = "select * from Proveedor";
 
         ArrayList<Proveedor> listaMarca = new ArrayList<>();
 
@@ -76,30 +76,27 @@ public class DAOProveedor {
     
     
     ///USAR procedimiento para obetener la contraseña 
-    public ArrayList<Proveedor> buscar(int idProveedor) {
+    public Proveedor buscar(int idProveedor) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
+        Proveedor p = new Proveedor();
 
         String sql = "select * from Proveedor where idProveedor = " + idProveedor ;
-
-         ArrayList<Proveedor> listaMarca = new ArrayList<>();
-
+        
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-               Proveedor m = new Proveedor();
-                m.setIdProveedor(rs.getInt(1));
-                m.setNombre(rs.getString(2));
-                m.setNumCuenta1(rs.getString(3));
-                m.setNumCuenta2(rs.getString(4));
-                m.setCorreo1(rs.getString(5));
-                m.setCorreo2(rs.getString(6));
-                m.setTelefono1(rs.getString(7));
-                m.setTelefono2(rs.getString(8));
-                listaMarca.add(m);
+                p.setIdProveedor(rs.getInt(1));
+                p.setNombre(rs.getString(2));
+                p.setNumCuenta1(rs.getString(3));
+                p.setNumCuenta2(rs.getString(4));
+                p.setCorreo1(rs.getString(5));
+                p.setCorreo2(rs.getString(6));
+                p.setTelefono1(rs.getString(7));
+                p.setTelefono2(rs.getString(8));
             }
             stm.close();
             rs.close();
@@ -109,7 +106,7 @@ public class DAOProveedor {
             System.out.println(e);
         }
 
-        return listaMarca;
+        return p;
 
     }
     

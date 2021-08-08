@@ -63,24 +63,23 @@ public class DAOCategoria {
 
     }
 
-    public ArrayList<Categoria> buscar(String nombre) {
+    public Categoria buscar(String nombre) {
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
+        Categoria m = new Categoria();
 
         String sql = "select * from Categoria where nombre = '" + nombre + "';";
 
-         ArrayList<Categoria> listaCategoria = new ArrayList<>();
-
         try {
+            
             co = Conexion.Conectar();
             stm = co.createStatement();
-            rs = stm.executeQuery(sql);
+            rs = stm.executeQuery(sql); 
             while (rs.next()) {
-                Categoria m = new Categoria();
+                
                 m.setIdCategoria(rs.getInt(1));
                 m.setNombre(rs.getString(2));
-                listaCategoria.add(m);
             }
             stm.close();
             rs.close();
@@ -90,7 +89,7 @@ public class DAOCategoria {
             System.out.println(e);
         }
 
-        return listaCategoria;
+        return m;
 
     }
 

@@ -296,9 +296,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
                         .addComponent(cboxId_Proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel10))
                 .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(spinerStock, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinerStock, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCalculaPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -375,7 +375,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
             if (new DAOProducto().registrar(new Producto(
                     txtidProducto.getText(),
                     txtDescripcion.getText(),
-                    txtDescripcionCorta.getText(), 
+                    txtDescripcionCorta.getText(),
                     Integer.parseInt(spinerStock.getValue().toString()),
                     Double.parseDouble(txtPrecioPublico.getText()),
                     Double.parseDouble(txtPrecioTaller.getText()),
@@ -421,13 +421,12 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (!txtidProducto.getText().equals("")) {
-            ArrayList<Producto> lista = new DAOProducto().buscar(txtidProducto.getText());
-            String datos[][] = new String[lista.size()][2];
-            String columnas[] = new String[]{"ID", "Descripcion","Ticket", "Stock", "PrecioPublico", "PrecioTaller", "Marca", "Categoria", "Proveedor"};
+            Producto lista = new DAOProducto().buscar(txtidProducto.getText());
+            String datos[][] = new String[1][2];
+            String columnas[] = new String[]{"ID", "Descripcion", "Ticket", "Stock", "PrecioPublico", "PrecioTaller", "Marca", "Categoria", "Proveedor"};
 
-            for (int i = 0; i < lista.size(); i++) {
-                datos[i] = lista.get(i).toString().split(",");
-            }
+            datos[0] = lista.toString().split(",");
+
             tablaProductos.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
         } else {
             JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
@@ -635,7 +634,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     private void actualizaTablaProducto() {
         ArrayList<Producto> lista = new DAOProducto().obtener();
         String datos[][] = new String[lista.size()][2];
-        String columnas[] = new String[]{"ID", "Descripcion","Ticket", "Stock", "Publico", "Taller", "Marca", "Categoria", "Proveedor"};
+        String columnas[] = new String[]{"ID", "Descripcion", "Ticket", "Stock", "Publico", "Taller", "Marca", "Categoria", "Proveedor"};
 
         for (int i = 0; i < lista.size(); i++) {
             datos[i] = lista.get(i).toString().split(",");
@@ -692,7 +691,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     ///Este método nos sirve para limpiar las cajas
     private void limpiarcajas() {
         txtDescripcion.setText("");
-        txtDescripcionCorta.setText(""); 
+        txtDescripcionCorta.setText("");
         txtidProducto.setText("");
         txtPrecio.setText("");
         txtPrecioPublico.setText("");
