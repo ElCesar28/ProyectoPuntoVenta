@@ -30,7 +30,8 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     public frmCategoria() {
         initComponents();
         actualizaTablaMarca();
-        txtidCategoria.setEnabled(false);
+        this.txtidCategoria.setEnabled(false);
+        this.lista = new 
         
     }
 

@@ -1,4 +1,3 @@
-
 package Frontend;
 
 // Importes 
@@ -11,16 +10,20 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.JTableHeader;
 
-
 public class frmEmpleado extends javax.swing.JInternalFrame {
 
     ModeloTabla ModeloTabla;
+    Empleado empleado;
+
     public frmEmpleado() {
         initComponents();
         actualizaTablaEmpleado(); // se manda a llamar el metodo actualizar tabla
-        txtidEmpleado.setEnabled(false); // se habilita el textbox de idempleado
+        this.txtidEmpleado.setEnabled(false); // se habilita el textbox de idempleado
+        this.empleado = new Empleado();
+
     }
-     //metodo para dar formato especifico a la tabla
+    //metodo para dar formato especifico a la tabla
+
     private void formatoTabla(String datos[][], String columnas[]) {
         //Instanciamos un modelo de tabla con los datos de los productos
         ModeloTabla = new ModeloTabla(datos, columnas);
@@ -29,7 +32,6 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
 
         //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
         // gestionEncabezados (setCellRerender)
-       
         for (int i = 0; i < columnas.length; i++) {
             tablaEmpleado.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
         }
@@ -48,7 +50,6 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
         tablaEmpleado.getColumnModel().getColumn(7).setPreferredWidth(50);
         tablaEmpleado.getColumnModel().getColumn(8).setPreferredWidth(60);
         tablaEmpleado.getColumnModel().getColumn(9).setPreferredWidth(100);
-        
 
         tablaEmpleado.setGridColor(new java.awt.Color(0, 0, 0));//Color
 
@@ -57,7 +58,6 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
         jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
         tablaEmpleado.setTableHeader(jtableHeader);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -617,7 +617,7 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if (estavacias()) { //se compara si metodo estavacias
-            if (new DAOEmpleado().registrar(new Empleado( 
+            if (new DAOEmpleado().registrar(new Empleado(
                     0,
                     // se obtienen los valores que se ingresaron
                     txtUsuario.getText(),
@@ -647,9 +647,9 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
 
     private void btnactualizacontraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizacontraseñaActionPerformed
         // se comparan si los valores en los txt son iguales a cadena vacia
-        if (!txtidEmpleadocontra.getText().equals("")&&!txtPassupdate.getText().equals("")) {
+        if (!txtidEmpleadocontra.getText().equals("") && !txtPassupdate.getText().equals("")) {
             //se mandan a llamar los metodos con valores que se ingresan
-            if (new DAOEmpleado().actualizarPassword(Integer.parseInt(txtidEmpleadocontra.getText()),txtPassupdate.getText())) {
+            if (new DAOEmpleado().actualizarPassword(Integer.parseInt(txtidEmpleadocontra.getText()), txtPassupdate.getText())) {
                 limpiarcajas(); // se limpia la caja
                 // se inicia una pantalla con el mensaje de exito
                 JOptionPane.showMessageDialog(null, "Actualizado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -669,7 +669,6 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
         return !txtUsuario.getText().equals("") && !txtPass.getText().equals("") && !txtNombre.getText().equals("") && !txtApellidos.getText().equals("")
                 && !txtCorreo.getText().equals("") && !txtTel1.getText().equals("") && !cboxRol.getSelectedItem().toString().equals("Seleccione") && !txtDirecciom.getText().equals("");
     }
-    
 
     // se crea el metodo de actualizar 
     public void actualizaTablaEmpleado() {
@@ -706,7 +705,6 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
         txtPass.setEnabled(true);
         txtidEmpleadocontra.setText("");
         txtPassupdate.setText("");
-        
 
     }
 

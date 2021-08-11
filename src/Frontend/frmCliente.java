@@ -492,6 +492,9 @@ public class frmCliente extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_tablaClienteMouseClicked
 
+    String datos[][];
+    String columnas[];
+            
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (!txtidClienteBusqueda.getText().equals("")) {
             cliente = new DAOCliente().buscar(Integer.parseInt(txtidClienteBusqueda.getText()));
@@ -514,7 +517,7 @@ public class frmCliente extends javax.swing.JInternalFrame {
     }
 
     public void actualizaTablaCliente() {
-        lista = new DAOCliente().obtener();
+        this.lista = new DAOCliente().obtener();
         String datos[][] = new String[lista.size()][2];
         String columnas[] = new String[]{"ID", "Nombre", "Apellidos", "Direccion", "Telefono1", "Telefono2", "Tipo"};
 
@@ -523,7 +526,7 @@ public class frmCliente extends javax.swing.JInternalFrame {
         }
         formatoTabla(datos, columnas);
         //tablaCliente.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-        lista.clear();
+        this.lista.clear();
     }
 
     public void limpiarcajas() {

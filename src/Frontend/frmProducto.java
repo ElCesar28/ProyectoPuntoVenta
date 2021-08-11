@@ -37,9 +37,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
     public frmProducto() {
         initComponents();
 
-        listaMarca = new DAOMarca().obtener();
-        listaCategoria = new DAOCategoria().obtener();
-        listaProveedor = new DAOProveedor().obtener();
+        this.listaMarca = new DAOMarca().obtener();
+        this.listaCategoria = new DAOCategoria().obtener();
+        this.listaProveedor = new DAOProveedor().obtener();
 
         actualizaTablaProducto();
         llenarCombos();
