@@ -10,11 +10,7 @@ import Backend.Modelo.Cliente;
 import Backend.Util.ModeloTabla.GestionCeldas;
 import Backend.Util.ModeloTabla.GestionEncabezadoTabla;
 import Backend.Util.ModeloTabla.ModeloTabla;
-import java.awt.Image;
 import java.util.ArrayList;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.JTableHeader;
 
@@ -23,18 +19,21 @@ import javax.swing.table.JTableHeader;
  * @author ElCésar26
  */
 public class frmCliente extends javax.swing.JInternalFrame {
-    
-    
+
     /**
      * Creates new form frmCliente
      */
     ModeloTabla ModeloTabla;
+    Cliente cliente;
+    ArrayList<Cliente> lista;
+
     public frmCliente() {
         initComponents();
-       // btnLimpiar.setIcon(setIcono("/imagenes/limpiar.png", btnLimpiar));
+        // btnLimpiar.setIcon(setIcono("/imagenes/limpiar.png", btnLimpiar));
         actualizaTablaCliente();
         txtidCliente.setEnabled(false);
     }
+
     //metodo para dar formato especifico a la tabla
     private void formatoTabla(String datos[][], String columnas[]) {
         //Instanciamos un modelo de tabla con los datos de los productos
@@ -44,7 +43,6 @@ public class frmCliente extends javax.swing.JInternalFrame {
 
         //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
         // gestionEncabezados (setCellRerender)
-       
         for (int i = 0; i < columnas.length; i++) {
             tablaCliente.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
         }
@@ -60,7 +58,6 @@ public class frmCliente extends javax.swing.JInternalFrame {
         tablaCliente.getColumnModel().getColumn(4).setPreferredWidth(60);
         tablaCliente.getColumnModel().getColumn(5).setPreferredWidth(60);
         tablaCliente.getColumnModel().getColumn(6).setPreferredWidth(50);
-        
 
         tablaCliente.setGridColor(new java.awt.Color(0, 0, 0));//Color
 
@@ -479,7 +476,7 @@ public class frmCliente extends javax.swing.JInternalFrame {
 
     private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
         int index = tablaCliente.getSelectedRow();
-                btnAgregar.setEnabled(false);
+        btnAgregar.setEnabled(false);
 
         if (index == -1) {
             JOptionPane.showMessageDialog(null, "Empty table");
@@ -497,13 +494,12 @@ public class frmCliente extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (!txtidClienteBusqueda.getText().equals("")) {
-            ArrayList<Cliente> lista = new DAOCliente().buscar(Integer.parseInt(txtidClienteBusqueda.getText()));
-            String datos[][] = new String[lista.size()][2];
-            String columnas[] = new String[]{"ID", "Nombre", "Apellidos", "Direccion", "Telefono1", "Telefono2","Tipo"};
+            cliente = new DAOCliente().buscar(Integer.parseInt(txtidClienteBusqueda.getText()));
+            String datos[][] = new String[1][2];
+            String columnas[] = new String[]{"ID", "Nombre", "Apellidos", "Direccion", "Telefono1", "Telefono2", "Tipo"};
 
-            for (int i = 0; i < lista.size(); i++) {
-                datos[i] = lista.get(i).toString().split(",");
-            }
+            datos[0] = cliente.toString().split(",");
+
             formatoTabla(datos, columnas);
             //tablaCliente.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
         } else {
@@ -518,7 +514,7 @@ public class frmCliente extends javax.swing.JInternalFrame {
     }
 
     public void actualizaTablaCliente() {
-        ArrayList<Cliente> lista = new DAOCliente().obtener();
+        lista = new DAOCliente().obtener();
         String datos[][] = new String[lista.size()][2];
         String columnas[] = new String[]{"ID", "Nombre", "Apellidos", "Direccion", "Telefono1", "Telefono2", "Tipo"};
 
@@ -527,6 +523,7 @@ public class frmCliente extends javax.swing.JInternalFrame {
         }
         formatoTabla(datos, columnas);
         //tablaCliente.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+        lista.clear();
     }
 
     public void limpiarcajas() {
@@ -569,7 +566,7 @@ public class frmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtidCliente;
     private javax.swing.JTextField txtidClienteBusqueda;
     // End of variables declaration//GEN-END:variables
-    
+
 //    public Icon setIcono(String url, JButton boton){
 //        ImageIcon icon=new ImageIcon(getClass().getResource(url));
 //        

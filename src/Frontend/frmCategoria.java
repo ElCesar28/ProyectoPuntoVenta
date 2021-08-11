@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.JTableHeader;
 
-
 /**
  *
  * @author ElCésar26
@@ -25,11 +24,16 @@ public class frmCategoria extends javax.swing.JInternalFrame {
      * Creates new form frmCategoria
      */
     ModeloTabla ModeloTabla;
+    private Categoria categoria;
+    ArrayList<Categoria> lista;
+
     public frmCategoria() {
         initComponents();
         actualizaTablaMarca();
         txtidCategoria.setEnabled(false);
+        
     }
+
     //metodo para dar formato especifico a la tabla
     private void formatoTabla(String datos[][], String columnas[]) {
         //Instanciamos un modelo de tabla con los datos de los productos
@@ -51,7 +55,6 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         //Establecemos el ancho de las celdas (al gusto y necesidad)
         tblCategoria.getColumnModel().getColumn(0).setPreferredWidth(30);
         tblCategoria.getColumnModel().getColumn(1).setPreferredWidth(100);
-        
 
         tblCategoria.setGridColor(new java.awt.Color(0, 0, 0));//Color
 
@@ -60,7 +63,6 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
         tblCategoria.setTableHeader(jtableHeader);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -285,16 +287,15 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         if (!txtNombre.getText().equals("")) {
-            ArrayList<Categoria> lista = new DAOCategoria().buscar(txtNombre.getText());
-            String datos[][] = new String[lista.size()][2];
+            categoria = new DAOCategoria().buscar(txtNombre.getText());
+            String datos[][] = new String[1][2];
             String columnas[] = new String[]{"ID", "Nombre"};
 
-            for (int i = 0; i < lista.size(); i++) {
-                datos[i][0] = lista.get(i).getIdCategoria() + "";
-                datos[i][1] = lista.get(i).getNombre();
-            }
+            datos[0][0] = categoria.getIdCategoria() + "";
+            datos[0][1] = categoria.getNombre();
+
             //tblCategoria.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-            formatoTabla(datos, columnas); 
+            formatoTabla(datos, columnas);
         } else {
             JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
         }
@@ -335,7 +336,7 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblCategoriaMouseClicked
 
     public void actualizaTablaMarca() {
-        ArrayList<Categoria> lista = new DAOCategoria().obtener();
+        lista = new DAOCategoria().obtener();
         String datos[][] = new String[lista.size()][2];
         String columnas[] = new String[]{"ID", "Nombre"};
 
@@ -344,7 +345,8 @@ public class frmCategoria extends javax.swing.JInternalFrame {
             datos[i][1] = lista.get(i).getNombre();
         }
         //tblCategoria.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-        formatoTabla(datos, columnas); 
+        formatoTabla(datos, columnas);
+        lista.clear();
     }
 
     public void limpiarcajas() {

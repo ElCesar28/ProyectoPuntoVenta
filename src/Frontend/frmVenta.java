@@ -833,8 +833,7 @@ public class frmVenta extends javax.swing.JInternalFrame implements Runnable {
         boolean bandera = false;
         try {
             if (!productosNotaString.isEmpty()) { 
-                
-                
+               
                 for (int i = 0; i < productosNotaObjetos.size(); i++) {
                     if (txtIdProducto.getText().equals(productosNotaObjetos.get(i).getIdProducto())) {
 
