@@ -7,7 +7,7 @@ package Frontend;
 
 import Backend.DAOS.DAOCategoria;
 import Backend.DAOS.DAOMarca;
-import Backend.DAOS.DAOReporteProductos;
+import Backend.DAOS.DAOReporteVentas;
 import Backend.Modelo.Categoria;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -169,7 +169,7 @@ public class frmEstadisticas extends javax.swing.JInternalFrame {
                 
                 try {
 
-                    ArrayList<String> lista = new DAOReporteProductos().ReporteVentasProductoporCategoria(new DAOCategoria().buscar(cboxIdCategoria.getSelectedItem().toString()).get(0).getIdCategoria(),fi, ff);
+                    ArrayList<String> lista = new DAOReporteVentas().ReporteVentasProductoporCategoria(new DAOCategoria().buscar(cboxIdCategoria.getSelectedItem().toString()).getIdCategoria(),fi, ff);
 
                     String datos[][] = new String[lista.size()][2];
                     String columnas[] = new String[]{"ID", "Descripcion", "Precio", "Stock", "Categoria", "Cantidad", "Monto"};

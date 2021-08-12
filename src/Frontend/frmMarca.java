@@ -7,9 +7,12 @@ package Frontend;
 
 import Backend.DAOS.DAOMarca;
 import Backend.Modelo.Marca;
+import Backend.Util.ModeloTabla.GestionCeldas;
+import Backend.Util.ModeloTabla.GestionEncabezadoTabla;
 import Backend.Util.ModeloTabla.ModeloTabla;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -20,12 +23,138 @@ public class frmMarca extends javax.swing.JInternalFrame {
     /**
      * Creates new form frmMarca
      */
-    ModeloTabla ModeloTabla;   
+    ModeloTabla ModeloTabla;
+    private Marca marca;
+    ArrayList<Marca> lista;
+    String datos[][];
+    String columnas[];
+    int index;
+
     public frmMarca() {
         initComponents();
         actualizaTablaMarca();
         txtidMarca.setEnabled(false);
 
+    }
+
+    //metodo para dar formato especifico a la tabla
+    private void formatoTabla(String datos[][], String columnas[]) {
+        //Instanciamos un modelo de tabla con los datos de los productos
+        ModeloTabla = new ModeloTabla(datos, columnas);
+        //Le asignamos a nuestra tabla el modelo
+        tblMarca.setModel(ModeloTabla);
+
+        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
+        // gestionEncabezados (setCellRerender)
+        //tblCategoria.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("texto"));
+        //tblCategoria.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("texto"));
+        for (int i = 0; i < columnas.length; i++) {
+            tblMarca.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
+        }
+
+        //Ajustamos otras cosas del encavezado
+        tblMarca.getTableHeader().setReorderingAllowed(false);
+        tblMarca.setRowHeight(25);//definimos el alto de las celdas
+        //Establecemos el ancho de las celdas (al gusto y necesidad)
+        tblMarca.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tblMarca.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+        tblMarca.setGridColor(new java.awt.Color(0, 0, 0));//Color
+
+        //personaliza el encabezado
+        JTableHeader jtableHeader = tblMarca.getTableHeader();
+        jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
+        tblMarca.setTableHeader(jtableHeader);
+    }
+
+    private void actualizaTablaMarca() {
+        lista = new DAOMarca().obtener();
+        datos = new String[lista.size()][2];
+        columnas = new String[]{"ID", "Nombre"};
+
+        for (int i = 0; i < lista.size(); i++) {
+            datos[i][0] = lista.get(i).getIdMarca() + "";
+            datos[i][1] = lista.get(i).getNombre();
+        }
+        formatoTabla(datos, columnas);
+        //tblMarca.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+    }
+
+    private void limpiarcajas() {
+        txtNombre.setText("");
+        txtidMarca.setText("");
+        btnAgregar.setEnabled(true);
+    }
+
+    private void agregar() {
+        if (!txtNombre.getText().equals("")) {
+            if (new DAOMarca().registrar(new Marca(txtNombre.getText()))) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaMarca();
+            } else {
+                JOptionPane.showMessageDialog(null, "No fue posible registrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Valores incompatibles y/o vacios", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void eliminar() {
+        if (!txtNombre.getText().equals("") && !txtidMarca.getText().equals("")) {
+            if (new DAOMarca().eliminar(new Marca(Integer.parseInt(txtidMarca.getText()), txtNombre.getText()))) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Eliminado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaMarca();
+            } else {
+                System.out.println("No fue posible eliminar la marca");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun elemento", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void buscar() {
+        if (!txtNombre.getText().equals("")) {
+            if (!txtNombre.getText().equals("")) {
+                marca = new DAOMarca().buscar(txtNombre.getText());
+                datos = new String[1][2];
+                columnas = new String[]{"ID", "Nombre"};
+
+                datos[0][0] = marca.getIdMarca() + "";
+                datos[0][1] = marca.getNombre();
+
+                formatoTabla(datos, columnas);
+                //tblMarca.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void modificar() {
+        if (!txtNombre.getText().equals("") && !txtidMarca.getText().equals("")) {
+            if (new DAOMarca().actualizar(new Marca(Integer.parseInt(txtidMarca.getText()), txtNombre.getText()))) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaMarca();
+            } else {
+                JOptionPane.showMessageDialog(null, "Edicion sin éxito", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Cajas vacias", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void mouseClicked() {
+        index = tblMarca.getSelectedRow();
+        btnAgregar.setEnabled(false);
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Empty table");
+        } else {
+            txtidMarca.setText(tblMarca.getValueAt(index, 0).toString());
+            txtNombre.setText(tblMarca.getValueAt(index, 1).toString());
+        }
     }
 
     /**
@@ -221,68 +350,22 @@ public class frmMarca extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        if (!txtNombre.getText().equals("")) {
-            if (new DAOMarca().registrar(new Marca(txtNombre.getText()))) {
-                limpiarcajas();
-                JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                actualizaTablaMarca();
-            }else {
-                JOptionPane.showMessageDialog(null, "No fue posible registrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Valores incompatibles y/o vacios", null, JOptionPane.WARNING_MESSAGE);
-        }
+        agregar();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-        if (!txtNombre.getText().equals("") && !txtidMarca.getText().equals("")) {
-            if (new DAOMarca().eliminar(new Marca(Integer.parseInt(txtidMarca.getText()), txtNombre.getText()))) {
-                limpiarcajas();
-                JOptionPane.showMessageDialog(null, "Eliminado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                actualizaTablaMarca();
-            } else {
-                System.out.println("No fue posible eliminar la marca");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun elemento", null, JOptionPane.WARNING_MESSAGE);
-        }
+        eliminar();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        if (!txtNombre.getText().equals("")) {
-            if (!txtNombre.getText().equals("")) {
-                ArrayList<Marca> lista = new DAOMarca().buscar(txtNombre.getText());
-                String datos[][] = new String[lista.size()][2];
-                String columnas[] = new String[]{"ID", "Nombre"};
-
-                for (int i = 0; i < lista.size(); i++) {
-                    datos[i][0] = lista.get(i).getIdMarca() + "";
-                    datos[i][1] = lista.get(i).getNombre();
-                }
-                tblMarca.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-            }
-        }else {
-            JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
-        }
-
-
+        buscar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModifciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifciarActionPerformed
         // TODO add your handling code here:
-        if (!txtNombre.getText().equals("") && !txtidMarca.getText().equals("")) {
-            if (new DAOMarca().actualizar(new Marca(Integer.parseInt(txtidMarca.getText()), txtNombre.getText()))) {
-                limpiarcajas();
-                JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                actualizaTablaMarca();
-            } else {
-                JOptionPane.showMessageDialog(null, "Edicion sin éxito", "Mensaje", JOptionPane.ERROR_MESSAGE);
-            }
-        }else {
-            JOptionPane.showMessageDialog(null, "Cajas vacias", null, JOptionPane.WARNING_MESSAGE);
-        }
+        modificar();
     }//GEN-LAST:event_btnModifciarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -293,33 +376,9 @@ public class frmMarca extends javax.swing.JInternalFrame {
 
     private void tblMarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMarcaMouseClicked
         // TODO add your handling code here:
-        int index = tblMarca.getSelectedRow();
-        btnAgregar.setEnabled(false);
-        if (index == -1) {
-            JOptionPane.showMessageDialog(null, "Empty table");
-        } else {
-            txtidMarca.setText(tblMarca.getValueAt(index, 0).toString());
-            txtNombre.setText(tblMarca.getValueAt(index, 1).toString());
-        }
+        mouseClicked();
     }//GEN-LAST:event_tblMarcaMouseClicked
 
-    public void actualizaTablaMarca() {
-        ArrayList<Marca> lista = new DAOMarca().obtener();
-        String datos[][] = new String[lista.size()][2];
-        String columnas[] = new String[]{"ID", "Nombre"};
-
-        for (int i = 0; i < lista.size(); i++) {
-            datos[i][0] = lista.get(i).getIdMarca() + "";
-            datos[i][1] = lista.get(i).getNombre();
-        }
-        tblMarca.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-    }
-
-    public void limpiarcajas() {
-        txtNombre.setText("");
-        txtidMarca.setText("");
-        btnAgregar.setEnabled(true);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

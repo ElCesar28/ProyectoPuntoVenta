@@ -13,7 +13,11 @@ import javax.swing.table.JTableHeader;
 public class frmEmpleado extends javax.swing.JInternalFrame {
 
     ModeloTabla ModeloTabla;
+    ArrayList<Empleado> lista;
     Empleado empleado;
+    String datos[][];
+    String columnas[];
+    int index;
 
     public frmEmpleado() {
         initComponents();
@@ -22,8 +26,8 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
         this.empleado = new Empleado();
 
     }
-    //metodo para dar formato especifico a la tabla
 
+    //metodo para dar formato especifico a la tabla
     private void formatoTabla(String datos[][], String columnas[]) {
         //Instanciamos un modelo de tabla con los datos de los productos
         ModeloTabla = new ModeloTabla(datos, columnas);
@@ -58,6 +62,182 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
         jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
         tablaEmpleado.setTableHeader(jtableHeader);
     }
+
+    private void mouseClicked() {
+        index = tablaEmpleado.getSelectedRow(); // se almacena en una varibale tipo int el numero de renglon seleccionado
+        btnAgregar.setEnabled(false); // se desabilita el boton agregar
+        txtPass.setEnabled(false); // se desabilita el textbox 
+        if (index == -1) { // un if que compara el numero de renglon
+            JOptionPane.showMessageDialog(null, "Empty table"); // se inicia una ventana 
+        } else {
+            // se almacenan los valores dados 
+            txtidEmpleado.setText(tablaEmpleado.getValueAt(index, 0).toString());
+            txtUsuario.setText(tablaEmpleado.getValueAt(index, 1).toString());
+            txtPass.setText(tablaEmpleado.getValueAt(index, 2).toString());
+            txtNombre.setText(tablaEmpleado.getValueAt(index, 3).toString());
+            txtApellidos.setText(tablaEmpleado.getValueAt(index, 4).toString());
+            txtCorreo.setText(tablaEmpleado.getValueAt(index, 5).toString());
+            txtTel1.setText(tablaEmpleado.getValueAt(index, 6).toString());
+            txtTel2.setText(tablaEmpleado.getValueAt(index, 7).toString());
+            if (!tablaEmpleado.getValueAt(index, 8).toString().equals("administrador")) {
+                cboxRol.setSelectedIndex(1);
+            } else {
+                cboxRol.setSelectedIndex(2);
+            }
+            txtDirecciom.setText(tablaEmpleado.getValueAt(index, 9).toString());
+        }
+    }
+
+    private void eliminar() {
+        if (estavacias()) {
+            if (new DAOEmpleado().eliminar(
+                    Integer.parseInt(txtidEmpleado.getText())
+            )) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaEmpleado();
+            } else {
+                JOptionPane.showMessageDialog(null, "No fue posible editar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void buscar() {
+        if (!txtidEmpleadoBusqueda.getText().equals("")) {
+            empleado = new DAOEmpleado().buscar(Integer.parseInt(txtidEmpleadoBusqueda.getText()));
+
+            datos = new String[1][2];
+            columnas = new String[]{"ID", "User", "Password", "Nombre", "Apellido", "Correo", "Telefono1", "Telefono2", "Rol", "Direccion"};
+
+            datos[0] = empleado.toString().split(",");
+
+            formatoTabla(datos, columnas);
+            //tablaEmpleado.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+        } else {
+            JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void editar() {
+        if (estavacias()) {
+            if (new DAOEmpleado().actualizar(new Empleado(
+                    Integer.parseInt(txtidEmpleado.getText()),
+                    txtUsuario.getText(),
+                    txtPass.getText(),
+                    txtNombre.getText(),
+                    txtApellidos.getText(),
+                    txtCorreo.getText(),
+                    txtTel1.getText(),
+                    txtTel2.getText(),
+                    cboxRol.getSelectedItem().toString(),
+                    txtDirecciom.getText()
+            ))) {
+                limpiarcajas();
+                JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaEmpleado();
+            } else {
+                JOptionPane.showMessageDialog(null, "No fue posible editar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void agregar() {
+        if (estavacias()) { //se compara si metodo estavacias
+            if (new DAOEmpleado().registrar(new Empleado(
+                    0,
+                    // se obtienen los valores que se ingresaron
+                    txtUsuario.getText(),
+                    txtPass.getText(),
+                    txtNombre.getText(),
+                    txtApellidos.getText(),
+                    txtCorreo.getText(),
+                    txtTel1.getText(),
+                    txtTel2.getText(),
+                    cboxRol.getSelectedItem().toString(),
+                    txtDirecciom.getText()
+            ))) {
+                limpiarcajas(); // se limpian las cajas
+                // se inicia una pantalla con el mensaje de registrado
+                JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                // se actualiza la tabla
+                actualizaTablaEmpleado();
+            } else {
+                // se inicia una pantalla cuando no se agrega el empleado
+                JOptionPane.showMessageDialog(null, "No fue posible registrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // se inicia una pantalla cuando los valores no concuerdan
+            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void actualizar() {
+        // se comparan si los valores en los txt son iguales a cadena vacia
+        if (!txtidEmpleadocontra.getText().equals("") && !txtPassupdate.getText().equals("")) {
+            //se mandan a llamar los metodos con valores que se ingresan
+            if (new DAOEmpleado().actualizarPassword(Integer.parseInt(txtidEmpleadocontra.getText()), txtPassupdate.getText())) {
+                limpiarcajas(); // se limpia la caja
+                // se inicia una pantalla con el mensaje de exito
+                JOptionPane.showMessageDialog(null, "Actualizado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                actualizaTablaEmpleado(); // se actualiza la tabla empleado
+            } else {
+                // se inicia una pantalla con el mensaje de error en editar
+                JOptionPane.showMessageDialog(null, "No fue posible editar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // se inicia una ventana donde advierte de datos incompletos
+            JOptionPane.showMessageDialog(null, "Cajas vacias", null, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+     ///Este metodo nos permite validar que las cajas no estén vacias 
+    public boolean estavacias() {
+        return !txtUsuario.getText().equals("") && !txtPass.getText().equals("") && !txtNombre.getText().equals("") && !txtApellidos.getText().equals("")
+                && !txtCorreo.getText().equals("") && !txtTel1.getText().equals("") && !cboxRol.getSelectedItem().toString().equals("Seleccione") && !txtDirecciom.getText().equals("");
+    }
+
+    // se crea el metodo de actualizar 
+    private void actualizaTablaEmpleado() {
+        // se crea un arraylist de tipo empleado con el metodo de obtner del DAO
+        lista = new DAOEmpleado().obtener();
+        // se crea una matriz 
+        datos = new String[lista.size()][2];
+        // se crea un arreglo
+        columnas = new String[]{"ID", "User", "Password", "Nombre", "Apellido", "Correo", "Telefono1", "Telefono2", "Rol", "Direccion"};
+
+        for (int i = 0; i < lista.size(); i++) {
+            // se almacenan los datos
+            datos[i] = lista.get(i).toString().split(",");
+        }
+        formatoTabla(datos, columnas);
+        //tablaEmpleado.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+    }
+
+    // se crea el metodo limpiarcajas
+    private void limpiarcajas() {
+        // se modifican los valores que contienen por cadenas vacias
+        txtidEmpleado.setText("");
+        txtUsuario.setText("");
+        txtPass.setText("");
+        txtNombre.setText("");
+        txtApellidos.setText("");
+        txtCorreo.setText("");
+        txtTel1.setText("");
+        txtTel2.setText("");
+        cboxRol.setSelectedIndex(0);
+        txtDirecciom.setText("");
+        txtidEmpleadoBusqueda.setText("");
+        btnAgregar.setEnabled(true);
+        txtPass.setEnabled(true);
+        txtidEmpleadocontra.setText("");
+        txtPassupdate.setText("");
+
+    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -531,182 +711,29 @@ public class frmEmpleado extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void tablaEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEmpleadoMouseClicked
-        int index = tablaEmpleado.getSelectedRow(); // se almacena en una varibale tipo int el numero de renglon seleccionado
-        btnAgregar.setEnabled(false); // se desabilita el boton agregar
-        txtPass.setEnabled(false); // se desabilita el textbox 
-        if (index == -1) { // un if que compara el numero de renglon
-            JOptionPane.showMessageDialog(null, "Empty table"); // se inicia una ventana 
-        } else {
-            // se almacenan los valores dados 
-            txtidEmpleado.setText(tablaEmpleado.getValueAt(index, 0).toString());
-            txtUsuario.setText(tablaEmpleado.getValueAt(index, 1).toString());
-            txtPass.setText(tablaEmpleado.getValueAt(index, 2).toString());
-            txtNombre.setText(tablaEmpleado.getValueAt(index, 3).toString());
-            txtApellidos.setText(tablaEmpleado.getValueAt(index, 4).toString());
-            txtCorreo.setText(tablaEmpleado.getValueAt(index, 5).toString());
-            txtTel1.setText(tablaEmpleado.getValueAt(index, 6).toString());
-            txtTel2.setText(tablaEmpleado.getValueAt(index, 7).toString());
-            if (!tablaEmpleado.getValueAt(index, 8).toString().equals("administrador")) {
-                cboxRol.setSelectedIndex(1);
-            } else {
-                cboxRol.setSelectedIndex(2);
-            }
-            txtDirecciom.setText(tablaEmpleado.getValueAt(index, 9).toString());
-        }
-
+        mouseClicked();
     }//GEN-LAST:event_tablaEmpleadoMouseClicked
 
     private void btnElimarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimarActionPerformed
         // TODO add your handling code here:
-        if (estavacias()) {
-            if (new DAOEmpleado().eliminar(
-                    Integer.parseInt(txtidEmpleado.getText())
-            )) {
-                limpiarcajas();
-                JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                actualizaTablaEmpleado();
-            } else {
-                JOptionPane.showMessageDialog(null, "No fue posible editar", "Mensaje", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
-        }
+        eliminar();
     }//GEN-LAST:event_btnElimarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if (!txtidEmpleadoBusqueda.getText().equals("")) {
-            ArrayList<Empleado> lista = new DAOEmpleado().buscar(Integer.parseInt(txtidEmpleadoBusqueda.getText()));
-
-            String datos[][] = new String[lista.size()][2];
-            String columnas[] = new String[]{"ID", "User", "Password", "Nombre", "Apellido", "Correo", "Telefono1", "Telefono2", "Rol", "Direccion"};
-
-            for (int i = 0; i < lista.size(); i++) {
-                datos[i] = lista.get(i).toString().split(",");
-            }
-            formatoTabla(datos, columnas);
-            //tablaEmpleado.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-        } else {
-            JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
-        }
+        buscar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        if (estavacias()) {
-            if (new DAOEmpleado().actualizar(new Empleado(
-                    Integer.parseInt(txtidEmpleado.getText()),
-                    txtUsuario.getText(),
-                    txtPass.getText(),
-                    txtNombre.getText(),
-                    txtApellidos.getText(),
-                    txtCorreo.getText(),
-                    txtTel1.getText(),
-                    txtTel2.getText(),
-                    cboxRol.getSelectedItem().toString(),
-                    txtDirecciom.getText()
-            ))) {
-                limpiarcajas();
-                JOptionPane.showMessageDialog(null, "Editado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                actualizaTablaEmpleado();
-            } else {
-                JOptionPane.showMessageDialog(null, "No fue posible editar", "Mensaje", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
-        }
+        editar();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (estavacias()) { //se compara si metodo estavacias
-            if (new DAOEmpleado().registrar(new Empleado(
-                    0,
-                    // se obtienen los valores que se ingresaron
-                    txtUsuario.getText(),
-                    txtPass.getText(),
-                    txtNombre.getText(),
-                    txtApellidos.getText(),
-                    txtCorreo.getText(),
-                    txtTel1.getText(),
-                    txtTel2.getText(),
-                    cboxRol.getSelectedItem().toString(),
-                    txtDirecciom.getText()
-            ))) {
-                limpiarcajas(); // se limpian las cajas
-                // se inicia una pantalla con el mensaje de registrado
-                JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                // se actualiza la tabla
-                actualizaTablaEmpleado();
-            } else {
-                // se inicia una pantalla cuando no se agrega el empleado
-                JOptionPane.showMessageDialog(null, "No fue posible registrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            // se inicia una pantalla cuando los valores no concuerdan
-            JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
-        }
+        agregar();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnactualizacontraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizacontraseñaActionPerformed
-        // se comparan si los valores en los txt son iguales a cadena vacia
-        if (!txtidEmpleadocontra.getText().equals("") && !txtPassupdate.getText().equals("")) {
-            //se mandan a llamar los metodos con valores que se ingresan
-            if (new DAOEmpleado().actualizarPassword(Integer.parseInt(txtidEmpleadocontra.getText()), txtPassupdate.getText())) {
-                limpiarcajas(); // se limpia la caja
-                // se inicia una pantalla con el mensaje de exito
-                JOptionPane.showMessageDialog(null, "Actualizado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                actualizaTablaEmpleado(); // se actualiza la tabla empleado
-            } else {
-                // se inicia una pantalla con el mensaje de error en editar
-                JOptionPane.showMessageDialog(null, "No fue posible editar", "Mensaje", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            // se inicia una ventana donde advierte de datos incompletos
-            JOptionPane.showMessageDialog(null, "Cajas vacias", null, JOptionPane.WARNING_MESSAGE);
-        }
+        actualizar();
     }//GEN-LAST:event_btnactualizacontraseñaActionPerformed
-
-    ///Este metodo nos permite validar que las cajas no estén vacias 
-    public boolean estavacias() {
-        return !txtUsuario.getText().equals("") && !txtPass.getText().equals("") && !txtNombre.getText().equals("") && !txtApellidos.getText().equals("")
-                && !txtCorreo.getText().equals("") && !txtTel1.getText().equals("") && !cboxRol.getSelectedItem().toString().equals("Seleccione") && !txtDirecciom.getText().equals("");
-    }
-
-    // se crea el metodo de actualizar 
-    public void actualizaTablaEmpleado() {
-        // se crea un arraylist de tipo empleado con el metodo de obtner del DAO
-        ArrayList<Empleado> lista = new DAOEmpleado().obtener();
-        // se crea una matriz 
-        String datos[][] = new String[lista.size()][2];
-        // se crea un arreglo
-        String columnas[] = new String[]{"ID", "User", "Password", "Nombre", "Apellido", "Correo", "Telefono1", "Telefono2", "Rol", "Direccion"};
-
-        for (int i = 0; i < lista.size(); i++) {
-            // se almacenan los datos
-            datos[i] = lista.get(i).toString().split(",");
-        }
-        formatoTabla(datos, columnas);
-        //tablaEmpleado.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-    }
-
-    // se crea el metodo limpiarcajas
-    public void limpiarcajas() {
-        // se modifican los valores que contienen por cadenas vacias
-        txtidEmpleado.setText("");
-        txtUsuario.setText("");
-        txtPass.setText("");
-        txtNombre.setText("");
-        txtApellidos.setText("");
-        txtCorreo.setText("");
-        txtTel1.setText("");
-        txtTel2.setText("");
-        cboxRol.setSelectedIndex(0);
-        txtDirecciom.setText("");
-        txtidEmpleadoBusqueda.setText("");
-        btnAgregar.setEnabled(true);
-        txtPass.setEnabled(true);
-        txtidEmpleadocontra.setText("");
-        txtPassupdate.setText("");
-
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

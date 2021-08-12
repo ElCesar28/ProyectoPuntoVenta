@@ -26,43 +26,15 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     ModeloTabla ModeloTabla;
     private Categoria categoria;
     ArrayList<Categoria> lista;
+    String datos[][];
+    String columnas[];
+    int index;
 
     public frmCategoria() {
         initComponents();
         actualizaTablaMarca();
         this.txtidCategoria.setEnabled(false);
-        this.lista = new 
-        
-    }
 
-    //metodo para dar formato especifico a la tabla
-    private void formatoTabla(String datos[][], String columnas[]) {
-        //Instanciamos un modelo de tabla con los datos de los productos
-        ModeloTabla = new ModeloTabla(datos, columnas);
-        //Le asignamos a nuestra tabla el modelo
-        tblCategoria.setModel(ModeloTabla);
-
-        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
-        // gestionEncabezados (setCellRerender)
-        //tblCategoria.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("texto"));
-        //tblCategoria.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("texto"));
-        for (int i = 0; i < columnas.length; i++) {
-            tblCategoria.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
-        }
-
-        //Ajustamos otras cosas del encavezado
-        tblCategoria.getTableHeader().setReorderingAllowed(false);
-        tblCategoria.setRowHeight(25);//definimos el alto de las celdas
-        //Establecemos el ancho de las celdas (al gusto y necesidad)
-        tblCategoria.getColumnModel().getColumn(0).setPreferredWidth(30);
-        tblCategoria.getColumnModel().getColumn(1).setPreferredWidth(100);
-
-        tblCategoria.setGridColor(new java.awt.Color(0, 0, 0));//Color
-
-        //personaliza el encabezado
-        JTableHeader jtableHeader = tblCategoria.getTableHeader();
-        jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
-        tblCategoria.setTableHeader(jtableHeader);
     }
 
     @SuppressWarnings("unchecked")
@@ -254,23 +226,71 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+    //metodo para dar formato especifico a la tabla
+    private void formatoTabla(String datos[][], String columnas[]) {
+        //Instanciamos un modelo de tabla con los datos de los productos
+        ModeloTabla = new ModeloTabla(datos, columnas);
+        //Le asignamos a nuestra tabla el modelo
+        tblCategoria.setModel(ModeloTabla);
+
+        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
+        // gestionEncabezados (setCellRerender)
+        //tblCategoria.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("texto"));
+        //tblCategoria.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("texto"));
+        for (int i = 0; i < columnas.length; i++) {
+            tblCategoria.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
+        }
+
+        //Ajustamos otras cosas del encavezado
+        tblCategoria.getTableHeader().setReorderingAllowed(false);
+        tblCategoria.setRowHeight(25);//definimos el alto de las celdas
+        //Establecemos el ancho de las celdas (al gusto y necesidad)
+        tblCategoria.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tblCategoria.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+        tblCategoria.setGridColor(new java.awt.Color(0, 0, 0));//Color
+
+        //personaliza el encabezado
+        JTableHeader jtableHeader = tblCategoria.getTableHeader();
+        jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
+        tblCategoria.setTableHeader(jtableHeader);
+    }
+
+    private void actualizaTablaMarca() {
+        lista = new DAOCategoria().obtener();
+        datos = new String[lista.size()][2];
+        columnas = new String[]{"ID", "Nombre"};
+
+        for (int i = 0; i < lista.size(); i++) {
+            datos[i][0] = lista.get(i).getIdCategoria() + "";
+            datos[i][1] = lista.get(i).getNombre();
+        }
+        //tblCategoria.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+        formatoTabla(datos, columnas);
+        lista.clear();
+    }
+
+    private void limpiarcajas() {
+        txtNombre.setText("");
+        txtidCategoria.setText("");
+        btnAgregar.setEnabled(true);
+    }
+
+    private void agregar() {
         if (!txtNombre.getText().equals("")) {
             if (new DAOCategoria().registrar(new Categoria(txtNombre.getText()))) {
                 limpiarcajas();
                 JOptionPane.showMessageDialog(null, "Registrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                 actualizaTablaMarca();
             } else {
-                System.out.println("No fue posible regristrar la categoria");
+                JOptionPane.showMessageDialog(null, "No fue posible regristrar la categoria", null, JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+    private void eliminar() {
         if (!txtNombre.getText().equals("") && !txtidCategoria.getText().equals("")) {
             if (new DAOCategoria().eliminar(new Categoria(Integer.parseInt(txtidCategoria.getText()), txtNombre.getText()))) {
                 limpiarcajas();
@@ -283,27 +303,26 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "No ha seleccionado ningun elemento", null, JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+    private void buscar() {
         if (!txtNombre.getText().equals("")) {
-            categoria = new DAOCategoria().buscar(txtNombre.getText());
-            String datos[][] = new String[1][2];
-            String columnas[] = new String[]{"ID", "Nombre"};
+            this.categoria = new DAOCategoria().buscar(txtNombre.getText());
 
-            datos[0][0] = categoria.getIdCategoria() + "";
-            datos[0][1] = categoria.getNombre();
+            this.datos = new String[1][2];
+            this.columnas = new String[]{"ID", "Nombre"};
+
+            this.datos[0][0] = categoria.getIdCategoria() + "";
+            this.datos[0][1] = categoria.getNombre();
 
             //tblCategoria.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-            formatoTabla(datos, columnas);
+            formatoTabla(this.datos, this.columnas);
         } else {
             JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnBuscarActionPerformed
+    }
 
-    private void btnModifciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifciarActionPerformed
-        // TODO add your handling code here:
+    private void modificar() {
         if (!txtNombre.getText().equals("") && !txtidCategoria.getText().equals("")) {
             if (new DAOCategoria().actualizar(new Categoria(Integer.parseInt(txtidCategoria.getText()), txtNombre.getText()))) {
                 limpiarcajas();
@@ -315,6 +334,38 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Cajas vacias", null, JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    private void mouseClicked() {
+        this.index = tblCategoria.getSelectedRow();
+        this.btnAgregar.setEnabled(false);
+
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Empty table");
+        } else {
+            txtidCategoria.setText(tblCategoria.getValueAt(index, 0).toString());
+            txtNombre.setText(tblCategoria.getValueAt(index, 1).toString());
+        }
+    }
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        agregar();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        eliminar();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        buscar();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnModifciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifciarActionPerformed
+        // TODO add your handling code here:
+        modificar();
     }//GEN-LAST:event_btnModifciarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -325,36 +376,9 @@ public class frmCategoria extends javax.swing.JInternalFrame {
 
     private void tblCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoriaMouseClicked
         // TODO add your handling code here:
-        int index = tblCategoria.getSelectedRow();
-        btnAgregar.setEnabled(false);
-
-        if (index == -1) {
-            JOptionPane.showMessageDialog(null, "Empty table");
-        } else {
-            txtidCategoria.setText(tblCategoria.getValueAt(index, 0).toString());
-            txtNombre.setText(tblCategoria.getValueAt(index, 1).toString());
-        }
+        mouseClicked();
     }//GEN-LAST:event_tblCategoriaMouseClicked
 
-    public void actualizaTablaMarca() {
-        lista = new DAOCategoria().obtener();
-        String datos[][] = new String[lista.size()][2];
-        String columnas[] = new String[]{"ID", "Nombre"};
-
-        for (int i = 0; i < lista.size(); i++) {
-            datos[i][0] = lista.get(i).getIdCategoria() + "";
-            datos[i][1] = lista.get(i).getNombre();
-        }
-        //tblCategoria.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-        formatoTabla(datos, columnas);
-        lista.clear();
-    }
-
-    public void limpiarcajas() {
-        txtNombre.setText("");
-        txtidCategoria.setText("");
-        btnAgregar.setEnabled(true);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

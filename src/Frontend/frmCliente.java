@@ -26,45 +26,15 @@ public class frmCliente extends javax.swing.JInternalFrame {
     ModeloTabla ModeloTabla;
     Cliente cliente;
     ArrayList<Cliente> lista;
+    String datos[][];
+    String columnas[];
+    int index;
 
     public frmCliente() {
         initComponents();
         // btnLimpiar.setIcon(setIcono("/imagenes/limpiar.png", btnLimpiar));
         actualizaTablaCliente();
         txtidCliente.setEnabled(false);
-    }
-
-    //metodo para dar formato especifico a la tabla
-    private void formatoTabla(String datos[][], String columnas[]) {
-        //Instanciamos un modelo de tabla con los datos de los productos
-        ModeloTabla = new ModeloTabla(datos, columnas);
-        //Le asignamos a nuestra tabla el modelo
-        tablaCliente.setModel(ModeloTabla);
-
-        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
-        // gestionEncabezados (setCellRerender)
-        for (int i = 0; i < columnas.length; i++) {
-            tablaCliente.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
-        }
-
-        //Ajustamos otras cosas del encavezado
-        tablaCliente.getTableHeader().setReorderingAllowed(false);
-        tablaCliente.setRowHeight(25);//definimos el alto de las celdas
-        //Establecemos el ancho de las celdas (al gusto y necesidad)
-        tablaCliente.getColumnModel().getColumn(0).setPreferredWidth(45);
-        tablaCliente.getColumnModel().getColumn(1).setPreferredWidth(110);
-        tablaCliente.getColumnModel().getColumn(2).setPreferredWidth(110);
-        tablaCliente.getColumnModel().getColumn(3).setPreferredWidth(180);
-        tablaCliente.getColumnModel().getColumn(4).setPreferredWidth(60);
-        tablaCliente.getColumnModel().getColumn(5).setPreferredWidth(60);
-        tablaCliente.getColumnModel().getColumn(6).setPreferredWidth(50);
-
-        tablaCliente.setGridColor(new java.awt.Color(0, 0, 0));//Color
-
-        //personaliza el encabezado
-        JTableHeader jtableHeader = tablaCliente.getTableHeader();
-        jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
-        tablaCliente.setTableHeader(jtableHeader);
     }
 
     @SuppressWarnings("unchecked")
@@ -403,13 +373,69 @@ public class frmCliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        limpiarcajas();
-        actualizaTablaCliente();
+    //metodo para dar formato especifico a la tabla
+    private void formatoTabla(String datos[][], String columnas[]) {
+        //Instanciamos un modelo de tabla con los datos de los productos
+        ModeloTabla = new ModeloTabla(datos, columnas);
+        //Le asignamos a nuestra tabla el modelo
+        tablaCliente.setModel(ModeloTabla);
 
-    }//GEN-LAST:event_btnLimpiarActionPerformed
+        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
+        // gestionEncabezados (setCellRerender)
+        for (int i = 0; i < columnas.length; i++) {
+            tablaCliente.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
+        }
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        //Ajustamos otras cosas del encavezado
+        tablaCliente.getTableHeader().setReorderingAllowed(false);
+        tablaCliente.setRowHeight(25);//definimos el alto de las celdas
+        //Establecemos el ancho de las celdas (al gusto y necesidad)
+        tablaCliente.getColumnModel().getColumn(0).setPreferredWidth(45);
+        tablaCliente.getColumnModel().getColumn(1).setPreferredWidth(110);
+        tablaCliente.getColumnModel().getColumn(2).setPreferredWidth(110);
+        tablaCliente.getColumnModel().getColumn(3).setPreferredWidth(180);
+        tablaCliente.getColumnModel().getColumn(4).setPreferredWidth(60);
+        tablaCliente.getColumnModel().getColumn(5).setPreferredWidth(60);
+        tablaCliente.getColumnModel().getColumn(6).setPreferredWidth(50);
+
+        tablaCliente.setGridColor(new java.awt.Color(0, 0, 0));//Color
+
+        //personaliza el encabezado
+        JTableHeader jtableHeader = tablaCliente.getTableHeader();
+        jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
+        tablaCliente.setTableHeader(jtableHeader);
+    }
+
+    ///Este metodo nos permite validar que las cajas no estén vacias 
+    private boolean estavacias() {
+        return !txtNombre.getText().equals("") && !txtApellidos.getText().equals("")
+                && !txtDireccion.getText().equals("") && !txtTel1.getText().equals("");
+    }
+
+    private void actualizaTablaCliente() {
+        this.lista = new DAOCliente().obtener();
+        datos = new String[lista.size()][2];
+        columnas = new String[]{"ID", "Nombre", "Apellidos", "Direccion", "Telefono1", "Telefono2", "Tipo"};
+
+        for (int i = 0; i < lista.size(); i++) {
+            datos[i] = lista.get(i).toString().split(",");
+        }
+        formatoTabla(datos, columnas);
+        //tablaCliente.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+    }
+
+    private void limpiarcajas() {
+        txtidCliente.setText("");
+        txtNombre.setText("");
+        txtApellidos.setText("");
+        txtDireccion.setText("");
+        txtTel1.setText("");
+        txtTel2.setText("");
+        txtidClienteBusqueda.setText("");
+        btnAgregar.setEnabled(true);
+    }
+
+    private void agregar() {
         if (estavacias()) {
             if (new DAOCliente().registrar(new Cliente(
                     0,
@@ -429,9 +455,9 @@ public class frmCliente extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+    private void editar() {
         if (estavacias()) {
             if (new DAOCliente().actualizar(new Cliente(
                     Integer.parseInt(txtidCliente.getText()),
@@ -451,9 +477,9 @@ public class frmCliente extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnEditarActionPerformed
+    }
 
-    private void btnElimarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimarActionPerformed
+    private void eliminar() {
         if (estavacias()) {
             if (new DAOCliente().eliminar(new Cliente(
                     Integer.parseInt(txtidCliente.getText()),
@@ -472,10 +498,10 @@ public class frmCliente extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Valores incompatibles", null, JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnElimarActionPerformed
+    }
 
-    private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
-        int index = tablaCliente.getSelectedRow();
+    private void mouseClicked() {
+        index = tablaCliente.getSelectedRow();
         btnAgregar.setEnabled(false);
 
         if (index == -1) {
@@ -489,17 +515,13 @@ public class frmCliente extends javax.swing.JInternalFrame {
             txtTel2.setText((String) tablaCliente.getValueAt(index, 5));
 
         }
+    }
 
-    }//GEN-LAST:event_tablaClienteMouseClicked
-
-    String datos[][];
-    String columnas[];
-            
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+    private void buscar() {
         if (!txtidClienteBusqueda.getText().equals("")) {
             cliente = new DAOCliente().buscar(Integer.parseInt(txtidClienteBusqueda.getText()));
-            String datos[][] = new String[1][2];
-            String columnas[] = new String[]{"ID", "Nombre", "Apellidos", "Direccion", "Telefono1", "Telefono2", "Tipo"};
+            datos = new String[1][2];
+            columnas = new String[]{"ID", "Nombre", "Apellidos", "Direccion", "Telefono1", "Telefono2", "Tipo"};
 
             datos[0] = cliente.toString().split(",");
 
@@ -508,37 +530,36 @@ public class frmCliente extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarcajas();
+        actualizaTablaCliente();
+
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        agregar();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        editar();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnElimarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimarActionPerformed
+        eliminar();
+    }//GEN-LAST:event_btnElimarActionPerformed
+
+    private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
+        mouseClicked();
+
+    }//GEN-LAST:event_tablaClienteMouseClicked
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        buscar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    ///Este metodo nos permite validar que las cajas no estén vacias 
-    public boolean estavacias() {
-        return !txtNombre.getText().equals("") && !txtApellidos.getText().equals("")
-                && !txtDireccion.getText().equals("") && !txtTel1.getText().equals("");
-    }
 
-    public void actualizaTablaCliente() {
-        this.lista = new DAOCliente().obtener();
-        String datos[][] = new String[lista.size()][2];
-        String columnas[] = new String[]{"ID", "Nombre", "Apellidos", "Direccion", "Telefono1", "Telefono2", "Tipo"};
-
-        for (int i = 0; i < lista.size(); i++) {
-            datos[i] = lista.get(i).toString().split(",");
-        }
-        formatoTabla(datos, columnas);
-        //tablaCliente.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-        this.lista.clear();
-    }
-
-    public void limpiarcajas() {
-        txtidCliente.setText("");
-        txtNombre.setText("");
-        txtApellidos.setText("");
-        txtDireccion.setText("");
-        txtTel1.setText("");
-        txtTel2.setText("");
-        txtidClienteBusqueda.setText("");
-        btnAgregar.setEnabled(true);
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;

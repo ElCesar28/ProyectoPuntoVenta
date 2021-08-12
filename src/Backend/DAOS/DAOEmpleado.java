@@ -34,27 +34,23 @@ public class DAOEmpleado {
 //    }
     
     // metodo de arraylist de tipo empleado, el login
-     public ArrayList<Empleado> login(String us, String pass) {
+     public Empleado login(String us, String pass) {
        // obtner conexiones
         Connection co = null;
         Statement stm = null;
         ResultSet rs = null;
+        
+        Empleado e = new Empleado();
 
         // consulta almacenada en un string para workbench
          String sql = "select * from empleado where user='" + us + "'"
                 + " and password=sha1('" + pass + "')";
-
-         // se crea un array de tipo empleado llamada listaempleado
-        ArrayList<Empleado> listaEmpleado = new ArrayList<>();
-
         try {
             co = Conexion.Conectar();
             stm = co.createStatement();
             // se ejecuta el comando
             rs = stm.executeQuery(sql);
             while (rs.next()) {
-                // se crea una instancia de empleado
-                Empleado e = new Empleado();
                 // las siguientes lineas almacenan los valores registrados 
                 e.setIdEmpleado(rs.getInt(1));
                 e.setUser(rs.getString(2));
@@ -67,19 +63,18 @@ public class DAOEmpleado {
                 e.setRol(rs.getString(9));
                 e.setDireccion(rs.getString(10));
                 // se almacenan los datos a la lista de empleado
-                listaEmpleado.add(e);
             }
             // se cierran las conexiones
             stm.close();
             rs.close();
             co.close();
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
             System.out.println("obtener login");
-            System.out.println(e);
+            System.out.println(ex);
         }
 
         // retorna la lista de empleado para poder visualizarla
-        return listaEmpleado;
+        return e;
 
     }
     
