@@ -30,6 +30,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
      * Creates new form frmProductos
      */
     ModeloTabla ModeloTabla;
+    Producto cliente;
+    ArrayList<Producto> lista;
+    String datos[][];
+    String columnas[];
+    int index;
     ArrayList<Marca> listaMarca;
     ArrayList<Categoria> listaCategoria;
     ArrayList<Proveedor> listaProveedor;
@@ -45,6 +50,246 @@ public class frmProducto extends javax.swing.JInternalFrame {
         llenarCombos();
 
     }
+    //establece precio publico y taller
+    private void preciosFY() {
+        try {
+            String precioS = txtPrecio.getText();
+            double precio = precioS.contains(".") ? Double.parseDouble(txtPrecio.getText() + "") : Double.parseDouble((txtPrecio.getText() + ".0"));
+
+            System.out.println("precio = " + precio);
+            double pp = precio;
+
+            pp += (pp * 0.10);
+            pp += (pp * 0.10);
+            pp += (pp * 0.10);
+            pp += (pp * 0.10);
+
+            if (precio < 200) {
+                if (precio < 50) {
+                    pp += 1;
+                } else {
+                    pp += 5;
+                }
+            } else {
+                pp += 7;
+            }
+
+            pp += (pp * 0.10);
+
+            if (precio < 200) {
+                if (precio < 50) {
+                    pp += 1;
+                } else {
+                    pp += 5;
+                }
+            } else {
+                pp += 7;
+            }
+
+            txtPrecioPublico.setText(Math.round(pp) + "");
+            txtPrecioTaller.setText(Math.round(pp - (pp * 0.10)) + "");
+        } catch (Exception e) {
+            txtPrecioPublico.setText("");
+            txtPrecioTaller.setText("");
+        }
+    }
+
+    private void preciosR() {
+        try {
+            String precioS = txtPrecio.getText();
+            double precio = precioS.contains(".") ? Double.parseDouble(txtPrecio.getText() + "") : Double.parseDouble((txtPrecio.getText() + ".0"));
+
+            //System.out.println("precio = " + precio);
+            double pp = precio;
+
+            pp += (pp * 0.16);//IVA
+            pp += (pp * 0.05);
+
+            if (precio < 200) {
+                if (precio < 50) {
+                    pp += 1;
+                } else {
+                    pp += 5;
+                }
+            } else {
+                pp += 7;
+            }
+
+            pp += (pp * 0.10);
+
+            if (precio < 200) {
+                if (precio < 50) {
+                    pp += 1;
+                } else {
+                    pp += 5;
+                }
+            } else {
+                pp += 7;
+            }
+
+            txtPrecioPublico.setText(Math.round(pp) + "");
+            txtPrecioTaller.setText(Math.round(pp - (pp * 0.10)) + "");
+        } catch (Exception e) {
+            txtPrecioPublico.setText("");
+            txtPrecioTaller.setText("");
+        }
+    }
+
+    ///Este metodo nos permite colocar en los combo box el item seleccionado con el que se capturo el id de marca, idcategoria e idproveedores
+    private int fijarCboxs(int id, String cual) {
+        int r = 0;
+        switch (cual) {
+            case "Marca": {
+
+                for (int i = 0; i < listaMarca.size(); i++) {
+                    if (id == listaMarca.get(i).getIdMarca()) {
+                        String aux = listaMarca.get(i).getIdMarca() + " " + listaMarca.get(i).getNombre();
+                        for (int j = 0; j < cboxIdMarca.getItemCount(); j++) {
+                            if (aux.equals(cboxIdMarca.getItemAt(j))) {
+                                r = j;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+            case "Categoria": {
+
+                for (int i = 0; i < listaCategoria.size(); i++) {
+                    if (id == listaCategoria.get(i).getIdCategoria()) {
+                        String aux = listaCategoria.get(i).getIdCategoria() + " " + listaCategoria.get(i).getNombre();
+                        for (int j = 0; j < cboxIdCategoria.getItemCount(); j++) {
+                            if (aux.equals(cboxIdCategoria.getItemAt(j))) {
+                                r = j;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case "Proveedor": {
+
+                for (int i = 0; i < listaProveedor.size(); i++) {
+                    if (id == listaProveedor.get(i).getIdProveedor()) {
+                        String aux = listaProveedor.get(i).getIdProveedor() + " " + listaProveedor.get(i).getNombre();
+                        for (int j = 0; j < cboxId_Proveedor.getItemCount(); j++) {
+                            if (aux.equals(cboxId_Proveedor.getItemAt(j))) {
+                                r = j;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+            default: {
+                return 0;
+            }
+        }
+        return r;
+    }
+
+    ///Método encargado de llenar la tabla de productos
+    private void actualizaTablaProducto() {
+        lista = new DAOProducto().obtener();
+        datos = new String[lista.size()][2];
+        columnas = new String[]{"ID", "Descripcion", "Ticket", "Stock", "Publico", "Taller", "Marca", "Categoria", "Proveedor"};
+
+        for (int i = 0; i < lista.size(); i++) {
+            datos[i] = lista.get(i).toString().split(",");
+        }
+
+        formatoTabla(datos, columnas);//llamamos el metodo para dar formato especifico a la tabla
+
+        //tablaProductos.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
+    }
+
+    //metodo para dar formato especifico a la tabla
+    private void formatoTabla(String datos[][], String columnas[]) {
+        //Instanciamos un modelo de tabla con los datos de los productos
+        ModeloTabla = new ModeloTabla(datos, columnas);
+        //Le asignamos a nuestra tabla el modelo
+        tablaProductos.setModel(ModeloTabla);
+
+        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
+        // gestionEncabezados (setCellRerender)
+        tablaProductos.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("texto"));
+        tablaProductos.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("texto"));
+        tablaProductos.getColumnModel().getColumn(2).setCellRenderer(new GestionCeldas("texto"));
+        for (int i = 3; i < columnas.length; i++) {
+            tablaProductos.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("numerico"));
+        }
+
+        //Ajustamos otras cosas del encavezado
+        tablaProductos.getTableHeader().setReorderingAllowed(false);
+        tablaProductos.setRowHeight(25);//definimos el alto de las celdas
+        //Establecemos el ancho de las celdas (al gusto y necesidad)
+        tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(120);
+        tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(270);
+        tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(120);
+        tablaProductos.getColumnModel().getColumn(3).setPreferredWidth(35);
+        tablaProductos.getColumnModel().getColumn(4).setPreferredWidth(35);
+        tablaProductos.getColumnModel().getColumn(5).setPreferredWidth(40);
+        tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(45);
+
+        tablaProductos.setGridColor(new java.awt.Color(0, 0, 0));//Color
+
+        //personaliza el encabezado
+        JTableHeader jtableHeader = tablaProductos.getTableHeader();
+        jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
+        tablaProductos.setTableHeader(jtableHeader);
+    }
+
+    private boolean estavacias() {
+        return !txtPrecioPublico.getText().equals("") && !txtPrecioTaller.getText().equals("") && !txtidProducto.getText().equals("") && !txtDescripcion.getText().equals("")
+                && !cboxIdCategoria.getSelectedItem().toString().equals("Seleccione")
+                && !cboxIdMarca.getSelectedItem().toString().equals("Seleccione")
+                && !cboxId_Proveedor.getSelectedItem().toString().equals("Seleccione");
+    }
+
+    ///Este método nos sirve para limpiar las cajas
+    private void limpiarcajas() {
+        txtDescripcion.setText("");
+        txtDescripcionCorta.setText("");
+        txtidProducto.setText("");
+        txtPrecio.setText("");
+        txtPrecioPublico.setText("");
+        txtPrecioTaller.setText("");
+        spinerStock.setValue(1);
+        cboxIdMarca.setSelectedIndex(0);
+        cboxIdCategoria.setSelectedIndex(0);
+        cboxId_Proveedor.setSelectedIndex(0);
+        btnAgregar.setEnabled(true);
+        txtidProducto.setEnabled(true);
+        txtidProducto.setEditable(true);
+    }
+
+    ///Este método nos ayuda obtener la lista completa de marca, categoria y proveedores disponibles directamente de la base de datos
+    private void llenarCombos() {
+        cboxIdMarca.removeAllItems();
+        cboxIdMarca.addItem("Seleccione");
+        for (int i = 0; i < listaMarca.size(); i++) {
+            cboxIdMarca.addItem(listaMarca.get(i).getIdMarca() + " " + listaMarca.get(i).getNombre());
+        }
+        cboxIdCategoria.removeAllItems();
+        cboxIdCategoria.addItem("Seleccione");
+        for (int i = 0; i < listaCategoria.size(); i++) {
+            cboxIdCategoria.addItem((listaCategoria.get(i).getIdCategoria() + " " + listaCategoria.get(i).getNombre()));
+        }
+        cboxId_Proveedor.removeAllItems();
+        cboxId_Proveedor.addItem("Seleccione");
+        for (int i = 0; i < listaProveedor.size(); i++) {
+            cboxId_Proveedor.addItem(listaProveedor.get(i).getIdProveedor() + " " + listaProveedor.get(i).getNombre());
+        }
+    }
+
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -484,245 +729,6 @@ public class frmProducto extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Debe Seleccionar un Proveedor", "Mensaje", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCalculaPrecioActionPerformed
-
-//establece precio publico y taller
-    private void preciosFY() {
-        try {
-            String precioS = txtPrecio.getText();
-            double precio = precioS.contains(".") ? Double.parseDouble(txtPrecio.getText() + "") : Double.parseDouble((txtPrecio.getText() + ".0"));
-
-            System.out.println("precio = " + precio);
-            double pp = precio;
-
-            pp += (pp * 0.10);
-            pp += (pp * 0.10);
-            pp += (pp * 0.10);
-            pp += (pp * 0.10);
-
-            if (precio < 200) {
-                if (precio < 50) {
-                    pp += 1;
-                } else {
-                    pp += 5;
-                }
-            } else {
-                pp += 7;
-            }
-
-            pp += (pp * 0.10);
-
-            if (precio < 200) {
-                if (precio < 50) {
-                    pp += 1;
-                } else {
-                    pp += 5;
-                }
-            } else {
-                pp += 7;
-            }
-
-            txtPrecioPublico.setText(Math.round(pp) + "");
-            txtPrecioTaller.setText(Math.round(pp - (pp * 0.10)) + "");
-        } catch (Exception e) {
-            txtPrecioPublico.setText("");
-            txtPrecioTaller.setText("");
-        }
-    }
-
-    private void preciosR() {
-        try {
-            String precioS = txtPrecio.getText();
-            double precio = precioS.contains(".") ? Double.parseDouble(txtPrecio.getText() + "") : Double.parseDouble((txtPrecio.getText() + ".0"));
-
-            //System.out.println("precio = " + precio);
-            double pp = precio;
-
-            pp += (pp * 0.16);//IVA
-            pp += (pp * 0.05);
-
-            if (precio < 200) {
-                if (precio < 50) {
-                    pp += 1;
-                } else {
-                    pp += 5;
-                }
-            } else {
-                pp += 7;
-            }
-
-            pp += (pp * 0.10);
-
-            if (precio < 200) {
-                if (precio < 50) {
-                    pp += 1;
-                } else {
-                    pp += 5;
-                }
-            } else {
-                pp += 7;
-            }
-
-            txtPrecioPublico.setText(Math.round(pp) + "");
-            txtPrecioTaller.setText(Math.round(pp - (pp * 0.10)) + "");
-        } catch (Exception e) {
-            txtPrecioPublico.setText("");
-            txtPrecioTaller.setText("");
-        }
-    }
-
-    ///Este metodo nos permite colocar en los combo box el item seleccionado con el que se capturo el id de marca, idcategoria e idproveedores
-    private int fijarCboxs(int id, String cual) {
-        int r = 0;
-        switch (cual) {
-            case "Marca": {
-
-                for (int i = 0; i < listaMarca.size(); i++) {
-                    if (id == listaMarca.get(i).getIdMarca()) {
-                        String aux = listaMarca.get(i).getIdMarca() + " " + listaMarca.get(i).getNombre();
-                        for (int j = 0; j < cboxIdMarca.getItemCount(); j++) {
-                            if (aux.equals(cboxIdMarca.getItemAt(j))) {
-                                r = j;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
-            case "Categoria": {
-
-                for (int i = 0; i < listaCategoria.size(); i++) {
-                    if (id == listaCategoria.get(i).getIdCategoria()) {
-                        String aux = listaCategoria.get(i).getIdCategoria() + " " + listaCategoria.get(i).getNombre();
-                        for (int j = 0; j < cboxIdCategoria.getItemCount(); j++) {
-                            if (aux.equals(cboxIdCategoria.getItemAt(j))) {
-                                r = j;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-
-                break;
-            }
-            case "Proveedor": {
-
-                for (int i = 0; i < listaProveedor.size(); i++) {
-                    if (id == listaProveedor.get(i).getIdProveedor()) {
-                        String aux = listaProveedor.get(i).getIdProveedor() + " " + listaProveedor.get(i).getNombre();
-                        for (int j = 0; j < cboxId_Proveedor.getItemCount(); j++) {
-                            if (aux.equals(cboxId_Proveedor.getItemAt(j))) {
-                                r = j;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
-            default: {
-                return 0;
-            }
-        }
-        return r;
-    }
-
-    ///Método encargado de llenar la tabla de productos
-    private void actualizaTablaProducto() {
-        ArrayList<Producto> lista = new DAOProducto().obtener();
-        String datos[][] = new String[lista.size()][2];
-        String columnas[] = new String[]{"ID", "Descripcion", "Ticket", "Stock", "Publico", "Taller", "Marca", "Categoria", "Proveedor"};
-
-        for (int i = 0; i < lista.size(); i++) {
-            datos[i] = lista.get(i).toString().split(",");
-        }
-
-        formatoTabla(datos, columnas);//llamamos el metodo para dar formato especifico a la tabla
-
-        //tablaProductos.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
-    }
-
-    //metodo para dar formato especifico a la tabla
-    private void formatoTabla(String datos[][], String columnas[]) {
-        //Instanciamos un modelo de tabla con los datos de los productos
-        ModeloTabla = new ModeloTabla(datos, columnas);
-        //Le asignamos a nuestra tabla el modelo
-        tablaProductos.setModel(ModeloTabla);
-
-        //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
-        // gestionEncabezados (setCellRerender)
-        tablaProductos.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("texto"));
-        tablaProductos.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("texto"));
-        tablaProductos.getColumnModel().getColumn(2).setCellRenderer(new GestionCeldas("texto"));
-        for (int i = 3; i < columnas.length; i++) {
-            tablaProductos.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("numerico"));
-        }
-
-        //Ajustamos otras cosas del encavezado
-        tablaProductos.getTableHeader().setReorderingAllowed(false);
-        tablaProductos.setRowHeight(25);//definimos el alto de las celdas
-        //Establecemos el ancho de las celdas (al gusto y necesidad)
-        tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(120);
-        tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(270);
-        tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(120);
-        tablaProductos.getColumnModel().getColumn(3).setPreferredWidth(35);
-        tablaProductos.getColumnModel().getColumn(4).setPreferredWidth(35);
-        tablaProductos.getColumnModel().getColumn(5).setPreferredWidth(40);
-        tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(45);
-
-        tablaProductos.setGridColor(new java.awt.Color(0, 0, 0));//Color
-
-        //personaliza el encabezado
-        JTableHeader jtableHeader = tablaProductos.getTableHeader();
-        jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
-        tablaProductos.setTableHeader(jtableHeader);
-    }
-
-    private boolean estavacias() {
-        return !txtPrecioPublico.getText().equals("") && !txtPrecioTaller.getText().equals("") && !txtidProducto.getText().equals("") && !txtDescripcion.getText().equals("")
-                && !cboxIdCategoria.getSelectedItem().toString().equals("Seleccione")
-                && !cboxIdMarca.getSelectedItem().toString().equals("Seleccione")
-                && !cboxId_Proveedor.getSelectedItem().toString().equals("Seleccione");
-    }
-
-    ///Este método nos sirve para limpiar las cajas
-    private void limpiarcajas() {
-        txtDescripcion.setText("");
-        txtDescripcionCorta.setText("");
-        txtidProducto.setText("");
-        txtPrecio.setText("");
-        txtPrecioPublico.setText("");
-        txtPrecioTaller.setText("");
-        spinerStock.setValue(1);
-        cboxIdMarca.setSelectedIndex(0);
-        cboxIdCategoria.setSelectedIndex(0);
-        cboxId_Proveedor.setSelectedIndex(0);
-        btnAgregar.setEnabled(true);
-        txtidProducto.setEnabled(true);
-        txtidProducto.setEditable(true);
-    }
-
-    ///Este método nos ayuda obtener la lista completa de marca, categoria y proveedores disponibles directamente de la base de datos
-    private void llenarCombos() {
-        cboxIdMarca.removeAllItems();
-        cboxIdMarca.addItem("Seleccione");
-        for (int i = 0; i < listaMarca.size(); i++) {
-            cboxIdMarca.addItem(listaMarca.get(i).getIdMarca() + " " + listaMarca.get(i).getNombre());
-        }
-        cboxIdCategoria.removeAllItems();
-        cboxIdCategoria.addItem("Seleccione");
-        for (int i = 0; i < listaCategoria.size(); i++) {
-            cboxIdCategoria.addItem((listaCategoria.get(i).getIdCategoria() + " " + listaCategoria.get(i).getNombre()));
-        }
-        cboxId_Proveedor.removeAllItems();
-        cboxId_Proveedor.addItem("Seleccione");
-        for (int i = 0; i < listaProveedor.size(); i++) {
-            cboxId_Proveedor.addItem(listaProveedor.get(i).getIdProveedor() + " " + listaProveedor.get(i).getNombre());
-        }
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
