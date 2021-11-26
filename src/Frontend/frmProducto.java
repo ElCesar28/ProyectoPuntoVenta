@@ -30,7 +30,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
      * Creates new form frmProductos
      */
     ModeloTabla ModeloTabla;
-    Producto cliente;
+    Producto producto;
     ArrayList<Producto> lista;
     String datos[][];
     String columnas[];
@@ -195,6 +195,8 @@ public class frmProducto extends javax.swing.JInternalFrame {
         return r;
     }
 
+    
+    
     ///Método encargado de llenar la tabla de productos
     private void actualizaTablaProducto() {
         lista = new DAOProducto().obtener();
@@ -249,6 +251,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     private boolean estavacias() {
         return !txtPrecioPublico.getText().equals("") && !txtPrecioTaller.getText().equals("") && !txtidProducto.getText().equals("") && !txtDescripcion.getText().equals("")
                 && !cboxIdCategoria.getSelectedItem().toString().equals("Seleccione")
+                && !txtDescripcionCorta.getText().equals("")
                 && !cboxIdMarca.getSelectedItem().toString().equals("Seleccione")
                 && !cboxId_Proveedor.getSelectedItem().toString().equals("Seleccione");
     }
@@ -664,12 +667,14 @@ public class frmProducto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    
+    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (!txtidProducto.getText().equals("")) {
-            Producto lista = new DAOProducto().buscar(txtidProducto.getText());
-            String datos[][] = new String[1][2];
-            String columnas[] = new String[]{"ID", "Descripcion", "Ticket", "Stock", "PrecioPublico", "PrecioTaller", "Marca", "Categoria", "Proveedor"};
-
+            producto = new DAOProducto().buscar(txtidProducto.getText());
+            datos = new String[1][2];
+            columnas = new String[]{"ID", "Descripcion", "Ticket", "Stock", "PrecioPublico", "PrecioTaller", "Marca", "Categoria", "Proveedor"};
+            //si algo salio mal, las 3 ultimas lineas fueron las que modifique 
             datos[0] = lista.toString().split(",");
 
             tablaProductos.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));

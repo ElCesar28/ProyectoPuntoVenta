@@ -21,6 +21,11 @@ import javax.swing.table.JTableHeader;
 public class frmProveedor extends javax.swing.JInternalFrame {
 
     ModeloTabla ModeloTabla;
+    Proveedor proveedor;
+    ArrayList<Proveedor> lista;
+    String datos[][];
+    String columnas[];
+
     public frmProveedor() {
         initComponents();
         actualizaTablaProducto();
@@ -28,7 +33,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         txtidProveedor.setEnabled(false);
     }
 
-     //metodo para dar formato especifico a la tabla
+    //metodo para dar formato especifico a la tabla
     private void formatoTabla(String datos[][], String columnas[]) {
         //Instanciamos un modelo de tabla con los datos de los productos
         ModeloTabla = new ModeloTabla(datos, columnas);
@@ -37,7 +42,6 @@ public class frmProveedor extends javax.swing.JInternalFrame {
 
         //Establecemos el formato de nuestros encabezaos con ayuda de métodos sobreescritos en la clase
         // gestionEncabezados (setCellRerender)
-       
         for (int i = 0; i < columnas.length; i++) {
             tablaProveedores.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
         }
@@ -54,8 +58,6 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         tablaProveedores.getColumnModel().getColumn(5).setPreferredWidth(100);
         tablaProveedores.getColumnModel().getColumn(6).setPreferredWidth(80);
         tablaProveedores.getColumnModel().getColumn(7).setPreferredWidth(80);
-        
-        
 
         tablaProveedores.setGridColor(new java.awt.Color(0, 0, 0));//Color
 
@@ -64,6 +66,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
         tablaProveedores.setTableHeader(jtableHeader);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -505,9 +508,9 @@ public class frmProveedor extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (!txtidProveedorbusqueda.getText().equals("")) {
-            ArrayList<Proveedor> lista = new DAOProveedor().buscar(Integer.parseInt(txtidProveedorbusqueda.getText()));
-            String datos[][] = new String[lista.size()][2];
-            String columnas[] = new String[]{"ID", "Nombre", "NumCuenta1", "NumCuenta2", "Correo1", "Correo2", "Telefono1", "Telofono2"};
+            proveedor = new DAOProveedor().buscar(Integer.parseInt(txtidProveedorbusqueda.getText()));
+            datos = new String[lista.size()][2];
+            columnas = new String[]{"ID", "Nombre", "NumCuenta1", "NumCuenta2", "Correo1", "Correo2", "Telefono1", "Telofono2"};
 
             for (int i = 0; i < lista.size(); i++) {
                 datos[i] = lista.get(i).toString().split(",");
@@ -516,25 +519,25 @@ public class frmProveedor extends javax.swing.JInternalFrame {
             formatoTabla(datos, columnas);
             //tablaProveedores.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
         } else {
-            JOptionPane.showMessageDialog(null, "Caja vacia", null, JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Producto no encontrado", null, JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtidProveedorbusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidProveedorbusquedaActionPerformed
-          // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtidProveedorbusquedaActionPerformed
 
     ///Método encargado de llenar la tabla de proveedores
     public void actualizaTablaProducto() {
-        ArrayList<Proveedor> lista = new DAOProveedor().obtener();
-        String datos[][] = new String[lista.size()][2];
-        String columnas[] = new String[]{"ID", "Nombre", "NumCuenta1", "NumCuenta2", "Correo1", "Correo2", "Telefono1", "Telofono2"};
+        lista = new DAOProveedor().obtener();
+        datos = new String[lista.size()][2];
+        columnas = new String[]{"ID", "Nombre", "NumCuenta1", "NumCuenta2", "Correo1", "Correo2", "Telefono1", "Telofono2"};
 
         for (int i = 0; i < lista.size(); i++) {
             datos[i] = lista.get(i).toString().split(",");
 
         }
-        formatoTabla(datos, columnas);   
+        formatoTabla(datos, columnas);
         //tablaProveedores.setModel(new javax.swing.table.DefaultTableModel(datos, columnas));
     }
 
@@ -556,7 +559,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         txtTelefono2.setText("");
         btnAgregar.setEnabled(true);
         txtidProveedorbusqueda.setText("");
-        txtNumCuenta1.setEnabled(true); 
+        txtNumCuenta1.setEnabled(true);
     }
 
 

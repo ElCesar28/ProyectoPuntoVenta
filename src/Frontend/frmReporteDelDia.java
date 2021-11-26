@@ -24,6 +24,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
      * Creates new form frmReporteVentas
      */
     private ModeloTabla ModeloTabla;
+
     public frmReporteDelDia() {
         initComponents();
         //Al iniciar la frm colocar automaticamente la fecha en el jdatechoser
@@ -149,7 +150,6 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
         tablaReporte.getColumnModel().getColumn(7).setCellRenderer(new GestionCeldas("numerico"));
         tablaReporte.getColumnModel().getColumn(8).setCellRenderer(new GestionCeldas("texto"));
         tablaReporte.getColumnModel().getColumn(9).setCellRenderer(new GestionCeldas("texto"));
-        
 
         //Ajustamos otras cosas del encavezado
         tablaReporte.getTableHeader().setReorderingAllowed(false);
@@ -165,7 +165,6 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
         tablaReporte.getColumnModel().getColumn(7).setPreferredWidth(50);
         tablaReporte.getColumnModel().getColumn(8).setPreferredWidth(150);
         tablaReporte.getColumnModel().getColumn(9).setPreferredWidth(150);
-        
 
         tablaReporte.setGridColor(new java.awt.Color(0, 0, 0));//Color
 
@@ -174,7 +173,7 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
         jtableHeader.setDefaultRenderer(new GestionEncabezadoTabla());
         tablaReporte.setTableHeader(jtableHeader);
     }
-    
+
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
 
         try {
@@ -182,19 +181,19 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
             int year = dtcFechaIncial.getCalendar().get(Calendar.YEAR);
             int month = dtcFechaIncial.getCalendar().get(Calendar.MONTH) + 1;
             int day = dtcFechaIncial.getCalendar().get(Calendar.DAY_OF_MONTH);
-            fecha = year +"-"+ month +"-"+day + "";
+            fecha = year + "-" + month + "-" + day + "";
 //            String ff = "";
 //            int yearf = dtcFechaFinal.getCalendar().get(Calendar.YEAR);
 //            int monthf = dtcFechaFinal.getCalendar().get(Calendar.MONTH) + 1;
 //            int dayf = dtcFechaFinal.getCalendar().get(Calendar.DAY_OF_MONTH);
 //            ff = yearf +"-"+ monthf +"-"+dayf + "";
-           
+
             try {
-                
+
                 ArrayList<String> lista = new DAOReporteVentas().ReporteVentaDelDia(fecha);
 
                 String datos[][] = new String[lista.size()][2];
-                String columnas[] = new String[]{"ID", "Fecha", "IDProducto", "Descripcion","Cantidad","Tipo","Precio","Importe","Empleado","Cliente"};
+                String columnas[] = new String[]{"ID", "Fecha", "IDProducto", "Descripcion", "Cantidad", "Tipo", "Precio", "Importe", "Empleado", "Cliente"};
 
                 for (int i = 0; i < lista.size(); i++) {
                     datos[i] = lista.get(i).split(",");
@@ -209,8 +208,6 @@ public class frmReporteDelDia extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No ha seleccionado ningun fecha", null, JOptionPane.WARNING_MESSAGE);
         }
-        
-        
 
 
     }//GEN-LAST:event_btnGenerarActionPerformed
